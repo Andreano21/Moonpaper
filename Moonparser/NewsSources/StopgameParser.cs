@@ -70,7 +70,11 @@ namespace Moonparser.NewsSources
         {
             string strViews = _document.QuerySelectorAll("div").Where(item2 => item2.ClassName != null && item2.ClassName.Contains("lent-views pubinfo-div")).ToArray()[0].TextContent;
 
-            if (!Int32.TryParse(strViews, out _article.Views))
+            int StrToInt;
+
+            bool isParsed = Int32.TryParse(strViews, out StrToInt);
+
+            if (!isParsed)
             {
                 strViews = strViews.Replace("k", "000");
                 strViews = strViews.Replace("K", "000");
@@ -78,7 +82,9 @@ namespace Moonparser.NewsSources
                 strViews = strViews.Replace(".", "");
             }
 
-            Int32.TryParse(strViews, out _article.Views);
+            Int32.TryParse(strViews, out StrToInt);
+
+            _article.Views = StrToInt;
         }
 
     }

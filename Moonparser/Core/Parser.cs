@@ -29,7 +29,7 @@ namespace Moonparser.Core
         protected abstract void GetViews(Article _article, IHtmlDocument _document);
 
 
-        public async Task<List<Article>> Parse()
+        public async void ParseAsync(List<Article> _articles)
         {
             //Определение главной страницы с которой будут загружены превью
             GetStartUrl();
@@ -39,68 +39,6 @@ namespace Moonparser.Core
             //Получение страницы в виде строки
             source = await HtmlLoader.LoadAsync(startUrl);
             document = await htmlParser.ParseDocumentAsync(source);
-
-
-            var items = GetItems();
-
-            foreach (var item in items)
-            {
-                Article article = new Article();
-
-                try
-                {
-                    GetTitle(article, item);
-
-                    GetSummary(article, item);
-
-                    GetSource(article);
-
-                    GetUrl(article, item);
-
-                    GetUrlSource(article);
-
-                    GetDateTime(article);
-
-                    GetUrlMainImg(article, item);
-
-                    source = await HtmlLoader.LoadAsync(article.Url);
-                    document = await htmlParser.ParseDocumentAsync(source);
-
-                    //Загрузка полной статьи
-                    GetBody(article, document);
-
-                    GetViews(article, document);
-
-                }
-                catch
-                {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге. Источник: " + startUrl);
-                }
-
-
-                if (article.isFull())
-                {
-                    articles.Add(article);
-                    Console.WriteLine(DateTime.Now.ToString() + "; Статья получена. Источник: " + startUrl);
-
-                }
-
-            }
-
-            return articles;
-        }
-
-        public async void Parse2(List<Article> _articles)
-        {
-            //Определение главной страницы с которой будут загружены превью
-            GetStartUrl();
-
-            HtmlParser htmlParser = new HtmlParser();
-
-            //Получение страницы в виде строки
-            source = await HtmlLoader.LoadAsync(startUrl);
-            document = await htmlParser.ParseDocumentAsync(source);
-
 
             var items = GetItems();
 
@@ -197,7 +135,6 @@ namespace Moonparser.Core
                 {
                     _articles.Add(article);
                     Console.WriteLine(DateTime.Now.ToString() + "; Статья получена. Источник: " + startUrl);
-
                 }
             }
         }

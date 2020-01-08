@@ -9,17 +9,18 @@ namespace Moonparser.Core
 {
     class Article
     {
-        public string Title = null;
-        public string Summary = null;
-        public string Body = null;
-        public string Source = null;
-        public string Url = null;
-        public string UrlSource = null;
-        public string UrlMainImg = null;
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Summary { get; set; }
+        public string Body { get; set; }
+        public string Source { get; set; }
+        public string Url { get; set; }
+        public string UrlSource { get; set; }
+        public string UrlMainImg { get; set; }
 
-        public int Views = 0;
+        public int Views { get; set; }
 
-        public DateTime DateTime;
+        public DateTime DateTime { get; set; }
 
         public bool isFull()
         {

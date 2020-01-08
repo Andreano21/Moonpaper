@@ -67,8 +67,11 @@ namespace Moonparser.NewsSources
         protected override void GetViews(Article _article, IHtmlDocument _document)
         {
             string strViews = _document.QuerySelector("span.post-stats__views-count").TextContent;
+            int StrToInt;
 
-            if (!Int32.TryParse(strViews, out _article.Views))
+            bool isParsed = Int32.TryParse(strViews, out StrToInt);
+
+            if (!isParsed)
             {
                 strViews = strViews.Replace("k", "000");
                 strViews = strViews.Replace("K", "000");
@@ -76,7 +79,10 @@ namespace Moonparser.NewsSources
                 strViews = strViews.Replace(".", "");
             }
 
-            Int32.TryParse(strViews, out _article.Views);
+            Int32.TryParse(strViews, out StrToInt);
+
+            _article.Views = StrToInt;
+
         }
     }
 }

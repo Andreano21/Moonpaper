@@ -11,7 +11,7 @@ namespace Moonparser.Core
 {
     static class ParserManager
     {
-        static public void Run()
+        static public async void Run()
         {
             List<Article> stopgameNews = new List<Article>();
             List<Article> habraNews = new List<Article>();
@@ -22,9 +22,22 @@ namespace Moonparser.Core
 
             StopgameParser stopgameParser = new StopgameParser();
 
-            stopgameParser.Parse2(stopgameNews);
-            habraParser.Parse2(habraNews);
+            stopgameParser.ParseAsync(stopgameNews);
+            habraParser.ParseAsync(habraNews);
 
+            await Task.Delay(20000);
+
+            Console.WriteLine("Задержка окончена");
+
+            using (AppContext context = new AppContext())
+            {
+
+                //context.Articles.AddRange(stopgameNews);
+                context.Articles.AddRange(habraNews);
+
+                context.SaveChanges();
+
+            }
 
             //news = await stopgameParser.Parse();
 
