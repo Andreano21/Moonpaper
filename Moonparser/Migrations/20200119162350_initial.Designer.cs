@@ -10,8 +10,8 @@ using Moonparser;
 namespace Moonparser.Migrations
 {
     [DbContext(typeof(AppContext))]
-    [Migration("20200108160652_Initial")]
-    partial class Initial
+    [Migration("20200119162350_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

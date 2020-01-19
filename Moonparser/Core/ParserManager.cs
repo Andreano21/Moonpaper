@@ -23,7 +23,7 @@ namespace Moonparser.Core
             }
         }
 
-        static public void Run()
+        static public async Task Run()
         {
             List<Article> stopgameNews = new List<Article>();
             List<Article> habraNews = new List<Article>();
@@ -32,26 +32,15 @@ namespace Moonparser.Core
             HabraParser habraParser = new HabraParser();
             StopgameParser stopgameParser = new StopgameParser();
 
-            Task[] parsersTask = new Task[2]
-            {
-                new Task(() => stopgameParser.ParseAsync(stopgameNews)),
-                new Task(() => habraParser.ParseAsync(habraNews)),
-            };
+            Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews));
+            Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews));
 
-            foreach (var tasks in parsersTask)
-            {
-                tasks.Start();
-            }
 
-            Task.WaitAll(parsersTask);
-
-            //stopgameParser.ParseAsync(stopgameNews);
-            //habraParser.ParseAsync(habraNews);
-            //await Task.Delay(20000);
+            await Task.WhenAll(new[] {t1, t2});
 
             ParsedArticles.AddRange(stopgameNews);
             ParsedArticles.AddRange(habraNews);
-            
+
         }
 
         static public void Push()

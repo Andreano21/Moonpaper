@@ -29,7 +29,7 @@ namespace Moonparser.Core
         protected abstract void GetViews(Article _article, IHtmlDocument _document);
 
 
-        public async void ParseAsync(List<Article> _articles)
+        public async Task ParseAsync(List<Article> _articles)
         {
             //Определение главной страницы с которой будут загружены превью
             GetStartUrl();

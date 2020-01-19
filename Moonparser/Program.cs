@@ -9,13 +9,11 @@ namespace Moonparser
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             ParserManager.Initial();
 
-            ParserManager.Run();
-
-            //Thread.Sleep(20000);
+            await ParserManager.Run();
 
             ParserManager.Push();
 
