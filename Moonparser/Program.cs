@@ -11,7 +11,6 @@ namespace Moonparser
     {
         static async Task Main(string[] args)
         {
-            ParserManager.Initial();
 
             await ParserManager.Run();
 

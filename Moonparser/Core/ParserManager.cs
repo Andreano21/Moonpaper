@@ -15,14 +15,6 @@ namespace Moonparser.Core
 
         static List<Article> ParsedArticles = new List<Article>();
 
-        static public void Initial()
-        {
-            using (AppContext context = new AppContext())
-            {
-                StorageArticles = context.Articles.ToList();
-            }
-        }
-
         static public async Task Run()
         {
             List<Article> stopgameNews = new List<Article>();
@@ -45,35 +37,47 @@ namespace Moonparser.Core
 
         static public void Push()
         { 
-            List<Article> newArticles = new List<Article>();
-
-            int parsCountMax = ParsedArticles.Count;
-            int strCoutnMax = StorageArticles.Count;
-
-            //Проверка новых статей на наличие в базе данных
-            bool isNew = true;
-            for (int parsCount = 0; parsCount < parsCountMax; parsCount++)
-            {
-                for (int strCoutn = 0; strCoutn < strCoutnMax; strCoutn++)
-                {
-                    if (String.Equals(StorageArticles[strCoutn].Url, ParsedArticles[parsCount].Url, StringComparison.Ordinal))
-                    {
-                        isNew = false;
-                        break;
-                    }
-                }
-
-                if (isNew)
-                {
-                    newArticles.Add(ParsedArticles[parsCount]);
-                }
-
-                isNew = true;
-            }
 
             using (AppContext context = new AppContext())
             {
-                //context.Articles.AddRange(stopgameNews);
+                StorageArticles = context.Articles.ToList();
+
+                List<Article> newArticles = new List<Article>();
+
+                int parsCountMax = ParsedArticles.Count;
+                int strCoutnMax = StorageArticles.Count;
+
+
+                //Проверка статей на наличие в базе данных
+                bool isNew = true;
+
+                for (int parsCount = 0; parsCount < parsCountMax; parsCount++)
+                {
+                    for (int strCoutn = 0; strCoutn < strCoutnMax; strCoutn++)
+                    {
+                        if (String.Equals(StorageArticles[strCoutn].Url, ParsedArticles[parsCount].Url, StringComparison.Ordinal))
+                        {
+                            isNew = false;
+
+                                //Обновление количества просмотров статьи
+                                var article = context.Articles
+                                    .Where(u => u.Url == ParsedArticles[parsCount].Url)
+                                    .FirstOrDefault();
+
+                               article.Views = ParsedArticles[parsCount].Views;
+
+                           break;
+                        }
+                    }
+
+                    if (isNew)
+                    {
+                        newArticles.Add(ParsedArticles[parsCount]);
+                    }
+
+                    isNew = true;
+                }
+
                 context.Articles.AddRange(newArticles);
                 context.SaveChanges();
             }

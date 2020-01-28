@@ -42,6 +42,9 @@ namespace Moonparser.Core
 
             var items = GetItems();
 
+            int succesArt = 0;
+            int totalArt = items.Count();
+
             foreach (var item in items)
             {
                 Article article = new Article();
@@ -52,7 +55,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetTitle. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetTitle. Источник: " + startUrl);
                 }
 
                 try
@@ -61,7 +64,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSummary. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSummary. Источник: " + startUrl);
                 }
 
                 try
@@ -70,7 +73,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSource. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSource. Источник: " + startUrl);
                 }
 
                 try
@@ -79,7 +82,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrl. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrl. Источник: " + startUrl);
                 }
 
                 try
@@ -88,7 +91,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrlSource. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrlSource. Источник: " + startUrl);
                 }
 
                 try
@@ -97,7 +100,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetDateTime. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetDateTime. Источник: " + startUrl);
                 }
 
                 try
@@ -106,7 +109,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrlMainImg. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrlMainImg. Источник: " + startUrl);
                 }
 
                 try
@@ -119,7 +122,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetBody. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetBody. Источник: " + startUrl);
                 }
 
                 try
@@ -128,15 +131,20 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetViews. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetViews. Источник: " + startUrl);
                 }
 
                 if (article.isFull())
                 {
                     _articles.Add(article);
-                    Console.WriteLine(DateTime.Now.ToString() + "; Статья получена. Источник: " + startUrl);
+
+                    succesArt++;
+
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Статья получена. Источник: " + startUrl);
                 }
             }
+            
+            Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrl);
         }
     }
 }
