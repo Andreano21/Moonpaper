@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moonpaper.Models;
+using Moonpaper.Data;
 
 namespace Moonpaper.Controllers
 {
@@ -13,9 +14,12 @@ namespace Moonpaper.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private ApplicationDbContext db;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            db = context;
         }
 
         public IActionResult Index()
@@ -30,7 +34,7 @@ namespace Moonpaper.Controllers
 
         public IActionResult All()
         {
-            return View();
+            return View(db.Articles.ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

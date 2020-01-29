@@ -61,6 +61,10 @@ namespace Moonparser.Core
                 try
                 {
                     GetSummary(article, item);
+
+                    //Обрезка до 350 символов
+                    string sum = article.Summary;
+                    article.Summary = new string(sum.Take(350).ToArray());
                 }
                 catch
                 {

@@ -24,6 +24,11 @@ namespace Moonparser
     { 
         public DbSet<Article> Articles { get; set; }
 
+        public AppContext()
+        {
+            Database.EnsureCreated();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=DESKTOP-UP2HC2B\\SQLEXPRESS; Database=MoonpaperDb; Trusted_Connection=True");

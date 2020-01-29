@@ -1,7 +1,28 @@
-﻿
+﻿@model IEnumerable<Moonpaper.Models.Article>
 @{
     ViewData["Title"] = "All";
 }
 
-<h1>All</h1>
-
+@foreach (var item in Model)
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-horizontal">
+                        <div class="img-square-wrapper">
+                            <img class="rounded" src="@item.UrlMainImg" alt="@item.Title">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">@item.Title</h4>
+                            <p class="card-text">@item.Summary</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">@item.DateTime</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
