@@ -64,7 +64,7 @@ namespace Moonparser.Core
 
                     //Обрезка до 350 символов
                     string sum = article.Summary;
-                    article.Summary = new string(sum.Take(350).ToArray());
+                    article.Summary = new string(sum.Take(350).ToArray()) + "...";
                 }
                 catch
                 {
@@ -138,7 +138,7 @@ namespace Moonparser.Core
                     //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetViews. Источник: " + startUrl);
                 }
 
-                if (article.isFull())
+                if (ArticleIsFull(article))
                 {
                     _articles.Add(article);
 
@@ -149,6 +149,14 @@ namespace Moonparser.Core
             }
             
             Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrl);
+        }
+
+        private bool ArticleIsFull(Article article)
+        {
+            if (article.Title != null && article.Summary != null && article.Body != null && article.Url != null && article.Source != null && article.UrlSource != null && article.UrlMainImg != null && article.Views != 0)
+                return true;
+            else
+                return false;
         }
     }
 }

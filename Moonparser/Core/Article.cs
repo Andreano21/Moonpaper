@@ -22,12 +22,5 @@ namespace Moonparser.Core
 
         public DateTime DateTime { get; set; }
 
-        public bool isFull()
-        {
-            if (Title != null && Summary != null && Body != null && Url != null && Source != null && UrlSource != null && UrlMainImg != null && Views != 0)
-                return true;
-            else
-                return false;
-        }
     }
 }
