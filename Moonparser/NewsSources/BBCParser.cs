@@ -12,51 +12,56 @@ using System.Threading.Tasks;
 
 namespace Moonparser.NewsSources
 {
-    class HabraParser : Parser
+    class BBCParser : Parser
     {
         protected override void GetStartUrl()
         {
-            startUrl = "https://habr.com/ru/top/";
+            startUrl = "https://www.bbc.com/russian/news";
         }
         protected override IEnumerable<IElement> GetItems()
         {
-            var items = document.QuerySelectorAll("li").Where(item => item.ClassName != null && item.ClassName.Contains("content-list__item content-list__item_post shortcuts_item"));
+            var items = document.QuerySelectorAll("div").Where(item => item.ClassName != null && item.ClassName.Contains("eagle-item faux-block-link"));
             return items;
         }
 
         protected override void GetUrl(Article _article, IElement _item)
         {
-            _article.Url = _item.QuerySelector("a.post__title_link").Attributes["href"].Value;
+            _article.Url = "www.bbc.com" + _item.QuerySelector("a.title-link").Attributes["href"].Value;
         }
 
         protected override void GetBody(Article _article, IHtmlDocument _document)
         {
-            _article.Body = _document.QuerySelector("div.post__text").TextContent;
+            var bodyElements = _document.QuerySelector("div.story-body__inner").QuerySelectorAll("p");
+
+            foreach (var element in bodyElements)
+            {
+                _article.Body += element.TextContent;
+            }
         }
 
         protected override void GetTitle(Article _article, IElement _item, IHtmlDocument _document)
         {
-            _article.Title = _item.QuerySelector("a.post__title_link").TextContent;
+            _article.Title = _item.QuerySelector("span.title-link__title-text").TextContent;
         }
 
         protected override void GetSummary(Article _article, IElement _item, IHtmlDocument _document)
         {
-            _article.Summary = _item.QuerySelector("div.post__text").TextContent;
+            _article.Summary = _item.QuerySelector("p.eagle-item__summary").TextContent;
         }
 
         protected override void GetSource(Article _article)
         {
-            _article.Source = "habr.com";
+            _article.Source = "bbc.com";
         }
 
         protected override void GetUrlSource(Article _article)
         {
-            _article.UrlSource = "https://habr.com/ru";
+            _article.UrlSource = "https://www.bbc.com/russian/news";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)
         {
-            _article.UrlMainImg = _item.QuerySelector("div.post__text").QuerySelector("img").Attributes["src"].Value;
+            _article.UrlMainImg = _document.QuerySelector("div.story-body__inner").QuerySelector("img").Attributes["src"].Value;
         }
 
         protected override void GetDateTime(Article _article)
@@ -66,34 +71,21 @@ namespace Moonparser.NewsSources
 
         protected override void GetViews(Article _article, IHtmlDocument _document)
         {
-            string strViews = _document.QuerySelector("span.post-stats__views-count").TextContent;
-            int StrToInt;
-
-            bool isParsed = Int32.TryParse(strViews, out StrToInt);
-
-            if (!isParsed)
-            {
-                strViews = strViews.Replace("k", "000");
-                strViews = strViews.Replace("K", "000");
-                strViews = strViews.Replace(",", "");
-                strViews = strViews.Replace(".", "");
-            }
-
-            Int32.TryParse(strViews, out StrToInt);
-
-            _article.Views = StrToInt;
-
+            //Данные на сайте не указываются
+            _article.Views = 0;
         }
 
         protected override void GetTags(Article _article, IHtmlDocument _document)
         {
-            _article.Tags += "IT;";
-            var tags = document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("inline-list__item-link hub-link "));
+            //_article.Tags += "News;";
+            var tags = document.QuerySelectorAll("li").Where(item => item.ClassName != null && item.ClassName.Contains("tags-list__tags"));
 
             foreach (var tag in tags)
             {
-                if(tag.TextContent.Length < 11)
-                    _article.Tags += tag.TextContent + ";"; 
+                string strTag = tag.QuerySelector("a").TextContent;
+
+                if(strTag.Length < 11)
+                    _article.Tags += strTag + ";"; 
             }
         }
     }

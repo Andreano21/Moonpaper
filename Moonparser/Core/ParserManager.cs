@@ -19,20 +19,21 @@ namespace Moonparser.Core
         {
             List<Article> stopgameNews = new List<Article>();
             List<Article> habraNews = new List<Article>();
-
+            List<Article> bbcNews = new List<Article>();
 
             HabraParser habraParser = new HabraParser();
             StopgameParser stopgameParser = new StopgameParser();
+            BBCParser bbcParser = new BBCParser();
 
             Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews));
             Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews));
+            Task t3 = Task.Run(() => bbcParser.ParseAsync(bbcNews));
 
-
-            await Task.WhenAll(new[] {t1, t2});
+            await Task.WhenAll(new[] {t1, t2, t3});
 
             ParsedArticles.AddRange(stopgameNews);
             ParsedArticles.AddRange(habraNews);
-
+            ParsedArticles.AddRange(bbcNews);
         }
 
         static public void Push()

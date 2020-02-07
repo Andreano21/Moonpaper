@@ -18,14 +18,14 @@ namespace Moonparser.Core
 
         protected abstract void GetStartUrl();
         protected abstract IEnumerable<IElement> GetItems();
-        protected abstract void GetTitle(Article _article, IElement _item);
-        protected abstract void GetSummary(Article _article, IElement _item);
-        protected abstract void GetSource(Article _article);
         protected abstract void GetUrl(Article _article, IElement _item);
-        protected abstract void GetUrlSource(Article _article);
-        protected abstract void GetUrlMainImg(Article _article, IElement _item);
-        protected abstract void GetDateTime(Article _article);
         protected abstract void GetBody(Article _article, IHtmlDocument _document);
+        protected abstract void GetTitle(Article _article, IElement _item, IHtmlDocument _document);
+        protected abstract void GetSummary(Article _article, IElement _item, IHtmlDocument _document);
+        protected abstract void GetSource(Article _article);
+        protected abstract void GetUrlSource(Article _article);
+        protected abstract void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document);
+        protected abstract void GetDateTime(Article _article);
         protected abstract void GetViews(Article _article, IHtmlDocument _document);
         protected abstract void GetTags(Article _article, IHtmlDocument _document);
 
@@ -51,7 +51,29 @@ namespace Moonparser.Core
 
                 try
                 {
-                    GetTitle(article, item);
+                    GetUrl(article, item);
+                }
+                catch
+                {
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrl. Источник: " + startUrl);
+                }
+
+                try
+                {
+                    source = await HtmlLoader.LoadAsync(article.Url);
+                    document = await htmlParser.ParseDocumentAsync(source);
+
+                    //Загрузка полной статьи
+                    GetBody(article, document);
+                }
+                catch
+                {
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetBody. Источник: " + startUrl);
+                }
+
+                try
+                {
+                    GetTitle(article, item, document);
                 }
                 catch
                 {
@@ -60,7 +82,7 @@ namespace Moonparser.Core
 
                 try
                 {
-                    GetSummary(article, item);
+                    GetSummary(article, item, document);
 
                     //Обрезка до 250 символов
                     string sum = article.Summary;
@@ -80,14 +102,7 @@ namespace Moonparser.Core
                     //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSource. Источник: " + startUrl);
                 }
 
-                try
-                {
-                    GetUrl(article, item);
-                }
-                catch
-                {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrl. Источник: " + startUrl);
-                }
+
 
                 try
                 {
@@ -109,24 +124,11 @@ namespace Moonparser.Core
 
                 try
                 {
-                    GetUrlMainImg(article, item);
+                    GetUrlMainImg(article, item, document);
                 }
                 catch
                 {
                     //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrlMainImg. Источник: " + startUrl);
-                }
-
-                try
-                {
-                    source = await HtmlLoader.LoadAsync(article.Url);
-                    document = await htmlParser.ParseDocumentAsync(source);
-
-                    //Загрузка полной статьи
-                    GetBody(article, document);
-                }
-                catch
-                {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetBody. Источник: " + startUrl);
                 }
 
                 try

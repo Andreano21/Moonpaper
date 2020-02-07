@@ -24,25 +24,29 @@ namespace Moonparser.NewsSources
             return items;
         }
 
-        protected override void GetTitle(Article _article, IElement _item)
+        protected override void GetUrl(Article _article, IElement _item)
+        {
+            _article.Url = startUrl + _item.QuerySelector("a").Attributes["href"].Value;
+        }
+
+        protected override void GetBody(Article _article, IHtmlDocument _document)
+        {
+            _article.Body = _document.QuerySelector("div.main_text").TextContent;
+        }
+
+        protected override void GetTitle(Article _article, IElement _item, IHtmlDocument _document)
         {
             _article.Title = _item.QuerySelector("img").Attributes["alt"].Value;
         }
 
-        protected override void GetSummary(Article _article, IElement _item)
+        protected override void GetSummary(Article _article, IElement _item, IHtmlDocument _document)
         {
             _article.Summary = _item.QuerySelector("div.brief").QuerySelector("p").TextContent;
         }
 
-
         protected override void GetSource(Article _article)
         {
             _article.Source = "stopgame.ru";
-        }
-
-        protected override void GetUrl(Article _article, IElement _item)
-        {
-            _article.Url = startUrl + _item.QuerySelector("a").Attributes["href"].Value;
         }
 
         protected override void GetUrlSource(Article _article)
@@ -50,7 +54,7 @@ namespace Moonparser.NewsSources
             _article.UrlSource = "https://stopgame.ru";
         }
 
-        protected override void GetUrlMainImg(Article _article, IElement _item)
+        protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)
         {
             _article.UrlMainImg = _item.QuerySelector("img").Attributes["srcset"].Value;
             _article.UrlMainImg = _article.UrlMainImg.Replace(" 2x", "");
@@ -59,11 +63,6 @@ namespace Moonparser.NewsSources
         protected override void GetDateTime(Article _article)
         {
             _article.DateTime = DateTime.Now;
-        }
-
-        protected override void GetBody(Article _article, IHtmlDocument _document)
-        {
-            _article.Body = _document.QuerySelector("div.main_text").TextContent;
         }
 
         protected override void GetViews(Article _article, IHtmlDocument _document)
