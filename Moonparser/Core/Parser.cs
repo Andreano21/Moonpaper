@@ -27,7 +27,7 @@ namespace Moonparser.Core
         protected abstract void GetDateTime(Article _article);
         protected abstract void GetBody(Article _article, IHtmlDocument _document);
         protected abstract void GetViews(Article _article, IHtmlDocument _document);
-
+        protected abstract void GetTags(Article _article, IHtmlDocument _document);
 
         public async Task ParseAsync(List<Article> _articles)
         {
@@ -62,9 +62,9 @@ namespace Moonparser.Core
                 {
                     GetSummary(article, item);
 
-                    //Обрезка до 350 символов
+                    //Обрезка до 250 символов
                     string sum = article.Summary;
-                    article.Summary = new string(sum.Take(350).ToArray()) + "...";
+                    article.Summary = new string(sum.Take(250).ToArray()) + "...";
                 }
                 catch
                 {
@@ -136,6 +136,14 @@ namespace Moonparser.Core
                 catch
                 {
                     //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetViews. Источник: " + startUrl);
+                }
+                try
+                {
+                    GetTags(article, document);
+                }
+                catch
+                {
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetTags. Источник: " + startUrl);
                 }
 
                 if (ArticleIsFull(article))

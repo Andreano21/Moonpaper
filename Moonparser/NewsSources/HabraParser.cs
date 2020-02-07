@@ -84,5 +84,17 @@ namespace Moonparser.NewsSources
             _article.Views = StrToInt;
 
         }
+
+        protected override void GetTags(Article _article, IHtmlDocument _document)
+        {
+            _article.Tags += "IT;";
+            var tags = document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("inline-list__item-link hub-link "));
+
+            foreach (var tag in tags)
+            {
+                if(tag.TextContent.Length < 11)
+                    _article.Tags += tag.TextContent + ";"; 
+            }
+        }
     }
 }

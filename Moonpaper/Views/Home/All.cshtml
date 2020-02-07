@@ -11,18 +11,39 @@
                 <div class="card">
                     <div class="card-horizontal">
                         <div class="img-square-wrapper">
-                            <img class="rounded" src="@item.UrlMainImg" alt="@item.Title">
+                            <img class="rounded articleImg" src="@item.UrlMainImg" alt="@item.Title">
                         </div>
                         <div class="card-body">
-                            <h4 class="card-title">@item.Title</h4>
+                            <h4 class="card-title"><a href="@item.Url" target="_blank">@item.Title</a></h4>
                             <p class="card-text">@item.Summary</p>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">@item.DateTime</small>
+                        <a href="@item.UrlSource" target="_blank">@item.Source</a>
+                        <small class="text-muted card-footer-custom">@item.DateTime.Date</small>
+                        <small class="text-muted card-footer-custom">@item.Views</small>
+
+                        @{
+                            if (item.Tags != null)
+                            {
+                                string[] tags = item.Tags.Split(';');
+
+                                foreach (var tag in tags)
+                                {
+                                    <small class="text-muted card-footer-custom">@tag</small>
+                                }
+                            }
+                        }
+
+                        @*<div class="tag">
+        <button class="tag-botton">-</button>
+        <div class="tag-botton">IT</div>
+        <button class="tag-botton">+</button>
+        </div>*@
                     </div>
                 </div>
             </div>
         </div>
     </div>
 }
+

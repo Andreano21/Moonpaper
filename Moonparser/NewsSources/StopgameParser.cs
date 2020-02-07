@@ -87,5 +87,20 @@ namespace Moonparser.NewsSources
             _article.Views = StrToInt;
         }
 
+        protected override void GetTags(Article _article, IHtmlDocument _document)
+        {
+            _article.Tags += "Games;";
+
+
+            var DivTags = _document.QuerySelector("div.tags");
+            var Tags = DivTags.QuerySelectorAll("a");
+            
+            foreach (var tag in Tags)
+            {
+                if (tag.TextContent.Length < 11)
+                    _article.Tags += tag.TextContent + ";";
+            }
+        }
+
     }
 }

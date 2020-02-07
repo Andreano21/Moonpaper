@@ -17,8 +17,9 @@ namespace Moonpaper.Models
         public string Url { get; set; }
         public string UrlSource { get; set; }
         public string UrlMainImg { get; set; }
-
         public int Views { get; set; }
+        public string Tags { get; set; }
+
 
         public DateTime DateTime { get; set; }
 
