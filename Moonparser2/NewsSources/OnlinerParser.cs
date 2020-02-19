@@ -12,51 +12,62 @@ using System.Threading.Tasks;
 
 namespace Moonparser.NewsSources
 {
-    class HabraParser : Parser
+    class OnlinerParser : Parser
     {
         protected override void GetStartUrl()
         {
-            startUrl = "https://habr.com/ru/top/";
+            startUrl = "https://tech.onliner.by/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
-            var items = document.QuerySelectorAll("li").Where(item => item.ClassName != null && item.ClassName.Contains("content-list__item content-list__item_post shortcuts_item"));
+            //Получение тематических блоков
+            var items = document.QuerySelectorAll("div").Where(item => item.ClassName != null && item.ClassName.Contains("news-tidings__item"));
+            int x = items.Count();
+
             return items;
         }
 
         protected override void GetUrl(Article _article, IElement _item)
         {
-            _article.Url = _item.QuerySelector("a.post__title_link").Attributes["href"].Value;
+            _article.Url = startUrl + _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
         }
 
         protected override void GetBody(Article _article, IHtmlDocument _document)
         {
-            _article.Body = _document.QuerySelector("div.post__text").TextContent;
+            //_article.Body = _document.QuerySelector("div.news-tidings__speech").TextContent;
+            //_article.Body.Trim();
         }
 
         protected override void GetTitle(Article _article, IElement _item, IHtmlDocument _document)
         {
-            _article.Title = _item.QuerySelector("a.post__title_link").TextContent;
+            _article.Title = _item.QuerySelector("span.news-helpers_hide_mobile-small").TextContent;
         }
 
         protected override void GetSummary(Article _article, IElement _item, IHtmlDocument _document)
         {
-            _article.Summary = _item.QuerySelector("div.post__text").TextContent;
+            _article.Summary = _item.QuerySelector("div.news-tidings__speech").TextContent;
+
+            //Обрезка пробелов в начале и конце строки
+            _article.Summary.Trim();
         }
 
         protected override void GetSource(Article _article)
         {
-            _article.Source = "habr.com";
+            _article.Source = "onliner.by";
         }
 
         protected override void GetUrlSource(Article _article)
         {
-            _article.UrlSource = "https://habr.com/ru";
+            _article.UrlSource = "https://onliner.by/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)
         {
-            _article.UrlMainImg = _item.QuerySelector("div.post__text").QuerySelector("img").Attributes["src"].Value;
+            string imgurl = _item.QuerySelector("div.news-tidings__image").Attributes["style"].Value;
+            imgurl = imgurl.Replace("background-image: url(", "");
+            imgurl = imgurl.Replace(");", "");
+
+            _article.UrlMainImg = imgurl;
         }
 
         protected override void GetDateTime(Article _article)
@@ -64,9 +75,11 @@ namespace Moonparser.NewsSources
             _article.DateTime = DateTime.Now;
         }
 
-        protected override void GetViews(Article _article, IHtmlDocument _document)
+        protected override void GetViews(Article _article, IElement _item, IHtmlDocument _document)
         {
-            string strViews = _document.QuerySelector("span.post-stats__views-count").TextContent;
+            string strViews = _document.QuerySelector("div.news-tidings__button_views").TextContent;
+            strViews.Trim();
+
             int StrToInt;
 
             bool isParsed = Int32.TryParse(strViews, out StrToInt);
@@ -87,14 +100,14 @@ namespace Moonparser.NewsSources
 
         protected override void GetTags(Article _article, IHtmlDocument _document)
         {
-            _article.Tags += "IT;";
-            var tags = document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("inline-list__item-link hub-link "));
+            //_article.Tags += "IT;";
+            //var tags = document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("inline-list__item-link hub-link "));
 
-            foreach (var tag in tags)
-            {
-                if(tag.TextContent.Length < 11)
-                    _article.Tags += tag.TextContent + ";"; 
-            }
+            //foreach (var tag in tags)
+            //{
+            //    if(tag.TextContent.Length < 11)
+            //        _article.Tags += tag.TextContent + ";"; 
+            //}
         }
     }
 }

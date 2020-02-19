@@ -69,7 +69,7 @@ namespace Moonparser.NewsSources
             _article.DateTime = DateTime.Now;
         }
 
-        protected override void GetViews(Article _article, IHtmlDocument _document)
+        protected override void GetViews(Article _article, IElement _item, IHtmlDocument _document)
         {
             //Данные на сайте не указываются
             _article.Views = 0;

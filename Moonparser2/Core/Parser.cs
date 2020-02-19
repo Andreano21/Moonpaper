@@ -26,7 +26,7 @@ namespace Moonparser.Core
         protected abstract void GetUrlSource(Article _article);
         protected abstract void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document);
         protected abstract void GetDateTime(Article _article);
-        protected abstract void GetViews(Article _article, IHtmlDocument _document);
+        protected abstract void GetViews(Article _article, IElement _item, IHtmlDocument _document);
         protected abstract void GetTags(Article _article, IHtmlDocument _document);
 
         public async Task ParseAsync(List<Article> _articles)
@@ -38,6 +38,8 @@ namespace Moonparser.Core
 
             //Получение страницы в виде строки
             source = await HtmlLoader.LoadAsync(startUrl);
+            //source = PageSolver.GetSolvedPage(startUrl);
+            //Console.WriteLine(source.Length);
             document = await htmlParser.ParseDocumentAsync(source);
 
             var items = GetItems();
@@ -61,6 +63,7 @@ namespace Moonparser.Core
                 try
                 {
                     source = await HtmlLoader.LoadAsync(article.Url);
+                    //source = PageSolver.GetSolvedPage(startUrl);
                     document = await htmlParser.ParseDocumentAsync(source);
 
                     //Загрузка полной статьи
@@ -133,7 +136,7 @@ namespace Moonparser.Core
 
                 try
                 {
-                    GetViews(article, document);
+                    GetViews(article, item, document);
                 }
                 catch
                 {
@@ -163,7 +166,7 @@ namespace Moonparser.Core
 
         private bool ArticleIsFull(Article article)
         {
-            if (article.Title != null && article.Summary != null && article.Body != null && article.Url != null && article.Source != null && article.UrlSource != null && article.UrlMainImg != null && article.Views != 0)
+            if (article.Title != null && article.Summary != null && article.Url != null && article.Source != null && article.UrlSource != null && article.UrlMainImg != null && article.Views != 0)
                 return true;
             else
                 return false;
