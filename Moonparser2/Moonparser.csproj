@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="Core\AppContext.cs" />
     <Compile Include="Core\Article.cs" />
+    <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\HtmlLoader.cs" />
     <Compile Include="Core\PageSolver.cs" />
     <Compile Include="Core\Parser.cs" />

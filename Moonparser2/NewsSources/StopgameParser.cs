@@ -16,7 +16,6 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            //startUrl = "https://stopgame.ru";
             startUrl = new string[] { "https://stopgame.ru" };
         }
         protected override IEnumerable<IElement> GetItems()
@@ -76,21 +75,21 @@ namespace Moonparser.NewsSources
         {
             string strViews = _document.QuerySelectorAll("div").Where(item2 => item2.ClassName != null && item2.ClassName.Contains("lent-views pubinfo-div")).ToArray()[0].TextContent;
 
-            int StrToInt;
+            //int StrToInt;
 
-            bool isParsed = Int32.TryParse(strViews, out StrToInt);
+            //bool isParsed = Int32.TryParse(strViews, out StrToInt);
 
-            if (!isParsed)
-            {
-                strViews = strViews.Replace("k", "000");
-                strViews = strViews.Replace("K", "000");
-                strViews = strViews.Replace(",", "");
-                strViews = strViews.Replace(".", "");
-            }
+            //if (!isParsed)
+            //{
+            //    strViews = strViews.Replace("k", "000");
+            //    strViews = strViews.Replace("K", "000");
+            //    strViews = strViews.Replace(",", "");
+            //    strViews = strViews.Replace(".", "");
+            //}
 
-            Int32.TryParse(strViews, out StrToInt);
+            //Int32.TryParse(strViews, out StrToInt);
 
-            _article.Views = StrToInt;
+            _article.Views = Helper.ParseViews(strViews);
         }
 
         protected override void GetTags(Article _article, IHtmlDocument _document)

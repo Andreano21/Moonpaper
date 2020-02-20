@@ -32,17 +32,17 @@ namespace Moonparser.Core
 
             //Console.WriteLine(PageSolver.GetSolvedPage("https://habr.com/ru/"));
 
-            //Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews));
-            //Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews));
+            Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews));
+            Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews));
             //Task t3 = Task.Run(() => bbcParser.ParseAsync(bbcNews));
             Task t4 = Task.Run(() => onlinerParser.ParseAsync(onlinerNews));
 
 
-            await Task.WhenAll(new[] {t4});
+            await Task.WhenAll(new[] {t1,t2,t4});
 
-            //ParsedArticles.AddRange(stopgameNews);
-            //ParsedArticles.AddRange(habraNews);
-            //ParsedArticles.AddRange(bbcNews);
+            ParsedArticles.AddRange(stopgameNews);
+            ParsedArticles.AddRange(habraNews);
+            ParsedArticles.AddRange(bbcNews);
             ParsedArticles.AddRange(onlinerNews);
 
         }
