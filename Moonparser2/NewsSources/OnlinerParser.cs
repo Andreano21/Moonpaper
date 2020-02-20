@@ -16,20 +16,39 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            startUrl = "https://tech.onliner.by/";
+            startUrl = new string[] { "https://tech.onliner.by", "https://people.onliner.by", "https://realt.onliner.by", "https://auto.onliner.by"};
         }
         protected override IEnumerable<IElement> GetItems()
         {
             //Получение тематических блоков
-            var items = document.QuerySelectorAll("div").Where(item => item.ClassName != null && item.ClassName.Contains("news-tidings__item"));
-            int x = items.Count();
+            List<IElement> items = new List<IElement>();
+
+            for (int d = 0; d < documents.Length; d++)
+            {
+                var curentitems = documents[d].QuerySelectorAll("div").Where(item => item.ClassName != null && item.ClassName.Contains("news-tidings__item"));
+
+                foreach (var _item in curentitems)
+                {
+                    try
+                    {
+                        string fullurl = startUrl[d] + _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
+                        _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value = fullurl;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                items.AddRange(curentitems);
+            }
 
             return items;
         }
 
         protected override void GetUrl(Article _article, IElement _item)
         {
-            _article.Url = startUrl + _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
+            _article.Url = _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
         }
 
         protected override void GetBody(Article _article, IHtmlDocument _document)
@@ -77,7 +96,7 @@ namespace Moonparser.NewsSources
 
         protected override void GetViews(Article _article, IElement _item, IHtmlDocument _document)
         {
-            string strViews = _document.QuerySelector("div.news-tidings__button_views").TextContent;
+            string strViews = _item.QuerySelector("div.news-tidings__button_views").TextContent;
             strViews.Trim();
 
             int StrToInt;
@@ -86,6 +105,7 @@ namespace Moonparser.NewsSources
 
             if (!isParsed)
             {
+                strViews = strViews.Replace(" ", "");
                 strViews = strViews.Replace("k", "000");
                 strViews = strViews.Replace("K", "000");
                 strViews = strViews.Replace(",", "");
@@ -100,14 +120,17 @@ namespace Moonparser.NewsSources
 
         protected override void GetTags(Article _article, IHtmlDocument _document)
         {
-            //_article.Tags += "IT;";
-            //var tags = document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("inline-list__item-link hub-link "));
 
-            //foreach (var tag in tags)
-            //{
-            //    if(tag.TextContent.Length < 11)
-            //        _article.Tags += tag.TextContent + ";"; 
-            //}
+            //_article.Tags += "IT;";
+            var tags = _document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("news-reference__link news-reference__link_secondary"));
+
+            foreach (var tag in tags)
+            {
+                string t = tag.TextContent.Trim();
+
+                if (t.Length < 11)
+                    _article.Tags += t + ";";
+            }
         }
     }
 }

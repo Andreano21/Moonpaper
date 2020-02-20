@@ -11,10 +11,12 @@ namespace Moonparser.Core
 {
     abstract class Parser
     {
-        protected IHtmlDocument document = null;
         protected List<Article> articles = new List<Article>();
+        protected string[] startUrl = null;
+        protected string[] sources = null;
+        protected IHtmlDocument[] documents = null;
         protected string source = null;
-        protected string startUrl = null;
+        protected IHtmlDocument document = null;
 
         protected abstract void GetStartUrl();
         protected abstract IEnumerable<IElement> GetItems();
@@ -36,11 +38,17 @@ namespace Moonparser.Core
 
             HtmlParser htmlParser = new HtmlParser();
 
-            //Получение страницы в виде строки
-            source = await HtmlLoader.LoadAsync(startUrl);
-            //source = PageSolver.GetSolvedPage(startUrl);
-            //Console.WriteLine(source.Length);
-            document = await htmlParser.ParseDocumentAsync(source);
+            sources = new string[startUrl.Length];
+            documents = new IHtmlDocument[startUrl.Length];
+
+            //Получение страниц в виде строк
+            for (int i = 0; i < startUrl.Length; i++)
+            { 
+                sources[i] = await HtmlLoader.LoadAsync(startUrl[i]);
+                //sources[i] = PageSolver.GetSolvedPage(startUrl[i]);
+
+                documents[i] = await htmlParser.ParseDocumentAsync(sources[i]);
+            }
 
             var items = GetItems();
 
@@ -154,14 +162,13 @@ namespace Moonparser.Core
                 if (ArticleIsFull(article))
                 {
                     _articles.Add(article);
-
                     succesArt++;
 
                     //Console.WriteLine(DateTime.Now.ToString() + "; Статья получена. Источник: " + startUrl);
                 }
             }
             
-            Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrl);
+            Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrl[0]);
         }
 
         private bool ArticleIsFull(Article article)

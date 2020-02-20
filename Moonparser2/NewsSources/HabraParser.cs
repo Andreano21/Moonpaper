@@ -16,11 +16,18 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            startUrl = "https://habr.com/ru/top/";
+            //startUrl = "https://habr.com/ru/top/";
+            startUrl = new string[] { "https://habr.com/ru/top/" };
         }
         protected override IEnumerable<IElement> GetItems()
         {
-            var items = document.QuerySelectorAll("li").Where(item => item.ClassName != null && item.ClassName.Contains("content-list__item content-list__item_post shortcuts_item"));
+            List<IElement> items = new List<IElement>();
+
+            foreach (var d in documents)
+            {
+                items.AddRange(d.QuerySelectorAll("li").Where(item => item.ClassName != null && item.ClassName.Contains("content-list__item content-list__item_post shortcuts_item")));
+            }
+
             return items;
         }
 

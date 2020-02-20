@@ -16,11 +16,17 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            startUrl = "https://www.bbc.com/russian/news";
+            startUrl = new string[] { "https://www.bbc.com/russian/news" };
         }
         protected override IEnumerable<IElement> GetItems()
         {
-            var items = document.QuerySelectorAll("div").Where(item => item.ClassName != null && item.ClassName.Contains("eagle-item faux-block-link"));
+            List<IElement> items = new List<IElement>();
+
+            foreach (var d in documents)
+            {
+                items.AddRange(d.QuerySelectorAll("div").Where(item => item.ClassName != null && item.ClassName.Contains("eagle-item faux-block-link")));
+            }
+
             return items;
         }
 
