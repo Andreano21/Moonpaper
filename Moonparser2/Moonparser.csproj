@@ -86,6 +86,7 @@
     <Compile Include="Core\PageSolver.cs" />
     <Compile Include="Core\Parser.cs" />
     <Compile Include="Core\ParserManager.cs" />
+    <Compile Include="Core\Settings.cs" />
     <Compile Include="NewsSources\BBCParser.cs" />
     <Compile Include="NewsSources\HabraParser.cs" />
     <Compile Include="NewsSources\OnlinerParser.cs" />

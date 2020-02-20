@@ -90,7 +90,7 @@ namespace Moonparser.NewsSources
             {
                 string strTag = tag.QuerySelector("a").TextContent;
 
-                if(strTag.Length < 11)
+                if(strTag.Length < Settings.TagLength)
                     _article.Tags += strTag + ";"; 
             }
         }

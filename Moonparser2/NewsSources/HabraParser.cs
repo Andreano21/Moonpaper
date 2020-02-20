@@ -99,7 +99,7 @@ namespace Moonparser.NewsSources
 
             foreach (var tag in tags)
             {
-                if(tag.TextContent.Length < 11)
+                if(tag.TextContent.Length < Settings.TagLength)
                     _article.Tags += tag.TextContent + ";"; 
             }
         }

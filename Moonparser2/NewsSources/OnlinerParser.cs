@@ -128,7 +128,7 @@ namespace Moonparser.NewsSources
             {
                 string t = tag.TextContent.Trim();
 
-                if (t.Length < 11)
+                if (t.Length < Settings.TagLength)
                     _article.Tags += t + ";";
             }
         }
