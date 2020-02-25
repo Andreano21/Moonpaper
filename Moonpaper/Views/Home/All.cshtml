@@ -19,10 +19,11 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="@item.UrlSource" target="_blank">@item.Source</a>
-                        <small class="text-muted card-footer-custom">@item.DateTime.Date</small>
-                        <small class="text-muted card-footer-custom">@item.Views</small>
-
+                        <div class="tag-container">
+                            <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
+                            <a class="btn tag-container-content" href="@item.UrlSource" target="_blank">@item.Source</a>
+                            <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
+                        </div>
                         @{
                             if (item.Tags != null)
                             {
@@ -30,16 +31,24 @@
 
                                 foreach (var tag in tags)
                                 {
-                                    <small class="text-muted card-footer-custom">@tag</small>
+                                    if (tag == "")
+                                        break;
+                                    <div class="tag-container">
+                                        <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
+                                        <button type="button" class="btn tag-container-content">@tag</button>
+                                        <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
+                                    </div>
                                 }
                             }
                         }
-
-                        @*<div class="tag">
-        <button class="tag-botton">-</button>
-        <div class="tag-botton">IT</div>
-        <button class="tag-botton">+</button>
-        </div>*@
+                        <div class="date-container">
+                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">event_available</i>
+                            <div class="date-container-body">@item.DateTime.ToShortDateString()</div>
+                        </div>
+                        <div class="views-container">
+                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">visibility</i>
+                            <div class="date-container-views">@item.Views</div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -9,5 +9,7 @@ namespace Moonparser.Core
     public class Settings
     {
         public const int TagLength = 15;
+
+        public const int SummaryLength = 175;
     }
 }

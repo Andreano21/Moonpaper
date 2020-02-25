@@ -95,9 +95,9 @@ namespace Moonparser.Core
                 {
                     GetSummary(article, item, document);
 
-                    //Обрезка до 250 символов
+                    //Обрезка символов
                     string sum = article.Summary;
-                    article.Summary = new string(sum.Take(250).ToArray()) + "...";
+                    article.Summary = new string(sum.Take(Settings.SummaryLength).ToArray()) + "...";
                 }
                 catch
                 {

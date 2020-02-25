@@ -2,37 +2,37 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a:link {
-    color: black;
+    color: #5A6268;
     text-decoration: none;
 }
 
 a:visited {
-    color: black;
+    color: #5A6268;
     text-decoration: none;
 }
 
 a:hover {
-    color: lightblue;
+    color: #909CA5;
     text-decoration: none;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-item {
@@ -43,45 +43,48 @@ a:hover {
 html {
     font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
 img.articleImg {
@@ -96,26 +99,105 @@ img.articleImg {
 }
 
 .card-footer {
-    height: 35px;
+    height: 38px;
     padding-top: 4px;
-}
-
-.card-footer-custom {
-
-}
-
-small {
-
 }
 
 .tag {
     display: inline-block;
     border: 1px solid #e5e5e5;
 }
-.tag-botton {
-    display: inline;
-    border: 1px solid #e5e5e5;
-    height: 20px;
-    width: 20px;
+
+.tag-container {
+    display: inline-block;
+}
+
+.tag-container-content {
+    line-height: 22px;
+    border-top: 1px solid #909CA5;
+    border-bottom: 1px solid #909CA5;
+    color: #5A6268;
+    border-radius: 0px;
+    height: 25px;
     padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+    .tag-container-content:hover {
+        color: #909CA5;
+    }
+
+
+.tag-container-button {
+    height: 25px;
+    width: 25px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.tag-container-button-left {
+    line-height: 22px;
+    color: #5A6268;
+    font-weight: 700;
+    border-color: #909CA5;
+    border-radius: 4px 0px 0px 4px;
+}
+
+    .tag-container-button-left:hover {
+        border-color: #FE3533;
+        background-color: #FE3533;
+    }
+
+.tag-container-button-right {
+    line-height: 22px;
+    color: #5A6268;
+    font-weight: 700;
+    border-color: #909CA5;
+    border-radius: 0px 4px 4px 0px;
+}
+
+    .tag-container-button-right:hover {
+        border-color: #8DB046;
+        background-color: #8DB046;
+    }
+
+.date-container {
+    display: inline-block;
+    border: 1px solid #909CA5;
+    border-radius: 3px;
+    height: 25px;
+    line-height: 22px;
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+    color: #5A6268;
+}
+
+.date-container-body {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 5px;
+}
+
+.views-container {
+    display: inline-block;
+    border: 1px solid #909CA5;
+    border-radius: 3px;
+    height: 25px;
+    line-height: 22px;
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+    color: #5A6268;
+}
+
+.date-container-views {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 5px;
 }

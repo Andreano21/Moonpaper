@@ -34,7 +34,7 @@ namespace Moonpaper.Controllers
 
         public IActionResult All()
         {
-            return View(db.Articles.ToList());
+            return View(db.Articles.OrderByDescending(a => a.Views).ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
