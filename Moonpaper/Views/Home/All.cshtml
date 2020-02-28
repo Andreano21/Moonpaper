@@ -25,17 +25,13 @@
                             <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
                         </div>
                         @{
-                            if (item.Tags != null)
+                            if (item.ArticleTags != null)
                             {
-                                string[] tags = item.Tags.Split(';');
-
-                                foreach (var tag in tags)
+                                foreach (var tag in item.ArticleTags)
                                 {
-                                    if (tag == "")
-                                        break;
                                     <div class="tag-container">
                                         <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
-                                        <button type="button" class="btn tag-container-content">@tag</button>
+                                        <button type="button" class="btn tag-container-content">@tag.Tag.TagValue</button>
                                         <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
                                     </div>
                                 }

@@ -18,10 +18,13 @@ namespace Moonpaper.Models
         public string UrlSource { get; set; }
         public string UrlMainImg { get; set; }
         public int Views { get; set; }
-        public string Tags { get; set; }
-
+        public List<ArticleTag> ArticleTags { get; set; }
 
         public DateTime DateTime { get; set; }
 
+        public Article()
+        {
+            ArticleTags = new List<ArticleTag>();
+        }
     }
 }

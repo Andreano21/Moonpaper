@@ -5,6 +5,21 @@
     <UserSecretsId>aspnet-Moonpaper-DD26F38E-8760-4882-AF36-D97FE5DBBB75</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20200225213937_AddArticleTag2.cs" />
+    <Compile Remove="Migrations\20200225213937_AddArticleTag2.Designer.cs" />
+    <Compile Remove="Migrations\20200225214705_AddTest.cs" />
+    <Compile Remove="Migrations\20200225214705_AddTest.Designer.cs" />
+    <Compile Remove="Migrations\20200226175647_AddTagTable.cs" />
+    <Compile Remove="Migrations\20200226175647_AddTagTable.Designer.cs" />
+    <Compile Remove="Migrations\20200226223551_AddArticleTags.cs" />
+    <Compile Remove="Migrations\20200226223551_AddArticleTags.Designer.cs" />
+    <Compile Remove="Migrations\20200226234708_AddArticleTags2.cs" />
+    <Compile Remove="Migrations\20200226234708_AddArticleTags2.Designer.cs" />
+    <Compile Remove="Migrations\20200228030853_AddArticleTags.cs" />
+    <Compile Remove="Migrations\20200228030853_AddArticleTags.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.0" />
