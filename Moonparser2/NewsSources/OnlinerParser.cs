@@ -121,7 +121,6 @@ namespace Moonparser.NewsSources
         protected override void GetTags(Article _article, IHtmlDocument _document)
         {
 
-            //_article.Tags += "IT;";
             var tags = _document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("news-reference__link news-reference__link_secondary"));
 
             foreach (var tag in tags)
@@ -129,7 +128,7 @@ namespace Moonparser.NewsSources
                 string t = tag.TextContent.Trim();
 
                 if (t.Length < Settings.TagLength)
-                    _article.Tags += t + ";";
+                    _article.Tags.Add(new Tag(t));
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Moonparser.Core
 {
@@ -18,9 +18,13 @@ namespace Moonparser.Core
         public string UrlSource { get; set; }
         public string UrlMainImg { get; set; }
         public int Views { get; set; }
-        public string Tags { get; set; }
-
+        public List<Tag> Tags { get; set; }
         public DateTime DateTime { get; set; }
+
+        public Article()
+        {
+            Tags = new List<Tag>();
+        }
 
     }
 }

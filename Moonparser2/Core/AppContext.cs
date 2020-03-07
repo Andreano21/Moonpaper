@@ -14,5 +14,23 @@ namespace Moonparser.Core
         }
 
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<Article>()
+            .HasMany<Tag>(s => s.Tags)
+            .WithMany(c => c.Articles)
+            .Map(cs =>
+            {
+                cs.MapLeftKey("ArticleId");
+                cs.MapRightKey("TagId");
+                cs.ToTable("ArticleTag");
+            });
+
+        }
     }
 }

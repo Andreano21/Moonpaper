@@ -42,7 +42,7 @@ namespace Moonparser.Core
 
             ParsedArticles.AddRange(stopgameNews);
             ParsedArticles.AddRange(habraNews);
-            ParsedArticles.AddRange(bbcNews);
+            //ParsedArticles.AddRange(bbcNews);
             ParsedArticles.AddRange(onlinerNews);
 
         }
@@ -90,6 +90,26 @@ namespace Moonparser.Core
                     isNew = true;
                 }
 
+                //Проверка тегов на наличие в базе данных
+
+                for (int a = 0; a < newArticles.Count; a++)
+                {
+                    for (int t = 0; t < newArticles[a].Tags.Count; t++)
+                    {
+                        string curenttag = newArticles[a].Tags[t].TagValue;
+                        var dbtag = context.Tags.FirstOrDefault(tt => tt.TagValue == curenttag);
+
+                        if (dbtag == null)
+                        {
+                            context.Tags.Add(newArticles[a].Tags[t]);
+                            context.SaveChanges();
+                        }
+                        else
+                        {
+                            newArticles[a].Tags[t] = dbtag;
+                        }
+                    }
+                }
                 context.Articles.AddRange(newArticles);
                 context.SaveChanges();
             }

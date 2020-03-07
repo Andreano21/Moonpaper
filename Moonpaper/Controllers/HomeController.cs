@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moonpaper.Models;
 using Moonpaper.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Moonpaper.Controllers
 {
@@ -34,8 +35,14 @@ namespace Moonpaper.Controllers
 
         public IActionResult All()
         {
-            return View(db.Articles.OrderByDescending(a => a.Views).ToList());
+            var articles = db.Articles.Include(at => at.ArticleTags)
+                                      .ThenInclude(t => t.Tag)
+                                      .OrderByDescending(a => a.Views)
+                                      .ToArray();
+            
+            return View(articles);
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

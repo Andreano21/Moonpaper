@@ -84,15 +84,15 @@ namespace Moonparser.NewsSources
         protected override void GetTags(Article _article, IHtmlDocument _document)
         {
             //_article.Tags += "News;";
-            var tags = document.QuerySelectorAll("li").Where(item => item.ClassName != null && item.ClassName.Contains("tags-list__tags"));
+            //var tags = document.QuerySelectorAll("li").Where(item => item.ClassName != null && item.ClassName.Contains("tags-list__tags"));
 
-            foreach (var tag in tags)
-            {
-                string strTag = tag.QuerySelector("a").TextContent;
+            //foreach (var tag in tags)
+            //{
+            //    string strTag = tag.QuerySelector("a").TextContent;
 
-                if(strTag.Length < Settings.TagLength)
-                    _article.Tags += strTag + ";"; 
-            }
+            //    if(strTag.Length < Settings.TagLength)
+            //        _article.Tags += strTag + ";"; 
+            //}
         }
     }
 }

@@ -94,16 +94,15 @@ namespace Moonparser.NewsSources
 
         protected override void GetTags(Article _article, IHtmlDocument _document)
         {
-            _article.Tags += "Games;";
-
+            _article.Tags.Add(new Tag("Games"));
 
             var DivTags = _document.QuerySelector("div.tags");
             var Tags = DivTags.QuerySelectorAll("a");
-            
+
             foreach (var tag in Tags)
             {
                 if (tag.TextContent.Length < Settings.TagLength)
-                    _article.Tags += tag.TextContent + ";";
+                    _article.Tags.Add(new Tag(tag.TextContent));
             }
         }
 
