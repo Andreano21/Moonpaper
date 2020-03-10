@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moonpaper.Data;
+using Moonpaper.Models;
 
 [assembly: HostingStartup(typeof(Moonpaper.Areas.Identity.IdentityHostingStartup))]
 namespace Moonpaper.Areas.Identity

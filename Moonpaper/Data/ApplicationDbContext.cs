@@ -8,7 +8,7 @@ using Moonpaper.Models;
 
 namespace Moonpaper.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<Tag> Tags { get; set; }

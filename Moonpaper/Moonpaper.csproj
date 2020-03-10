@@ -6,29 +6,40 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200225213937_AddArticleTag2.cs" />
-    <Compile Remove="Migrations\20200225213937_AddArticleTag2.Designer.cs" />
-    <Compile Remove="Migrations\20200225214705_AddTest.cs" />
-    <Compile Remove="Migrations\20200225214705_AddTest.Designer.cs" />
-    <Compile Remove="Migrations\20200226175647_AddTagTable.cs" />
-    <Compile Remove="Migrations\20200226175647_AddTagTable.Designer.cs" />
-    <Compile Remove="Migrations\20200226223551_AddArticleTags.cs" />
-    <Compile Remove="Migrations\20200226223551_AddArticleTags.Designer.cs" />
-    <Compile Remove="Migrations\20200226234708_AddArticleTags2.cs" />
-    <Compile Remove="Migrations\20200226234708_AddArticleTags2.Designer.cs" />
-    <Compile Remove="Migrations\20200228030853_AddArticleTags.cs" />
-    <Compile Remove="Migrations\20200228030853_AddArticleTags.Designer.cs" />
+    <Compile Remove="Areas\**" />
+    <Content Remove="Areas\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <None Remove="Areas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Areas\Identity\IdentityHostingStartup.cs" />
+    <Compile Include="Areas\Identity\Pages\Account\Login.cshtml.cs" />
+    <Compile Include="Areas\Identity\Pages\Account\Register.cshtml.cs" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Areas\Identity\Pages\Account\Login.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Register.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\_ViewImports.cshtml" />
+    <None Include="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+    <None Include="Areas\Identity\Pages\_ViewImports.cshtml" />
+    <None Include="Areas\Identity\Pages\_ViewStart.cshtml" />
   </ItemGroup>
 
 </Project>
