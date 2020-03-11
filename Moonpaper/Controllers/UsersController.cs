@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Moonpaper.Models;
 using Moonpaper.ViewModels;
 
 namespace Moonpaper.Controllers
 {
+
+    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
 
