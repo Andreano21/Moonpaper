@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Moonpaper.Models.Article>
 @{
-    ViewData["Title"] = "Main";
+    ViewData["Title"] = "My";
 }
 
 @foreach (var item in Model)
@@ -37,7 +37,7 @@
                                             <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
                                         }
                                         else
-                                        {
+                                        { 
                                             <a href="/Identity/Account/Register" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</a>
                                             <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
                                             <a href="/Identity/Account/Register" class="btn btn-outline-success tag-container-button tag-container-button-right">+</a>

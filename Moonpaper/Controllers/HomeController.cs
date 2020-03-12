@@ -23,14 +23,14 @@ namespace Moonpaper.Controllers
             db = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index() //Main
         {
-            return View();
-        }
+            var articles = db.Articles.Include(at => at.ArticleTags)
+                          .ThenInclude(t => t.Tag)
+                          .OrderByDescending(a => a.Views)
+                          .ToArray();
 
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(articles);
         }
 
         public IActionResult All()
@@ -40,6 +40,16 @@ namespace Moonpaper.Controllers
                                       .OrderByDescending(a => a.Views)
                                       .ToArray();
             
+            return View(articles);
+        }
+
+        public IActionResult My()
+        {
+            var articles = db.Articles.Include(at => at.ArticleTags)
+                                      .ThenInclude(t => t.Tag)
+                                      .OrderByDescending(a => a.Views)
+                                      .ToArray();
+
             return View(articles);
         }
 
