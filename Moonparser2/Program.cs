@@ -17,6 +17,7 @@ namespace Moonparser
 
             ParserManager.Push();
 
+            Console.WriteLine("Парсинг окончен");
             Console.ReadKey();
         }
     }

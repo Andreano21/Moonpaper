@@ -13,7 +13,7 @@ namespace Moonpaper.Data
         public DbSet<Article> Articles { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ArticleTag> ArticleTag { get; set; }
-
+        public DbSet<UserTag> UserTags { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -73,7 +73,21 @@ namespace Moonpaper.Controllers
             }
         }
 
+        [HttpPost]
+        public void TagUp(string UserId, int TagId)
+        {
+            var UserTagId = db.UserTags.FirstOrDefault(ut => ut.UserId == UserId && ut.TagId == TagId);
+            UserTagId.Rating = 1;
+            db.SaveChanges();
+        }
 
+        [HttpPost]
+        public void TagDown(string UserId, int TagId)
+        {
+            var UserTagId = db.UserTags.FirstOrDefault(ut => ut.UserId == UserId && ut.TagId == TagId);
+            UserTagId.Rating = -1;
+            db.SaveChanges();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
