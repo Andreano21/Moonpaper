@@ -1,9 +1,8 @@
-﻿@model IEnumerable<Moonpaper.Models.Article>
-@{
-    ViewData["Title"] = "All";
+﻿@{
+    ViewBag.Title = "All";
 }
 
-@foreach (var item in Model)
+@foreach (var item in ViewBag.Articles)
 {
     <div class="container-fluid">
         <div class="row">
@@ -32,12 +31,20 @@
                                     <div class="tag-container">
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                                            <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
+                                            <form asp-controller="Home" asp-action="TagDown" method="post" class="input-button">
+                                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                                <input name="TagId" type="hidden" value="@tag.Tag.Id">
+                                                <input class="btn btn-outline-danger tag-container-button tag-container-button-left" type="submit" value="-" />
+                                            </form>
                                             <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                            <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
+                                            <form asp-controller="Home" asp-action="TagUp" method="post">
+                                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                                <input name="TagId" type="hidden" value="@tag.Tag.Id">
+                                                <input class="btn btn-outline-danger tag-container-button tag-container-button-right" type="submit" value="+" />
+                                            </form>
                                         }
                                         else
-                                        { 
+                                        {
                                             <a href="/Identity/Account/Register" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</a>
                                             <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
                                             <a href="/Identity/Account/Register" class="btn btn-outline-success tag-container-button tag-container-button-right">+</a>

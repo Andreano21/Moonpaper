@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Moonpaper.Models;
 using Moonpaper.Data;
@@ -13,12 +15,15 @@ namespace Moonpaper.Controllers
 {
     public class HomeController : Controller
     {
+        UserManager<User> _userManager;
+
         private readonly ILogger<HomeController> _logger;
 
         private ApplicationDbContext db;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _logger = logger;
             db = context;
         }
@@ -35,12 +40,13 @@ namespace Moonpaper.Controllers
 
         public IActionResult All()
         {
-            var articles = db.Articles.Include(at => at.ArticleTags)
+            ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+
+            ViewBag.Articles = db.Articles.Include(at => at.ArticleTags)
                                       .ThenInclude(t => t.Tag)
                                       .OrderByDescending(a => a.Views)
                                       .ToArray();
-            
-            return View(articles);
+            return View();
         }
 
         public IActionResult My()
@@ -74,18 +80,46 @@ namespace Moonpaper.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public void TagUp(string UserId, int TagId)
         {
             var UserTagId = db.UserTags.FirstOrDefault(ut => ut.UserId == UserId && ut.TagId == TagId);
-            UserTagId.Rating = 1;
+
+            if (UserTagId != null)
+            { 
+                UserTagId.Rating = 1;
+            }
+            else
+            {
+                UserTag ut = new UserTag();
+                ut.UserId = UserId;
+                ut.TagId = TagId;
+                ut.Rating = 1;
+                db.UserTags.Add(ut);
+            }
+
             db.SaveChanges();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public void TagDown(string UserId, int TagId)
         {
             var UserTagId = db.UserTags.FirstOrDefault(ut => ut.UserId == UserId && ut.TagId == TagId);
-            UserTagId.Rating = -1;
+
+            if (UserTagId != null)
+            {
+                UserTagId.Rating = -1;
+            }
+            else
+            {
+                UserTag ut = new UserTag();
+                ut.UserId = UserId;
+                ut.TagId = TagId;
+                ut.Rating = -1;
+                db.UserTags.Add(ut);
+            }
+
             db.SaveChanges();
         }
 
