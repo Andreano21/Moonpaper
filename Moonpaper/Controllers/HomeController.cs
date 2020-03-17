@@ -38,9 +38,35 @@ namespace Moonpaper.Controllers
             return View(articles);
         }
 
-        public IActionResult All()
+        //public IActionResult All()
+        //{
+        //    ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+        //    ViewBag.SotredBy = "views";
+        //    ViewBag.Time = "day";
+        //    ViewBag.Pages = 25;
+        //    ViewBag.Articles = db.Articles.Include(at => at.ArticleTags)
+        //                              .ThenInclude(t => t.Tag)
+        //                              .OrderByDescending(a => a.Views)
+        //                              .ToArray();
+        //    return View();
+        //}
+
+        public IActionResult All(string SortedBy, string Time, int Pages)
         {
+            if (SortedBy == null)
+                SortedBy = "time";
+
+            if (Time == null)
+                Time = "day";
+
+            if (Pages == 0)
+                Pages = 25;
+
+
             ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.SortedBy = SortedBy;
+            ViewBag.Time = Time;
+            ViewBag.Pages = Pages;
 
             ViewBag.Articles = db.Articles.Include(at => at.ArticleTags)
                                       .ThenInclude(t => t.Tag)

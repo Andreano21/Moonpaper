@@ -2,6 +2,24 @@
     ViewBag.Title = "All";
 }
 
+<div class="container">
+    <div class="btn-group">
+        <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "time") { <text>active</text> }" role="button">Все</a>
+        <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "views") { <text>active</text> }" role="button">Просмотры</a>
+        <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "rating") { <text>active</text> }" role="button">Рейтинг</a>
+    </div>
+    <div class="btn-group">
+        <a href="~/Home/All?SortedBy=@ViewBag.SotredBy&Time=day&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.Time == "day") { <text>active</text> }" role="button">День</a>
+        <a href="~/Home/All?SortedBy=@ViewBag.SotredBy&Time=week&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.Time == "week") { <text>active</text> }" role="button">Неделя</a>
+        <a href="~/Home/All?SortedBy=@ViewBag.SotredBy&Time=month&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.Time == "month") { <text>active</text> }" role="button">Месяц</a>
+    </div>
+    <div class="btn-group">
+        <a href="~/Home/All?SortedBy=@ViewBag.SotredBy&Time=@ViewBag.Time&Pages=25" class="btn btn-outline-secondary @if (ViewBag.Pages == 25) { <text>active</text> }" role="button">25</a>
+        <a href="~/Home/All?SortedBy=@ViewBag.SotredBy&Time=@ViewBag.Time&Pages=50" class="btn btn-outline-secondary @if (ViewBag.Pages == 50) { <text>active</text> }" role="button">50</a>
+        <a href="~/Home/All?SortedBy=@ViewBag.SotredBy&Time=@ViewBag.Time&Pages=100" class="btn btn-outline-secondary @if (ViewBag.Pages == 100) { <text>active</text> }" role="button">100</a>
+    </div>
+</div>
+
 @foreach (var item in ViewBag.Articles)
 {
     <div class="container-fluid">
@@ -37,7 +55,7 @@
                                                 <input class="btn btn-outline-danger tag-container-button tag-container-button-left" type="submit" value="-" />
                                             </form>
                                             <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                            <form method="post" data-ajax="true" data-ajax-method="post"  asp-controller="Home" asp-action="TagUp">
+                                            <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
                                                 <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                                 <input name="TagId" type="hidden" value="@tag.Tag.Id">
                                                 <input class="btn btn-outline-danger tag-container-button tag-container-button-right" type="submit" value="+" />
