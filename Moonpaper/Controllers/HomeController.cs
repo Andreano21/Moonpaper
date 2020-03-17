@@ -68,10 +68,53 @@ namespace Moonpaper.Controllers
             ViewBag.Time = Time;
             ViewBag.Pages = Pages;
 
-            ViewBag.Articles = db.Articles.Include(at => at.ArticleTags)
-                                      .ThenInclude(t => t.Tag)
-                                      .OrderByDescending(a => a.Views)
-                                      .ToArray();
+
+            List<Article> articles = null;
+
+            switch (SortedBy)
+            {
+                case "time":
+                    articles = db.Articles.Include(at => at.ArticleTags)
+                           .ThenInclude(t => t.Tag)
+                           .OrderByDescending(a => a.DateTime)
+                           .ToList();
+                    break;
+
+                case "views":
+                    articles = db.Articles.Include(at => at.ArticleTags)
+                           .ThenInclude(t => t.Tag)
+                           .OrderByDescending(a => a.Views)
+                           .ToList();
+                    break;
+
+                case "rating":
+                    articles = db.Articles.Include(at => at.ArticleTags)
+                        .ThenInclude(t => t.Tag)
+                        .OrderByDescending(a => a.Views)
+                        .ToList();
+                    break;
+            }
+
+            switch (Time)
+            {
+                case "day":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
+                    break;
+
+                case "week":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
+                    break;
+
+                case "month":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
+                    break;
+            }
+
+            articles = articles.Take(Pages).ToList();
+
+
+            ViewBag.Articles = articles;
+
             return View();
         }
 
