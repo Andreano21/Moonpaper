@@ -31,13 +31,13 @@
                                     <div class="tag-container">
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                                            <form asp-controller="Home" asp-action="TagDown" method="post" class="input-button">
+                                            <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
                                                 <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                                 <input name="TagId" type="hidden" value="@tag.Tag.Id">
                                                 <input class="btn btn-outline-danger tag-container-button tag-container-button-left" type="submit" value="-" />
                                             </form>
                                             <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                            <form asp-controller="Home" asp-action="TagUp" method="post">
+                                            <form method="post" data-ajax="true" data-ajax-method="post"  asp-controller="Home" asp-action="TagUp">
                                                 <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                                 <input name="TagId" type="hidden" value="@tag.Tag.Id">
                                                 <input class="btn btn-outline-danger tag-container-button tag-container-button-right" type="submit" value="+" />
