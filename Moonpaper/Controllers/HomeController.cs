@@ -51,10 +51,10 @@ namespace Moonpaper.Controllers
         //    return View();
         //}
 
-        public IActionResult All(string SortedBy, string Time, int Pages)
+        public IActionResult All(string SortedBy, string Time, int Pages, int Page)
         {
             if (SortedBy == null)
-                SortedBy = "time";
+                SortedBy = "views";
 
             if (Time == null)
                 Time = "day";
@@ -67,6 +67,7 @@ namespace Moonpaper.Controllers
             ViewBag.SortedBy = SortedBy;
             ViewBag.Time = Time;
             ViewBag.Pages = Pages;
+            ViewBag.Page = Page;
 
 
             List<Article> articles = null;
@@ -110,10 +111,18 @@ namespace Moonpaper.Controllers
                     break;
             }
 
-            articles = articles.Take(Pages).ToList();
+            var articlesToSkip = Page * Pages;
 
+            articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
 
             ViewBag.Articles = articles;
+
+            bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
+            if (IsAjaxRequest)
+            {
+                return PartialView("_Articles");
+            }
 
             return View();
         }
