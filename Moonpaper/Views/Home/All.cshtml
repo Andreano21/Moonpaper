@@ -1,10 +1,14 @@
 ﻿@{
-    ViewBag.Title = "All";
+    ViewBag.Title = "Все";
 }
 
 <div class="container">
     <div class="btn-group">
-        <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "time") { <text>active</text> }" role="button">Все</a>
+        <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary active" role="button">Все</a>
+        <a href="~/Home/My?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary" role="button">Мои</a>
+    </div>
+    <div class="btn-group">
+        <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "time") { <text>active</text> }" role="button">Время</a>
         <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "views") { <text>active</text> }" role="button">Просмотры</a>
         <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "rating") { <text>active</text> }" role="button">Рейтинг</a>
     </div>
@@ -19,72 +23,6 @@
         <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=@ViewBag.Time&Pages=100" class="btn btn-outline-secondary @if (ViewBag.Pages == 100) { <text>active</text> }" role="button">100</a>
     </div>
 </div>
-
-@*@foreach (var item in ViewBag.Articles)
-{
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 mt-3">
-                <div class="card">
-                    <div class="card-horizontal">
-                        <div class="img-square-wrapper">
-                            <img class="rounded articleImg" src="@item.UrlMainImg" alt="@item.Title">
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title"><a href="@item.Url" target="_blank">@item.Title</a></h4>
-                            <p class="card-text">@item.Summary</p>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="tag-container">
-                            <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
-                            <a class="btn tag-container-content" href="@item.UrlSource" target="_blank">@item.Source</a>
-                            <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
-                        </div>
-                        @{
-                            if (item.ArticleTags != null)
-                            {
-                                foreach (var tag in item.ArticleTags)
-                                {
-                                    <div class="tag-container">
-                                        @if (User.Identity.IsAuthenticated)
-                                        {
-                                            <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
-                                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
-                                                <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="btn btn-outline-danger tag-container-button tag-container-button-left" type="submit" value="-" />
-                                            </form>
-                                            <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                            <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
-                                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
-                                                <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="btn btn-outline-danger tag-container-button tag-container-button-right" type="submit" value="+" />
-                                            </form>
-                                        }
-                                        else
-                                        {
-                                            <a href="/Identity/Account/Register" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</a>
-                                            <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                            <a href="/Identity/Account/Register" class="btn btn-outline-success tag-container-button tag-container-button-right">+</a>
-                                        }
-                                    </div>
-                                }
-                            }
-                        }
-                        <div class="date-container">
-                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">event_available</i>
-                            <div class="date-container-body">@item.DateTime.ToShortDateString()</div>
-                        </div>
-                        <div class="views-container">
-                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">visibility</i>
-                            <div class="date-container-views">@item.Views</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}*@
 
 <div id="scrolList">
     @Html.Partial("_Articles")

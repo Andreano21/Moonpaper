@@ -38,19 +38,6 @@ namespace Moonpaper.Controllers
             return View(articles);
         }
 
-        //public IActionResult All()
-        //{
-        //    ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
-        //    ViewBag.SotredBy = "views";
-        //    ViewBag.Time = "day";
-        //    ViewBag.Pages = 25;
-        //    ViewBag.Articles = db.Articles.Include(at => at.ArticleTags)
-        //                              .ThenInclude(t => t.Tag)
-        //                              .OrderByDescending(a => a.Views)
-        //                              .ToArray();
-        //    return View();
-        //}
-
         public IActionResult All(string SortedBy, string Time, int Pages, int Page)
         {
             if (SortedBy == null)
@@ -127,14 +114,80 @@ namespace Moonpaper.Controllers
             return View();
         }
 
-        public IActionResult My()
+        public IActionResult My(string SortedBy, string Time, int Pages, int Page)
         {
-            var articles = db.Articles.Include(at => at.ArticleTags)
-                                      .ThenInclude(t => t.Tag)
-                                      .OrderByDescending(a => a.Views)
-                                      .ToArray();
+            if (SortedBy == null)
+                SortedBy = "views";
 
-            return View(articles);
+            if (Time == null)
+                Time = "day";
+
+            if (Pages == 0)
+                Pages = 25;
+
+
+            ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.SortedBy = SortedBy;
+            ViewBag.Time = Time;
+            ViewBag.Pages = Pages;
+            ViewBag.Page = Page;
+
+
+            List<Article> articles = null;
+
+            switch (SortedBy)
+            {
+                case "time":
+                    articles = db.Articles.Include(at => at.ArticleTags)
+                           .ThenInclude(t => t.Tag)
+                           .OrderByDescending(a => a.DateTime)
+                           .ToList();
+                    break;
+
+                case "views":
+                    articles = db.Articles.Include(at => at.ArticleTags)
+                           .ThenInclude(t => t.Tag)
+                           .OrderByDescending(a => a.Views)
+                           .ToList();
+                    break;
+
+                case "rating":
+                    articles = db.Articles.Include(at => at.ArticleTags)
+                        .ThenInclude(t => t.Tag)
+                        .OrderByDescending(a => a.Views)
+                        .ToList();
+                    break;
+            }
+
+            switch (Time)
+            {
+                case "day":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
+                    break;
+
+                case "week":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
+                    break;
+
+                case "month":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
+                    break;
+            }
+
+            var articlesToSkip = Page * Pages;
+
+            articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
+
+            ViewBag.Articles = articles;
+
+            bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
+            if (IsAjaxRequest)
+            {
+                return PartialView("_Articles");
+            }
+
+            return View();
         }
 
         public IActionResult Tag(string tag)
