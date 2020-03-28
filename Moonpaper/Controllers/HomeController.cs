@@ -62,22 +62,28 @@ namespace Moonpaper.Controllers
             switch (SortedBy)
             {
                 case "time":
-                    articles = db.Articles.Include(at => at.ArticleTags)
-                           .ThenInclude(t => t.Tag)
+                    articles = db.Articles
+                           .Include(a => a.Source)
+                           .Include(at => at.ArticleTags)
+                                .ThenInclude(t => t.Tag)
                            .OrderByDescending(a => a.DateTime)
                            .ToList();
                     break;
 
                 case "views":
-                    articles = db.Articles.Include(at => at.ArticleTags)
-                           .ThenInclude(t => t.Tag)
+                    articles = db.Articles
+                           .Include(a => a.Source)
+                           .Include(at => at.ArticleTags)
+                                .ThenInclude(t => t.Tag)
                            .OrderByDescending(a => a.Views)
                            .ToList();
                     break;
 
                 case "rating":
-                    articles = db.Articles.Include(at => at.ArticleTags)
-                        .ThenInclude(t => t.Tag)
+                    articles = db.Articles
+                        .Include(s => s.Source)
+                        .Include(at => at.ArticleTags)
+                                .ThenInclude(t => t.Tag)
                         .OrderByDescending(a => a.Views)
                         .ToList();
                     break;

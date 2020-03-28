@@ -52,12 +52,12 @@ namespace Moonparser.NewsSources
 
         protected override void GetSource(Article _article)
         {
-            _article.Source = "stopgame.ru";
+            _article.Source.Name = "stopgame.ru";
         }
 
         protected override void GetUrlSource(Article _article)
         {
-            _article.UrlSource = "https://stopgame.ru";
+            _article.Source.Url = "https://stopgame.ru";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)

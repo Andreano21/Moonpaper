@@ -88,6 +88,7 @@
     <Compile Include="Core\Parser.cs" />
     <Compile Include="Core\ParserManager.cs" />
     <Compile Include="Core\Settings.cs" />
+    <Compile Include="Core\Source.cs" />
     <Compile Include="Core\Tag.cs" />
     <Compile Include="NewsSources\BBCParser.cs" />
     <Compile Include="NewsSources\HabraParser.cs" />

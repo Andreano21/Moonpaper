@@ -13,9 +13,8 @@ namespace Moonpaper.Models
         public string Title { get; set; }
         public string Summary { get; set; }
         public string Body { get; set; }
-        public string Source { get; set; }
+        public Source Source { get; set; }
         public string Url { get; set; }
-        public string UrlSource { get; set; }
         public string UrlMainImg { get; set; }
         public int Views { get; set; }
         public List<ArticleTag> ArticleTags { get; set; }
@@ -25,6 +24,7 @@ namespace Moonpaper.Models
         public Article()
         {
             ArticleTags = new List<ArticleTag>();
+            Source = new Source();
         }
     }
 }

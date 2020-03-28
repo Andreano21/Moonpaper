@@ -113,8 +113,6 @@ namespace Moonparser.Core
                     //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSource. Источник: " + startUrl);
                 }
 
-
-
                 try
                 {
                     GetUrlSource(article);
@@ -173,7 +171,7 @@ namespace Moonparser.Core
 
         private bool ArticleIsFull(Article article)
         {
-            if (article.Title != null && article.Summary != null && article.Url != null && article.Source != null && article.UrlSource != null && article.UrlMainImg != null && article.Views != 0)
+            if (article.Title != null && article.Summary != null && article.Url != null && article.Source.Name != null && article.Source.Url != null && article.UrlMainImg != null && article.Views != 0)
                 return true;
             else
                 return false;

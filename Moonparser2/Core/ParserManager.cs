@@ -91,7 +91,6 @@ namespace Moonparser.Core
                 }
 
                 //Проверка тегов на наличие в базе данных
-
                 for (int a = 0; a < newArticles.Count; a++)
                 {
                     for (int t = 0; t < newArticles[a].Tags.Count; t++)
@@ -110,6 +109,24 @@ namespace Moonparser.Core
                         }
                     }
                 }
+
+                //Проверка источников на наличие в базе данных
+                for (int a = 0; a < newArticles.Count; a++)
+                {
+                    string curentSource = newArticles[a].Source.Name;
+                    var dbSource = context.Sources.FirstOrDefault(s => s.Name == curentSource);
+
+                    if (dbSource == null)
+                    {
+                        context.Sources.Add(newArticles[a].Source);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        newArticles[a].Source = dbSource;
+                    }
+                }
+
                 context.Articles.AddRange(newArticles);
                 context.SaveChanges();
             }

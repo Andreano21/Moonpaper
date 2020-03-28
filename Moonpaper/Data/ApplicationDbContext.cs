@@ -12,6 +12,7 @@ namespace Moonpaper.Data
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Source> Sources { get; set; }
         public DbSet<ArticleTag> ArticleTag { get; set; }
         public DbSet<UserTag> UserTags { get; set; }
 
@@ -20,8 +21,6 @@ namespace Moonpaper.Data
         {
             Database.EnsureCreated();
         }
-
-        //public DbSet<ArticleTag> ArticleTag { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,6 +52,8 @@ namespace Moonpaper.Data
                 .HasOne(sc => sc.Tag)
                 .WithMany(c => c.UserTags)
                 .HasForeignKey(sc => sc.TagId);
+
+            modelBuilder.Entity<Source>().HasIndex(s => s.Name).IsUnique();
         }
     }
 }

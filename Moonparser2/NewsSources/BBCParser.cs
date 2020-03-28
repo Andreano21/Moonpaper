@@ -57,12 +57,12 @@ namespace Moonparser.NewsSources
 
         protected override void GetSource(Article _article)
         {
-            _article.Source = "bbc.com";
+            _article.Source.Name = "bbc.com";
         }
 
         protected override void GetUrlSource(Article _article)
         {
-            _article.UrlSource = "https://www.bbc.com/russian/news";
+            _article.Source.Url = "https://www.bbc.com/russian/news";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)
