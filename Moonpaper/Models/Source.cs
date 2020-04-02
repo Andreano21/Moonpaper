@@ -18,5 +18,6 @@ namespace Moonpaper.Models
         {
             Articles = new List<Article>();
         }
+
     }
 }

@@ -38,7 +38,7 @@ namespace Moonparser.Core
                 .WithMany(a => a.Articles)
                 .Map(sa => sa.MapKey("SourceId"));
 
-            modelBuilder.Entity<Source>().HasIndex(s => s.Name).IsUnique();
+            //modelBuilder.Entity<Source>().HasIndex(s => s.Name).IsUnique();
 
         }
     }

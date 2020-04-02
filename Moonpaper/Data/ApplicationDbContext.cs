@@ -53,6 +53,10 @@ namespace Moonpaper.Data
                 .WithMany(c => c.UserTags)
                 .HasForeignKey(sc => sc.TagId);
 
+            modelBuilder.Entity<Article>()
+                .HasOne(s => s.Source)
+                .WithMany(a => a.Articles);
+
             modelBuilder.Entity<Source>().HasIndex(s => s.Name).IsUnique();
         }
     }
