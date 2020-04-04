@@ -12,7 +12,6 @@ namespace Moonparser.Core
         public string Name { get; set; }
         public string Url { get; set; }
         public int MaxViews { get; set; }
-
         public List<Article> Articles { get; set; }
 
         public Source()
