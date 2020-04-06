@@ -71,15 +71,6 @@ namespace Moonpaper.Controllers
                     db.Tags.Load();
                     break;
 
-                //case "views":
-                //    articles = db.Articles
-                //           .Include(a => a.Source)
-                //           .Include(at => at.ArticleTags)
-                //                .ThenInclude(t => t.Tag)
-                //           .OrderByDescending(a => a.Views)
-                //           .ToList();
-                //    break;
-
                 case "views":
                     articles = db.Articles
                            .OrderByDescending(a => a.Views)

@@ -12,13 +12,42 @@ namespace Moonparser
     {
         static async Task Main(string[] args)
         {
+            string inputCommand;
 
-            await ParserManager.Run();
+            while (true)
+            {
+                Console.Write(">");
+                inputCommand = Console.ReadLine();
 
-            ParserManager.Push();
+                switch (inputCommand)
+                {
+                    case "parse":
+                        await ParserManager.Run();
+                        ParserManager.Push();
+                        Console.WriteLine("Парсинг окончен");
+                        break;
 
-            Console.WriteLine("Парсинг окончен");
-            Console.ReadKey();
+                    case "solve":
+                        Solver.Solve();
+                        break;
+
+                    case "exit":
+                        return;
+
+                    default:
+                        Console.WriteLine("Команда не найдена");
+                        break;
+                }
+            }
+
+
+
+            //await ParserManager.Run();
+
+            //ParserManager.Push();
+
+            //Console.WriteLine("Парсинг окончен");
+            //Console.ReadKey();
         }
     }
 }

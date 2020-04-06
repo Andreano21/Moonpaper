@@ -58,6 +58,7 @@ namespace Moonpaper.Data
                 .WithMany(a => a.Articles);
 
             modelBuilder.Entity<Source>().HasIndex(s => s.Name).IsUnique();
+            //modelBuilder.Entity<Source>().HasIndex(s => s.Url).IsUnique();
         }
     }
 }
