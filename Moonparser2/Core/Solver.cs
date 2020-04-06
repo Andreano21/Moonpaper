@@ -13,10 +13,10 @@ namespace Moonparser.Core
         {
             using (AppContext db = new AppContext())
             {
-                //List<Article> articles = db.Articles.ToList();
+                List<Article> articles = db.Articles.ToList();
                 List<Source> sources = db.Sources.ToList();
 
-                db.Articles.Load();
+                //db.Articles.Load();
 
                 foreach (Source source in sources)
                 {
@@ -27,6 +27,11 @@ namespace Moonparser.Core
                             maxViews = article.Views;
                     }
                     source.MaxViews = maxViews;
+                }
+
+                foreach (Article article in articles)
+                {
+                    article.Rating = (int)(((float)article.Views / (float)article.Source.MaxViews) * article.Source.AdminFactor * 100f);
                 }
 
                 db.SaveChanges();

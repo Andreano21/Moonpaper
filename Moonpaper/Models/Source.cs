@@ -19,6 +19,7 @@ namespace Moonpaper.Models
         public Source()
         {
             Articles = new List<Article>();
+            AdminFactor = 1f;
         }
 
     }

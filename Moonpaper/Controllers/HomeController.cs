@@ -83,7 +83,7 @@ namespace Moonpaper.Controllers
 
                 case "rating":
                     articles = db.Articles
-                        .OrderByDescending(a => a.Views)
+                        .OrderByDescending(a => a.Rating)
                         .ToList();
 
                     db.Sources.Load();

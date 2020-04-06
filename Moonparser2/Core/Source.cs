@@ -19,6 +19,7 @@ namespace Moonparser.Core
         public Source()
         {
             Articles = new List<Article>();
+            AdminFactor = 1f;
         }
     }
 }
