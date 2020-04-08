@@ -21,17 +21,17 @@ namespace Moonparser
 
                 switch (inputCommand)
                 {
-                    case "parse":
+                    case "p":
                         await ParserManager.Run();
                         ParserManager.Push();
                         Console.WriteLine("Парсинг окончен");
                         break;
 
-                    case "solve":
+                    case "u":
                         Solver.Solve();
                         break;
 
-                    case "exit":
+                    case "q":
                         return;
 
                     default:

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moonparser.NewsSources;
 using Moonparser.Core;
-
+using System.Data.Entity;
 
 namespace Moonparser.Core
 {
@@ -53,6 +53,9 @@ namespace Moonparser.Core
             using (AppContext context = new AppContext())
             {
                 StorageArticles = context.Articles.ToList();
+
+                context.Sources.Load();
+                context.Tags.Load();
 
                 List<Article> newArticles = new List<Article>();
 
@@ -130,6 +133,9 @@ namespace Moonparser.Core
                 context.Articles.AddRange(newArticles);
                 context.SaveChanges();
             }
+
+            //Обнуление списка
+            ParsedArticles = new List<Article>();
         }
     }
 }

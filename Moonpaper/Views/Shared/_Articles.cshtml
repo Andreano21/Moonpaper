@@ -1,5 +1,4 @@
-﻿
-@foreach (var item in ViewBag.Articles)
+﻿@foreach (var item in ViewBag.Articles)
 {
     <div class="container-fluid">
         <div class="row">
@@ -52,11 +51,15 @@
                         }
                         <div class="date-container">
                             <i class="material-icons" style="font-size:20px; vertical-align: middle;">event_available</i>
-                            <div class="date-container-body">@item.DateTime.ToShortDateString()</div>
+                            <div class="date-container-body">@Helper.GetTimeForArticle(item.DateTime)</div>
                         </div>
                         <div class="views-container">
                             <i class="material-icons" style="font-size:20px; vertical-align: middle;">visibility</i>
                             <div class="date-container-views">@item.Views</div>
+                        </div>
+                        <div class="views-container">
+                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">favorite</i>
+                            <div class="date-container-fav">@item.Rating</div>
                         </div>
                     </div>
                 </div>
