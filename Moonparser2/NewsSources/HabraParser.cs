@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Moonparser.NewsSources
 {
+    /// <summary>
+    /// Обеспечивает парсинг статей из ресурса Habra.com
+    /// </summary>
     class HabraParser : Parser
     {
         protected override void GetStartUrl()
@@ -31,24 +34,24 @@ namespace Moonparser.NewsSources
             return items;
         }
 
-        protected override void GetUrl(Article _article, IElement _item)
+        protected override void GetUrl(Article _article, IElement reducedArticle)
         {
-            _article.Url = _item.QuerySelector("a.post__title_link").Attributes["href"].Value;
+            _article.Url = reducedArticle.QuerySelector("a.post__title_link").Attributes["href"].Value;
         }
 
-        protected override void GetBody(Article _article, IHtmlDocument _document)
+        protected override void GetBody(Article _article, IHtmlDocument fullArticle)
         {
-            _article.Body = _document.QuerySelector("div.post__text").TextContent;
+            _article.Body = fullArticle.QuerySelector("div.post__text").TextContent;
         }
 
-        protected override void GetTitle(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetTitle(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Title = _item.QuerySelector("a.post__title_link").TextContent;
+            _article.Title = reducedArticle.QuerySelector("a.post__title_link").TextContent;
         }
 
-        protected override void GetSummary(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Summary = _item.QuerySelector("div.post__text").TextContent;
+            _article.Summary = reducedArticle.QuerySelector("div.post__text").TextContent;
         }
 
         protected override void GetSource(Article _article)
@@ -61,9 +64,9 @@ namespace Moonparser.NewsSources
             _article.Source.Url = "https://habr.com/ru";
         }
 
-        protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.UrlMainImg = _item.QuerySelector("div.post__text").QuerySelector("img").Attributes["src"].Value;
+            _article.UrlMainImg = reducedArticle.QuerySelector("div.post__text").QuerySelector("img").Attributes["src"].Value;
         }
 
         protected override void GetDateTime(Article _article)
@@ -71,28 +74,30 @@ namespace Moonparser.NewsSources
             _article.DateTime = DateTime.Now;
         }
 
-        protected override void GetViews(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string strViews = _document.QuerySelector("span.post-stats__views-count").TextContent;
-            //int StrToInt;
+            //Загрузка данных из источника по умолчанию
+            if (reducedArticle != null && fullArticle != null)
+            {
+                string strViews = fullArticle.QuerySelector("span.post-stats__views-count").TextContent;
 
-            //bool isParsed = Int32.TryParse(strViews, out StrToInt);
+                _article.Views = Helper.ParseViews(strViews);
+            }
+            //Загрузка данных из полноценной страницы статьи
+            else if (reducedArticle == null)
+            {
+                string strViews = fullArticle.QuerySelector("span.post-stats__views-count").TextContent;
 
-            //if (!isParsed)
-            //{
-            //    strViews = strViews.Replace("k", "000");
-            //    strViews = strViews.Replace("K", "000");
-            //    strViews = strViews.Replace(",", "");
-            //    strViews = strViews.Replace(".", "");
-            //}
-
-            //Int32.TryParse(strViews, out StrToInt);
-
-            _article.Views = Helper.ParseViews(strViews);
-
+                _article.Views = Helper.ParseViews(strViews);
+            }
+            //Загрузка данных из сокращенной страницы
+            else
+            { 
+            
+            }
         }
 
-        protected override void GetTags(Article _article, IHtmlDocument _document)
+        protected override void GetTags(Article _article, IHtmlDocument fullArticle)
         {
             _article.Tags.Add(new Tag("IT"));
             var tags = document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("inline-list__item-link hub-link "));

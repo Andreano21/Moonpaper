@@ -28,6 +28,7 @@ namespace Moonparser
                         break;
 
                     case "u":
+                        await ParserManager.Update();
                         Solver.Solve();
                         break;
 

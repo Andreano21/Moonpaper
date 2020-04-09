@@ -46,25 +46,25 @@ namespace Moonparser.NewsSources
             return items;
         }
 
-        protected override void GetUrl(Article _article, IElement _item)
+        protected override void GetUrl(Article _article, IElement reducedArticle)
         {
-            _article.Url = _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
+            _article.Url = reducedArticle.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
         }
 
-        protected override void GetBody(Article _article, IHtmlDocument _document)
+        protected override void GetBody(Article _article, IHtmlDocument fullArticle)
         {
             //_article.Body = _document.QuerySelector("div.news-tidings__speech").TextContent;
             //_article.Body.Trim();
         }
 
-        protected override void GetTitle(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetTitle(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Title = _item.QuerySelector("span.news-helpers_hide_mobile-small").TextContent;
+            _article.Title = reducedArticle.QuerySelector("span.news-helpers_hide_mobile-small").TextContent;
         }
 
-        protected override void GetSummary(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Summary = _item.QuerySelector("div.news-tidings__speech").TextContent;
+            _article.Summary = reducedArticle.QuerySelector("div.news-tidings__speech").TextContent;
 
             //Обрезка пробелов в начале и конце строки
             _article.Summary.Trim();
@@ -80,9 +80,9 @@ namespace Moonparser.NewsSources
             _article.Source.Url = "https://onliner.by/";
         }
 
-        protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string imgurl = _item.QuerySelector("div.news-tidings__image").Attributes["style"].Value;
+            string imgurl = reducedArticle.QuerySelector("div.news-tidings__image").Attributes["style"].Value;
             imgurl = imgurl.Replace("background-image: url(", "");
             imgurl = imgurl.Replace(");", "");
 
@@ -94,34 +94,65 @@ namespace Moonparser.NewsSources
             _article.DateTime = DateTime.Now;
         }
 
-        protected override void GetViews(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string strViews = _item.QuerySelector("div.news-tidings__button_views").TextContent;
-            strViews.Trim();
-
-            int StrToInt;
-
-            bool isParsed = Int32.TryParse(strViews, out StrToInt);
-
-            if (!isParsed)
+            //Загрузка данных из источника по умолчанию
+            if (reducedArticle != null && fullArticle != null)
             {
-                strViews = strViews.Replace(" ", "");
-                strViews = strViews.Replace("k", "000");
-                strViews = strViews.Replace("K", "000");
-                strViews = strViews.Replace(",", "");
-                strViews = strViews.Replace(".", "");
+                string strViews = reducedArticle.QuerySelector("div.news-tidings__button_views").TextContent;
+                strViews.Trim();
+
+                int StrToInt;
+
+                bool isParsed = Int32.TryParse(strViews, out StrToInt);
+
+                if (!isParsed)
+                {
+                    strViews = strViews.Replace(" ", "");
+                    strViews = strViews.Replace("k", "000");
+                    strViews = strViews.Replace("K", "000");
+                    strViews = strViews.Replace(",", "");
+                    strViews = strViews.Replace(".", "");
+                }
+
+                Int32.TryParse(strViews, out StrToInt);
+
+                _article.Views = StrToInt;
             }
+            //Загрузка данных из полноценной страницы статьи
+            else if (reducedArticle == null)
+            {
+                string strViews = fullArticle.QuerySelector("div.news-header__button_views").TextContent;
+                strViews.Trim();
 
-            Int32.TryParse(strViews, out StrToInt);
+                int StrToInt;
 
-            _article.Views = StrToInt;
+                bool isParsed = Int32.TryParse(strViews, out StrToInt);
 
+                if (!isParsed)
+                {
+                    strViews = strViews.Replace(" ", "");
+                    strViews = strViews.Replace("k", "000");
+                    strViews = strViews.Replace("K", "000");
+                    strViews = strViews.Replace(",", "");
+                    strViews = strViews.Replace(".", "");
+                }
+
+                Int32.TryParse(strViews, out StrToInt);
+
+                _article.Views = StrToInt;
+            }
+            //Загрузка данных из сокращенной страницы
+            else
+            {
+
+            }
         }
 
-        protected override void GetTags(Article _article, IHtmlDocument _document)
+        protected override void GetTags(Article _article, IHtmlDocument fullArticle)
         {
 
-            var tags = _document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("news-reference__link news-reference__link_secondary"));
+            var tags = fullArticle.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("news-reference__link news-reference__link_secondary"));
 
             foreach (var tag in tags)
             {

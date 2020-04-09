@@ -30,24 +30,24 @@ namespace Moonparser.NewsSources
             return items;
         }
 
-        protected override void GetUrl(Article _article, IElement _item)
+        protected override void GetUrl(Article _article, IElement reducedArticle)
         {
-            _article.Url = startUrl[0] + _item.QuerySelector("a").Attributes["href"].Value;
+            _article.Url = startUrl[0] + reducedArticle.QuerySelector("a").Attributes["href"].Value;
         }
 
-        protected override void GetBody(Article _article, IHtmlDocument _document)
+        protected override void GetBody(Article _article, IHtmlDocument fullArticle)
         {
-            _article.Body = _document.QuerySelector("div.main_text").TextContent;
+            _article.Body = fullArticle.QuerySelector("div.main_text").TextContent;
         }
 
-        protected override void GetTitle(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetTitle(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Title = _item.QuerySelector("img").Attributes["alt"].Value;
+            _article.Title = reducedArticle.QuerySelector("img").Attributes["alt"].Value;
         }
 
-        protected override void GetSummary(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Summary = _item.QuerySelector("div.brief").QuerySelector("p").TextContent;
+            _article.Summary = reducedArticle.QuerySelector("div.brief").QuerySelector("p").TextContent;
         }
 
         protected override void GetSource(Article _article)
@@ -60,9 +60,9 @@ namespace Moonparser.NewsSources
             _article.Source.Url = "https://stopgame.ru";
         }
 
-        protected override void GetUrlMainImg(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.UrlMainImg = _item.QuerySelector("img").Attributes["srcset"].Value;
+            _article.UrlMainImg = reducedArticle.QuerySelector("img").Attributes["srcset"].Value;
             _article.UrlMainImg = _article.UrlMainImg.Replace(" 2x", "");
         }
 
@@ -71,32 +71,32 @@ namespace Moonparser.NewsSources
             _article.DateTime = DateTime.Now;
         }
 
-        protected override void GetViews(Article _article, IElement _item, IHtmlDocument _document)
+        protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string strViews = _document.QuerySelectorAll("div").Where(item2 => item2.ClassName != null && item2.ClassName.Contains("lent-views pubinfo-div")).ToArray()[0].TextContent;
+            //Загрузка данных из источника по умолчанию
+            if (reducedArticle != null && fullArticle != null)
+            {
+                string strViews = fullArticle.QuerySelectorAll("div").Where(item2 => item2.ClassName != null && item2.ClassName.Contains("lent-views pubinfo-div")).ToArray()[0].TextContent;
+                _article.Views = Helper.ParseViews(strViews);
+            }
+            //Загрузка данных из полноценной страницы статьи
+            else if (reducedArticle == null)
+            {
+                string strViews = fullArticle.QuerySelectorAll("div").Where(item2 => item2.ClassName != null && item2.ClassName.Contains("lent-views pubinfo-div")).ToArray()[0].TextContent;
+                _article.Views = Helper.ParseViews(strViews);
+            }
+            //Загрузка данных из сокращенной страницы
+            else
+            {
 
-            //int StrToInt;
-
-            //bool isParsed = Int32.TryParse(strViews, out StrToInt);
-
-            //if (!isParsed)
-            //{
-            //    strViews = strViews.Replace("k", "000");
-            //    strViews = strViews.Replace("K", "000");
-            //    strViews = strViews.Replace(",", "");
-            //    strViews = strViews.Replace(".", "");
-            //}
-
-            //Int32.TryParse(strViews, out StrToInt);
-
-            _article.Views = Helper.ParseViews(strViews);
+            }
         }
 
-        protected override void GetTags(Article _article, IHtmlDocument _document)
+        protected override void GetTags(Article _article, IHtmlDocument fullArticle)
         {
             _article.Tags.Add(new Tag("Games"));
 
-            var DivTags = _document.QuerySelector("div.tags");
+            var DivTags = fullArticle.QuerySelector("div.tags");
             var Tags = DivTags.QuerySelectorAll("a");
 
             foreach (var tag in Tags)

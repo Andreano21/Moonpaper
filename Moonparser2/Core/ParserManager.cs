@@ -74,14 +74,15 @@ namespace Moonparser.Core
                         {
                             isNew = false;
 
-                                //Обновление количества просмотров статьи
-                               // var article = context.Articles
-                               //     .Where(u => u.Url == ParsedArticles[parsCount].Url)
-                               //     .FirstOrDefault();
+                            //Обновление количества просмотров статьи
+                            //var article = context.Articles.FirstOrDefault(u => u.Url == ParsedArticles[parsCount].Url);
+                            //.Where(u => u.Url == ParsedArticles[parsCount].Url)
+                            //.FirstOrDefault();
 
-                               //article.Views = ParsedArticles[parsCount].Views;
+                            StorageArticles[strCoutn].Views = ParsedArticles[parsCount].Views;
+                            //article.Views = ParsedArticles[parsCount].Views;
 
-                           break;
+                            break;
                         }
                     }
 
@@ -136,6 +137,39 @@ namespace Moonparser.Core
 
             //Обнуление списка
             ParsedArticles = new List<Article>();
+        }
+
+        static public async Task Update()
+        {
+            List<Article> stopgameNews = new List<Article>();
+            List<Article> habraNews = new List<Article>();
+            List<Article> bbcNews = new List<Article>();
+            List<Article> onlinerNews = new List<Article>();
+
+            HabraParser habraParser = new HabraParser();
+            StopgameParser stopgameParser = new StopgameParser();
+            BBCParser bbcParser = new BBCParser();
+            OnlinerParser onlinerParser = new OnlinerParser();
+
+            using (AppContext context = new AppContext())
+            {
+                StorageArticles = context.Articles.ToList();
+                context.Sources.Load();
+
+                stopgameNews = StorageArticles.Where(a => a.Source.Name == "stopgame.ru").ToList();
+                habraNews = StorageArticles.Where(a => a.Source.Name == "habr.com").ToList();
+                //bbcNews = StorageArticles.Where(a => a.Source.Name == "stopgame.ru").ToList();
+                onlinerNews = StorageArticles.Where(a => a.Source.Name == "onliner.by").ToList();
+
+                Task t1 = Task.Run(() => stopgameParser.UpdateAsync(stopgameNews));
+                Task t2 = Task.Run(() => habraParser.UpdateAsync(habraNews));
+                //Task t3 = Task.Run(() => bbcParser.ParseAsync(bbcNews));
+                Task t4 = Task.Run(() => onlinerParser.UpdateAsync(onlinerNews));
+
+                await Task.WhenAll(new[] { t1, t2, t4 });
+
+                context.SaveChanges();
+            }
         }
     }
 }
