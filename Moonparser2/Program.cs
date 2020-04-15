@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Moonparser.Core;
@@ -14,6 +15,9 @@ namespace Moonparser
         {
             string inputCommand;
 
+            int timerStep = 7200000;
+            TimerCallback tm = new TimerCallback(StartTimer);
+
             while (true)
             {
                 Console.Write(">");
@@ -21,7 +25,7 @@ namespace Moonparser
 
                 switch (inputCommand)
                 {
-                    case "p":
+                    case "s":
                         await ParserManager.Run();
                         ParserManager.Push();
                         Console.WriteLine("Парсинг окончен");
@@ -32,6 +36,10 @@ namespace Moonparser
                         Solver.Solve();
                         break;
 
+                    case "s t":
+                        Timer timer = new Timer(tm, null, 0, timerStep);
+                        break;
+
                     case "q":
                         return;
 
@@ -40,15 +48,21 @@ namespace Moonparser
                         break;
                 }
             }
+        }
+
+        private static async void StartTimer(object obj)
+        {
+            Console.WriteLine("Парсинг и обновление по таймеру начато");
 
 
+            await ParserManager.Run();
+            ParserManager.Push();
 
-            //await ParserManager.Run();
+            await ParserManager.Update();
+            Solver.Solve();
 
-            //ParserManager.Push();
+            Console.WriteLine("Парсинг и обновление по таймеру окончено");
 
-            //Console.WriteLine("Парсинг окончен");
-            //Console.ReadKey();
         }
     }
 }
