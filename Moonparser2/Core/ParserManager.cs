@@ -22,28 +22,34 @@ namespace Moonparser.Core
             List<Article> habraNews = new List<Article>();
             List<Article> bbcNews = new List<Article>();
             List<Article> onlinerNews = new List<Article>();
+            List<Article> rbcNews = new List<Article>();
 
 
             HabraParser habraParser = new HabraParser();
             StopgameParser stopgameParser = new StopgameParser();
             BBCParser bbcParser = new BBCParser();
             OnlinerParser onlinerParser = new OnlinerParser();
+            rbcParser rbcParser = new rbcParser();
 
 
             //Console.WriteLine(PageSolver.GetSolvedPage("https://habr.com/ru/"));
 
-            Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews));
-            Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews));
+            //Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews));
+            //Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews));
             //Task t3 = Task.Run(() => bbcParser.ParseAsync(bbcNews));
-            Task t4 = Task.Run(() => onlinerParser.ParseAsync(onlinerNews));
+            //Task t4 = Task.Run(() => onlinerParser.ParseAsync(onlinerNews));
+            Task t5 = Task.Run(() => rbcParser.ParseAsync(rbcNews, "solved"));
 
 
-            await Task.WhenAll(new[] {t1,t2,t4});
+            //await Task.WhenAll(new[] {t1,t2,t4,t5 });
+            await Task.WhenAll(new[] { t5 });
+
 
             ParsedArticles.AddRange(stopgameNews);
             ParsedArticles.AddRange(habraNews);
             //ParsedArticles.AddRange(bbcNews);
             ParsedArticles.AddRange(onlinerNews);
+            ParsedArticles.AddRange(rbcNews);
 
         }
 
@@ -145,11 +151,15 @@ namespace Moonparser.Core
             List<Article> habraNews = new List<Article>();
             List<Article> bbcNews = new List<Article>();
             List<Article> onlinerNews = new List<Article>();
+            List<Article> rbcNews = new List<Article>();
+
 
             HabraParser habraParser = new HabraParser();
             StopgameParser stopgameParser = new StopgameParser();
             BBCParser bbcParser = new BBCParser();
             OnlinerParser onlinerParser = new OnlinerParser();
+            rbcParser rbcParser = new rbcParser();
+
 
             using (AppContext context = new AppContext())
             {
@@ -160,13 +170,17 @@ namespace Moonparser.Core
                 habraNews = StorageArticles.Where(a => a.Source.Name == "habr.com").ToList();
                 //bbcNews = StorageArticles.Where(a => a.Source.Name == "stopgame.ru").ToList();
                 onlinerNews = StorageArticles.Where(a => a.Source.Name == "onliner.by").ToList();
+                rbcNews = StorageArticles.Where(a => a.Source.Name == "rbc.ru").ToList();
+
 
                 Task t1 = Task.Run(() => stopgameParser.UpdateAsync(stopgameNews));
                 Task t2 = Task.Run(() => habraParser.UpdateAsync(habraNews));
                 //Task t3 = Task.Run(() => bbcParser.ParseAsync(bbcNews));
                 Task t4 = Task.Run(() => onlinerParser.UpdateAsync(onlinerNews));
+                Task t5 = Task.Run(() => rbcParser.UpdateAsync(rbcNews));
 
-                await Task.WhenAll(new[] { t1, t2, t4 });
+
+                await Task.WhenAll(new[] { t1, t2, t4, t5 });
 
                 context.SaveChanges();
             }

@@ -14,52 +14,56 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="tag-container">
-                            <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
-                            <a class="btn tag-container-content" href="@item.Source.Url" target="_blank">@item.Source.Name</a>
-                            <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
-                        </div>
-                        @{
-                            if (item.ArticleTags != null)
-                            {
-                                foreach (var tag in item.ArticleTags)
+                        <div class="card-footer-left">
+                            <div class="tag-container">
+                                <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
+                                <a class="btn tag-container-content" href="@item.Source.Url" target="_blank">@item.Source.Name</a>
+                                <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
+                            </div>
+                            @{
+                                if (item.ArticleTags != null)
                                 {
-                                    <div class="tag-container">
-                                        @if (User.Identity.IsAuthenticated)
-                                        {
-                                            <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
-                                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
-                                                <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="btn btn-outline-danger tag-container-button tag-container-button-left" type="submit" value="-" />
-                                            </form>
-                                            <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                            <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
-                                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
-                                                <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="btn btn-outline-danger tag-container-button tag-container-button-right" type="submit" value="+" />
-                                            </form>
-                                        }
-                                        else
-                                        {
-                                            <a href="/Identity/Account/Register" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</a>
-                                            <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                            <a href="/Identity/Account/Register" class="btn btn-outline-success tag-container-button tag-container-button-right">+</a>
-                                        }
-                                    </div>
+                                    foreach (var tag in item.ArticleTags)
+                                    {
+                                        <div class="tag-container">
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
+                                                    <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                                    <input name="TagId" type="hidden" value="@tag.Tag.Id">
+                                                    <input class="btn btn-outline-danger tag-container-button tag-container-button-left" type="submit" value="-" />
+                                                </form>
+                                                <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
+                                                <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
+                                                    <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                                    <input name="TagId" type="hidden" value="@tag.Tag.Id">
+                                                    <input class="btn btn-outline-danger tag-container-button tag-container-button-right" type="submit" value="+" />
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <a href="/Identity/Account/Register" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</a>
+                                                <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
+                                                <a href="/Identity/Account/Register" class="btn btn-outline-success tag-container-button tag-container-button-right">+</a>
+                                            }
+                                        </div>
+                                    }
                                 }
                             }
-                        }
-                        <div class="date-container">
-                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">event_available</i>
-                            <div class="date-container-body">@Helper.GetTimeForArticle(item.DateTime)</div>
                         </div>
-                        <div class="views-container">
-                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">visibility</i>
-                            <div class="date-container-views">@item.Views</div>
-                        </div>
-                        <div class="views-container">
-                            <i class="material-icons" style="font-size:20px; vertical-align: middle;">favorite</i>
-                            <div class="date-container-fav">@item.Rating</div>
+                        <div class="card-footer-right">
+                            <div class="properties-container">
+                                <i class="material-icons" style="font-size:20px; vertical-align: middle;">event_available</i>
+                                <div class="date-container-body">@Helper.GetTimeForArticle(item.DateTime)</div>
+                            </div>
+                            <div class="properties-container">
+                                <i class="material-icons" style="font-size:20px; vertical-align: middle;">visibility</i>
+                                <div class="date-container-views">@item.Views</div>
+                            </div>
+                            <div class="properties-container">
+                                <i class="material-icons" style="font-size:20px; vertical-align: middle;">favorite</i>
+                                <div class="date-container-fav">@item.Rating</div>
+                            </div>
                         </div>
                     </div>
                 </div>

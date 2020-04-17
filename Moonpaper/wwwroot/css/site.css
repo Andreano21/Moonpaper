@@ -1,7 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
+﻿a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
@@ -103,6 +100,15 @@ img.articleImg {
     padding-top: 4px;
 }
 
+.card-footer-left {
+    display: inline-block;
+}
+
+.card-footer-right {
+    display: inline-block;
+    float: right;
+}
+
 .tag {
     display: inline-block;
     border: 1px solid #e5e5e5;
@@ -126,9 +132,9 @@ img.articleImg {
     margin-right: -5px;
 }
 
-    .tag-container-content:hover {
-        color: #909CA5;
-    }
+.tag-container-content:hover {
+    color: #909CA5;
+}
 
 
 .tag-container-button {
@@ -146,10 +152,10 @@ img.articleImg {
     border-radius: 4px 0px 0px 4px;
 }
 
-    .tag-container-button-left:hover {
-        border-color: #FE3533;
-        background-color: #FE3533;
-    }
+.tag-container-button-left:hover {
+    border-color: #FE3533;
+    background-color: #FE3533;
+}
 
 .tag-container-button-right {
     line-height: 22px;
@@ -159,17 +165,17 @@ img.articleImg {
     border-radius: 0px 4px 4px 0px;
 }
 
-    .tag-container-button-right:hover {
-        border-color: #8DB046;
-        background-color: #8DB046;
-    }
+.tag-container-button-right:hover {
+    border-color: #8DB046;
+    background-color: #8DB046;
+}
 
-.date-container {
+.properties-container {
     display: inline-block;
     border: 1px solid #909CA5;
     border-radius: 3px;
     height: 25px;
-    line-height: 22px;
+    line-height: 20px;
     vertical-align: middle;
     padding-left: 5px;
     padding-right: 5px;
@@ -181,19 +187,6 @@ img.articleImg {
     display: inline-block;
     vertical-align: middle;
     padding-left: 5px;
-}
-
-.views-container {
-    display: inline-block;
-    border: 1px solid #909CA5;
-    border-radius: 3px;
-    height: 25px;
-    line-height: 22px;
-    vertical-align: middle;
-    padding-left: 5px;
-    padding-right: 5px;
-    margin: 0px;
-    color: #5A6268;
 }
 
 .date-container-views {

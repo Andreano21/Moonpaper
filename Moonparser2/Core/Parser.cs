@@ -117,8 +117,9 @@ namespace Moonparser.Core
         /// Выполняет парсинг статей
         /// </summary>
         /// <param name="_articles">Список в который записываются новые спаршенные статьи</param>
+        /// <param name="solverParameter">Парматер определяеющий тип загрузки страниц: nonsolved - простая загрузка html страниц, solved - загрузка html страниц c обработкой JS кода</param>
         /// <returns></returns>
-        public async Task ParseAsync(List<Article> _articles)
+        public async Task ParseAsync(List<Article> _articles, string solverParameter)
         {
             //Определение главной страницы с которой будут загружены превью
             GetStartUrl();
@@ -130,9 +131,18 @@ namespace Moonparser.Core
 
             //Получение страниц в виде строк
             for (int i = 0; i < startUrl.Length; i++)
-            { 
-                sources[i] = await HtmlLoader.LoadAsync(startUrl[i]);
-                //sources[i] = PageSolver.GetSolvedPage(startUrl[i]);
+            {
+                switch (solverParameter)
+                {
+                    case "nonsolved":
+                        sources[i] = await HtmlLoader.LoadAsync(startUrl[i]);
+                        break;
+                    case "solved":
+                        sources[i] = PageSolver.GetSolvedPage(startUrl[i]);
+                        break;
+                }
+
+                sources[i] = PageSolver.GetSolvedPage(startUrl[i]);
 
                 documents[i] = await htmlParser.ParseDocumentAsync(sources[i]);
             }
@@ -155,12 +165,28 @@ namespace Moonparser.Core
                     //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrl. Источник: " + startUrl);
                 }
 
+                //Загрузка страницы статьи
                 try
                 {
-                    source = await HtmlLoader.LoadAsync(article.Url);
-                    //source = PageSolver.GetSolvedPage(startUrl);
-                    document = await htmlParser.ParseDocumentAsync(source);
+                    switch (solverParameter)
+                    {
+                        case "nonsolved":
+                            source = await HtmlLoader.LoadAsync(article.Url);
+                            break;
+                        case "solved":
+                            source = PageSolver.GetSolvedPage(article.Url);
+                            break;
+                    }
 
+                    document = await htmlParser.ParseDocumentAsync(source);
+                }
+                catch
+                {
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при загрузке страницы. Источник: " + startUrl);
+                }
+
+                try
+                {
                     //Загрузка полной статьи
                     GetBody(article, document);
                 }

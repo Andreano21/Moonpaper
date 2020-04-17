@@ -94,6 +94,7 @@
     <Compile Include="Core\Tag.cs" />
     <Compile Include="NewsSources\BBCParser.cs" />
     <Compile Include="NewsSources\HabraParser.cs" />
+    <Compile Include="NewsSources\rbcParser.cs" />
     <Compile Include="NewsSources\OnlinerParser.cs" />
     <Compile Include="NewsSources\StopgameParser.cs" />
     <Compile Include="Program.cs" />
