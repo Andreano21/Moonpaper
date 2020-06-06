@@ -34,14 +34,14 @@ namespace Moonparser.Core
 
             //Console.WriteLine(PageSolver.GetSolvedPage("https://habr.com/ru/"));
 
-            //Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews));
-            //Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews));
-            //Task t3 = Task.Run(() => bbcParser.ParseAsync(bbcNews));
-            //Task t4 = Task.Run(() => onlinerParser.ParseAsync(onlinerNews));
-            Task t5 = Task.Run(() => rbcParser.ParseAsync(rbcNews, "solved"));
+            //Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews, PageSolverType.Not));
+            //Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews, PageSolverType.Not));
+            //Task t3 = Task.Run(() => bbcParser.ParseAsync(bbcNews, PageSolverType.Not));
+            //Task t4 = Task.Run(() => onlinerParser.ParseAsync(onlinerNews, PageSolverType.IE));
+            Task t5 = Task.Run(() => rbcParser.ParseAsync(rbcNews, PageSolverType.CEF));
 
 
-            //await Task.WhenAll(new[] {t1,t2,t4,t5 });
+            //await Task.WhenAll(new[] {t1,t2,t3,t4 });
             await Task.WhenAll(new[] { t5 });
 
 

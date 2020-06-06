@@ -16,7 +16,7 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            startUrl = new string[] { "https://tech.onliner.by", "https://people.onliner.by", "https://realt.onliner.by", "https://auto.onliner.by"};
+            startUrls = new string[] { "https://tech.onliner.by", "https://people.onliner.by", "https://realt.onliner.by", "https://auto.onliner.by"};
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -31,7 +31,7 @@ namespace Moonparser.NewsSources
                 {
                     try
                     {
-                        string fullurl = startUrl[d] + _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
+                        string fullurl = startUrls[d] + _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value;
                         _item.QuerySelector("a.news-tidings__link").Attributes["href"].Value = fullurl;
                     }
                     catch

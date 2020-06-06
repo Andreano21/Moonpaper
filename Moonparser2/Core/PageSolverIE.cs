@@ -8,13 +8,13 @@ using System.Windows.Forms;
 
 namespace Moonparser.Core
 {
-    class PageSolver
+    class PageSolverIE
     {
         string result = null;
 
         public static string GetSolvedPage(string url)
         {
-            PageSolver ps = new PageSolver();
+            PageSolverIE ps = new PageSolverIE();
 
             Task<string> t1 = Task.Run(async () => await ps.GetSolvedPageAsync(url));
 
@@ -23,7 +23,7 @@ namespace Moonparser.Core
 
         public async Task<string> GetSolvedPageAsync(string url)
         {
-            runBrowserThread(url);
+            RunBrowserThread(url);
 
             //Время на обработку JS
             await Task.Delay(3000);
@@ -31,11 +31,11 @@ namespace Moonparser.Core
             return result;
         }
 
-        void runBrowserThread(string url)
+        void RunBrowserThread(string url)
         {
             var th = new Thread(() => {
                 var br = new WebBrowser();
-                br.DocumentCompleted += browser_DocumentCompleted;
+                br.DocumentCompleted += Browser_DocumentCompleted;
                 br.ScriptErrorsSuppressed = true;
                 br.Navigate(url);
                 Application.Run();
@@ -44,7 +44,7 @@ namespace Moonparser.Core
             th.Start();
         }
 
-        void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        void Browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             var br = sender as WebBrowser;
             if (br.Url == e.Url)

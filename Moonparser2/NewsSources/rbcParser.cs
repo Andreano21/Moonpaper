@@ -16,7 +16,7 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            startUrl = new string[] { "https://www.rbc.ru/" };
+            startUrls = new string[] { "https://www.rbc.ru/" };
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -81,7 +81,11 @@ namespace Moonparser.NewsSources
             //Загрузка данных из источника по умолчанию
             if (reducedArticle != null && fullArticle != null)
             {
-                string strViews = fullArticle.QuerySelector("div.article__header__counter-block").QuerySelector("span.article__header__counter js-insert-views-count").TextContent;
+
+                //string strViews1 = fullArticle.Body.Text();
+                //Console.WriteLine(strViews1);
+
+                string strViews = fullArticle.QuerySelector("div.article__header__counter-block").QuerySelector("span.article__header__counter").TextContent;
 
                 int StrToInt;
 

@@ -16,7 +16,7 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            startUrl = new string[] { "https://www.bbc.com/russian/news" };
+            startUrls = new string[] { "https://www.bbc.com/russian/news" };
         }
         protected override IEnumerable<IElement> GetItems()
         {

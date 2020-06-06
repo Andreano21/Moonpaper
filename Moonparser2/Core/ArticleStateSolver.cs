@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Moonparser.Core
 {
-    static class Solver
+    static class ArticleStateSolver
     {
         static public void Solve()
         {

@@ -9,13 +9,18 @@ using AngleSharp.Html.Parser;
 
 namespace Moonparser.Core
 {
+
+    enum PageSolverType
+    { 
+        Not, IE, CEF
+    }
     /// <summary>
     /// Обеспечивает парсинг статей
     /// </summary>
     abstract class Parser
     {
         protected List<Article> articles = new List<Article>();
-        protected string[] startUrl = null;
+        protected string[] startUrls = null;
         protected string[] sources = null;
         protected IHtmlDocument[] documents = null;
         protected IHtmlDocument document = null;
@@ -119,30 +124,33 @@ namespace Moonparser.Core
         /// <param name="_articles">Список в который записываются новые спаршенные статьи</param>
         /// <param name="solverParameter">Парматер определяеющий тип загрузки страниц: nonsolved - простая загрузка html страниц, solved - загрузка html страниц c обработкой JS кода</param>
         /// <returns></returns>
-        public async Task ParseAsync(List<Article> _articles, string solverParameter)
+        public async Task ParseAsync(List<Article> _articles, PageSolverType pageSolverType)
         {
             //Определение главной страницы с которой будут загружены превью
             GetStartUrl();
 
             HtmlParser htmlParser = new HtmlParser();
 
-            sources = new string[startUrl.Length];
-            documents = new IHtmlDocument[startUrl.Length];
+            sources = new string[startUrls.Length];
+            documents = new IHtmlDocument[startUrls.Length];
 
             //Получение страниц в виде строк
-            for (int i = 0; i < startUrl.Length; i++)
+            for (int i = 0; i < startUrls.Length; i++)
             {
-                switch (solverParameter)
+                switch (pageSolverType)
                 {
-                    case "nonsolved":
-                        sources[i] = await HtmlLoader.LoadAsync(startUrl[i]);
+                    case PageSolverType.Not:
+                        sources[i] = await HtmlLoader.LoadAsync(startUrls[i]);
                         break;
-                    case "solved":
-                        sources[i] = PageSolver.GetSolvedPage(startUrl[i]);
+                    case PageSolverType.IE:
+                        sources[i] = PageSolverIE.GetSolvedPage(startUrls[i]);
+                        break;
+                    case PageSolverType.CEF:
+                        sources[i] = await PageSolverCEF.GetInstance().GetSolvedPage(startUrls[i]);
                         break;
                 }
 
-                sources[i] = PageSolver.GetSolvedPage(startUrl[i]);
+                sources[i] = PageSolverIE.GetSolvedPage(startUrls[i]);
 
                 documents[i] = await htmlParser.ParseDocumentAsync(sources[i]);
             }
@@ -168,13 +176,16 @@ namespace Moonparser.Core
                 //Загрузка страницы статьи
                 try
                 {
-                    switch (solverParameter)
+                    switch (pageSolverType)
                     {
-                        case "nonsolved":
+                        case PageSolverType.Not:
                             source = await HtmlLoader.LoadAsync(article.Url);
                             break;
-                        case "solved":
-                            source = PageSolver.GetSolvedPage(article.Url);
+                        case PageSolverType.IE:
+                            source = PageSolverIE.GetSolvedPage(article.Url);
+                            break;
+                        case PageSolverType.CEF:
+                            source = await PageSolverCEF.GetInstance().GetSolvedPage(article.Url);
                             break;
                     }
 
@@ -259,7 +270,7 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetViews. Источник: " + startUrl);
+                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetViews. Источник: ");
                 }
                 try
                 {
@@ -279,7 +290,7 @@ namespace Moonparser.Core
                 }
             }
             
-            Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrl[0]);
+            Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrls[0]);
         }
 
         /// <summary>

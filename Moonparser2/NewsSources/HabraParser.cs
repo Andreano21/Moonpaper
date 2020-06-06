@@ -20,7 +20,7 @@ namespace Moonparser.NewsSources
         protected override void GetStartUrl()
         {
             //startUrl = "https://habr.com/ru/top/";
-            startUrl = new string[] { "https://habr.com/ru/top/" };
+            startUrls = new string[] { "https://habr.com/ru/top/" };
         }
         protected override IEnumerable<IElement> GetItems()
         {

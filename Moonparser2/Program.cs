@@ -33,7 +33,7 @@ namespace Moonparser
 
                     case "u":
                         await ParserManager.Update();
-                        Solver.Solve();
+                        ArticleStateSolver.Solve();
                         break;
 
                     case "s t":
@@ -59,7 +59,7 @@ namespace Moonparser
             ParserManager.Push();
 
             await ParserManager.Update();
-            Solver.Solve();
+            ArticleStateSolver.Solve();
 
             Console.WriteLine("Парсинг и обновление по таймеру окончено");
 

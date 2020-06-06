@@ -16,7 +16,7 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            startUrl = new string[] { "https://stopgame.ru" };
+            startUrls = new string[] { "https://stopgame.ru" };
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -32,7 +32,7 @@ namespace Moonparser.NewsSources
 
         protected override void GetUrl(Article _article, IElement reducedArticle)
         {
-            _article.Url = startUrl[0] + reducedArticle.QuerySelector("a").Attributes["href"].Value;
+            _article.Url = startUrls[0] + reducedArticle.QuerySelector("a").Attributes["href"].Value;
         }
 
         protected override void GetBody(Article _article, IHtmlDocument fullArticle)
