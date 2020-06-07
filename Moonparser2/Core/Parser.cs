@@ -99,7 +99,7 @@ namespace Moonparser.Core
         /// </summary>
         /// <param name="_article">Статья(объект) которой присваивается время</param>
         /// <returns></returns>
-        protected abstract void GetDateTime(Article _article);
+        protected abstract void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle);
 
         /// <summary>
         /// Получает количество просмотров статьи
@@ -248,7 +248,7 @@ namespace Moonparser.Core
 
                 try
                 {
-                    GetDateTime(article);
+                    GetDateTime(article, item, document);
                 }
                 catch
                 {

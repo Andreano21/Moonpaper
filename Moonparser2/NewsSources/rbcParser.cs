@@ -71,7 +71,7 @@ namespace Moonparser.NewsSources
             _article.UrlMainImg = imgurl;
         }
 
-        protected override void GetDateTime(Article _article)
+        protected override void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.DateTime = DateTime.Now;
         }

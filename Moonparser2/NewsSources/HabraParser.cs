@@ -19,7 +19,6 @@ namespace Moonparser.NewsSources
     {
         protected override void GetStartUrl()
         {
-            //startUrl = "https://habr.com/ru/top/";
             startUrls = new string[] { "https://habr.com/ru/top/" };
         }
         protected override IEnumerable<IElement> GetItems()
@@ -69,7 +68,7 @@ namespace Moonparser.NewsSources
             _article.UrlMainImg = reducedArticle.QuerySelector("div.post__text").QuerySelector("img").Attributes["src"].Value;
         }
 
-        protected override void GetDateTime(Article _article)
+        protected override void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.DateTime = DateTime.Now;
         }
