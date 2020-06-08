@@ -119,6 +119,7 @@
     <Compile Include="Core\Source.cs" />
     <Compile Include="Core\Tag.cs" />
     <Compile Include="NewsSources\HabraParser.cs" />
+    <Compile Include="NewsSources\RiaParser.cs" />
     <Compile Include="NewsSources\TutbyParser.cs" />
     <Compile Include="NewsSources\rbcParser.cs" />
     <Compile Include="NewsSources\OnlinerParser.cs" />

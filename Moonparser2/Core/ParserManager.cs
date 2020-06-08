@@ -23,6 +23,8 @@ namespace Moonparser.Core
             List<Article> onlinerNews = new List<Article>();
             List<Article> rbcNews = new List<Article>();
             List<Article> tutbyNews = new List<Article>();
+            List<Article> riaNews = new List<Article>();
+
 
 
             HabraParser habraParser = new HabraParser();
@@ -30,6 +32,8 @@ namespace Moonparser.Core
             OnlinerParser onlinerParser = new OnlinerParser();
             rbcParser rbcParser = new rbcParser();
             TutbyParser tutbyParser = new TutbyParser();
+            RiaParser riaParser = new RiaParser();
+
 
 
             //Console.WriteLine(PageSolver.GetSolvedPage("https://habr.com/ru/"));
@@ -38,11 +42,13 @@ namespace Moonparser.Core
             //Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews, PageSolverType.Not));
             //Task t3 = Task.Run(() => onlinerParser.ParseAsync(onlinerNews, PageSolverType.IE));
             //Task t4 = Task.Run(() => rbcParser.ParseAsync(rbcNews, PageSolverType.CEF));
-            Task t5 = Task.Run(() => tutbyParser.ParseAsync(tutbyNews, PageSolverType.Not));
+            //Task t5 = Task.Run(() => tutbyParser.ParseAsync(tutbyNews, PageSolverType.Not));
+            Task t6 = Task.Run(() => riaParser.ParseAsync(riaNews, PageSolverType.Not));
 
 
-            //await Task.WhenAll(new[] {t1,t2,t3,t4 });
-            await Task.WhenAll(new[] { t5 });
+
+            //await Task.WhenAll(new[] {t1,t2,t3,t4,t5,t6 });
+            await Task.WhenAll(new[] { t6 });
 
 
             ParsedArticles.AddRange(stopgameNews);
@@ -50,7 +56,7 @@ namespace Moonparser.Core
             ParsedArticles.AddRange(onlinerNews);
             ParsedArticles.AddRange(rbcNews);
             ParsedArticles.AddRange(tutbyNews);
-
+            ParsedArticles.AddRange(riaNews);
 
         }
 
