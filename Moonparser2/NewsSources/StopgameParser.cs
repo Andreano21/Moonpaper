@@ -14,7 +14,7 @@ namespace Moonparser.NewsSources
 {
     class StopgameParser : Parser
     {
-        protected override void GetStartUrl()
+        protected override void GetStartUrls()
         {
             startUrls = new string[] { "https://stopgame.ru" };
         }

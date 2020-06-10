@@ -29,7 +29,7 @@ namespace Moonparser.Core
         /// <summary>
         /// Задает ссылки на первичные страницы
         /// </summary>
-        protected abstract void GetStartUrl();
+        protected abstract void GetStartUrls();
 
         /// <summary>
         /// Получает список html блоков содержащих укороченные статьи
@@ -126,8 +126,8 @@ namespace Moonparser.Core
         /// <returns></returns>
         public async Task ParseAsync(List<Article> _articles, PageSolverType pageSolverType)
         {
-            //Определение главной страницы с которой будут загружены превью
-            GetStartUrl();
+            //Определение главных страниц с которых будут загружены превью
+            GetStartUrls();
 
             HtmlParser htmlParser = new HtmlParser();
 
@@ -149,8 +149,6 @@ namespace Moonparser.Core
                         sources[i] = await PageSolverCEF.GetInstance().GetSolvedPage(startUrls[i]);
                         break;
                 }
-
-                sources[i] = PageSolverIE.GetSolvedPage(startUrls[i]);
 
                 documents[i] = await htmlParser.ParseDocumentAsync(sources[i]);
             }

@@ -17,7 +17,7 @@ namespace Moonparser.NewsSources
     /// </summary>
     class HabraParser : Parser
     {
-        protected override void GetStartUrl()
+        protected override void GetStartUrls()
         {
             startUrls = new string[] { "https://habr.com/ru/top/" };
         }

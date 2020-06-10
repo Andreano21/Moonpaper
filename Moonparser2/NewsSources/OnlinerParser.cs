@@ -14,7 +14,7 @@ namespace Moonparser.NewsSources
 {
     class OnlinerParser : Parser
     {
-        protected override void GetStartUrl()
+        protected override void GetStartUrls()
         {
             startUrls = new string[] { "https://tech.onliner.by", "https://people.onliner.by", "https://realt.onliner.by", "https://auto.onliner.by"};
         }

@@ -14,7 +14,7 @@ namespace Moonparser.NewsSources
 {
     class rbcParser : Parser
     {
-        protected override void GetStartUrl()
+        protected override void GetStartUrls()
         {
             startUrls = new string[] { "https://www.rbc.ru/" };
         }
