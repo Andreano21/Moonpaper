@@ -13,9 +13,11 @@ namespace Moonparser.NewsSources
 {
     class Pda4Parser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://4pda.ru/" };
+            sourceName = "4pda.ru";
+            sourceUrl = "https://4pda.ru/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -54,16 +56,6 @@ namespace Moonparser.NewsSources
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Summary = reducedArticle.QuerySelector("div.description").QuerySelector("[itemprop = description]").TextContent;
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "4pda.ru";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://4pda.ru/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

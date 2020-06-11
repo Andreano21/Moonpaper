@@ -25,11 +25,14 @@ namespace Moonparser.Core
         protected IHtmlDocument[] documents = null;
         protected IHtmlDocument document = null;
         protected string source = null;
+        protected PageSolverType pageSolverType = PageSolverType.Not;
+        public string sourceName = null;
+        public string sourceUrl = null;
 
         /// <summary>
-        /// Задает ссылки на первичные страницы
+        /// определяет настройки парсинга а также задает список url адресов предназначенных для парсинга
         /// </summary>
-        protected abstract void GetStartUrls();
+        protected abstract void SetSettings();
 
         /// <summary>
         /// Получает список html блоков содержащих укороченные статьи
@@ -76,14 +79,20 @@ namespace Moonparser.Core
         /// </summary>
         /// <param name="_article">Статья(объект) которой присваивается название источника</param>
         /// <returns></returns>
-        protected abstract void GetSource(Article _article);
+        protected void GetSourceName(Article _article)
+        { 
+            _article.Source.Name = sourceName;
+        }
 
         /// <summary>
         /// Получает ссылку на ресурс с которого получена статься
         /// </summary>
         /// <param name="_article">Статья(объект) которой присваивается ссылка на ресурс</param>
         /// <returns></returns>
-        protected abstract void GetUrlSource(Article _article);
+        protected void GetSourceUrl(Article _article)
+        { 
+            _article.Source.Url = sourceUrl;
+        }
 
         /// <summary>
         /// Получает ссылку на КДПВ
@@ -124,10 +133,9 @@ namespace Moonparser.Core
         /// <param name="_articles">Список в который записываются новые спаршенные статьи</param>
         /// <param name="solverParameter">Парматер определяеющий тип загрузки страниц: nonsolved - простая загрузка html страниц, solved - загрузка html страниц c обработкой JS кода</param>
         /// <returns></returns>
-        public async Task ParseAsync(List<Article> _articles, PageSolverType pageSolverType)
+        public async Task ParseAsync(List<Article> _articles)
         {
-            //Определение главных страниц с которых будут загружены превью
-            GetStartUrls();
+            SetSettings();
 
             HtmlParser htmlParser = new HtmlParser();
 
@@ -228,7 +236,7 @@ namespace Moonparser.Core
 
                 try
                 {
-                    GetSource(article);
+                    GetSourceName(article);
                 }
                 catch
                 {
@@ -237,7 +245,7 @@ namespace Moonparser.Core
 
                 try
                 {
-                    GetUrlSource(article);
+                    GetSourceUrl(article);
                 }
                 catch
                 {

@@ -13,9 +13,11 @@ namespace Moonparser.NewsSources
 {
     class MkParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://www.mk.ru/news/"};
+            sourceName = "mk.ru";
+            sourceUrl = "https://www.mk.ru/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -50,16 +52,6 @@ namespace Moonparser.NewsSources
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Summary = fullArticle.QuerySelector("div.inread-content").QuerySelector("p").TextContent;
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "mk.ru";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://www.mk.ru/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using Moonparser.NewsSources;
 using Moonparser.Core;
 using System.Data.Entity;
@@ -18,61 +19,43 @@ namespace Moonparser.Core
 
         static public async Task Run()
         {
-            List<Article> stopgameNews = new List<Article>();
-            List<Article> habraNews = new List<Article>();
-            List<Article> onlinerNews = new List<Article>();
-            List<Article> rbcNews = new List<Article>();
-            List<Article> tutbyNews = new List<Article>();
-            List<Article> riaNews = new List<Article>();
-            List<Article> elementyNews = new List<Article>();
-            List<Article> mkNews = new List<Article>();
-            List<Article> kpNews = new List<Article>();
-            List<Article> pda4News = new List<Article>();
 
+            List<Parser> parsers = new List<Parser>();
 
-            HabraParser habraParser = new HabraParser();
-            StopgameParser stopgameParser = new StopgameParser();
-            OnlinerParser onlinerParser = new OnlinerParser();
-            rbcParser rbcParser = new rbcParser();
-            TutbyParser tutbyParser = new TutbyParser();
-            RiaParser riaParser = new RiaParser();
-            ElementyParser elementyParser = new ElementyParser();
-            MkParser mkParser = new MkParser();
-            KpParser kpParser = new KpParser();
-            Pda4Parser pda4Parser = new Pda4Parser();
+            parsers.Add(new HabraParser());
+            parsers.Add(new StopgameParser());
+            parsers.Add(new OnlinerParser());
+            parsers.Add(new rbcParser());
+            parsers.Add(new TutbyParser());
+            parsers.Add(new RiaParser());
+            parsers.Add(new ElementyParser());
+            parsers.Add(new MkParser());
+            parsers.Add(new KpParser());
+            parsers.Add(new Pda4Parser());
 
-            //Console.WriteLine(PageSolver.GetSolvedPage("https://habr.com/ru/"));
+            List<Article>[] articleLists = new List<Article>[parsers.Count];
 
-            //Task t1 = Task.Run(() => stopgameParser.ParseAsync(stopgameNews, PageSolverType.Not));
-            //Task t2 = Task.Run(() => habraParser.ParseAsync(habraNews, PageSolverType.Not));
-            //Task t3 = Task.Run(() => onlinerParser.ParseAsync(onlinerNews, PageSolverType.IE));
-            //Task t4 = Task.Run(() => rbcParser.ParseAsync(rbcNews, PageSolverType.CEF));
-            //Task t5 = Task.Run(() => tutbyParser.ParseAsync(tutbyNews, PageSolverType.Not));
-            //Task t6 = Task.Run(() => riaParser.ParseAsync(riaNews, PageSolverType.Not));
-            //Task t7 = Task.Run(() => elementyParser.ParseAsync(elementyNews, PageSolverType.Not));
-            //Task t8 = Task.Run(() => mkParser.ParseAsync(mkNews, PageSolverType.Not));
-            //Task t9 = Task.Run(() => kpParser.ParseAsync(kpNews, PageSolverType.Not));
-            Task t10 = Task.Run(() => pda4Parser.ParseAsync(pda4News, PageSolverType.Not));
+            for (int i = 0; i < articleLists.Length; i++)
+            {
+                articleLists[i] = new List<Article>();
+            }
 
+            Task[] tasksForParsers = new Task[parsers.Count];
 
+            for (int i = 0; i < articleLists.Length;++i)
+            {
+                tasksForParsers[i] = Task.Run(() => parsers[i].ParseAsync(articleLists[i]));
+                
+                //Грязный хак.Иначе цикл for игнорирует ограничения и выходит за пределы массива
+                Thread.Sleep(100);
+            }
 
+            await Task.WhenAll(tasksForParsers);
 
-            //await Task.WhenAll(new[] { t1, t2, t3, t4, t5, t6, t7, t8, t9, t10 });
-            await Task.WhenAll(new[] { t10 });
-
-
-            ParsedArticles.AddRange(stopgameNews);
-            ParsedArticles.AddRange(habraNews);
-            ParsedArticles.AddRange(onlinerNews);
-            ParsedArticles.AddRange(rbcNews);
-            ParsedArticles.AddRange(tutbyNews);
-            ParsedArticles.AddRange(riaNews);
-            ParsedArticles.AddRange(elementyNews);
-            ParsedArticles.AddRange(mkNews);
-            ParsedArticles.AddRange(kpNews);
-            ParsedArticles.AddRange(pda4News);
-
-
+            foreach (var art in articleLists)
+            { 
+                ParsedArticles.AddRange(art);
+            }
         }
 
         /// <summary>
@@ -175,54 +158,67 @@ namespace Moonparser.Core
         /// </summary>
         static public async Task Update()
         {
-            List<Article> stopgameNews = new List<Article>();
-            List<Article> habraNews = new List<Article>();
-            List<Article> onlinerNews = new List<Article>();
-            List<Article> rbcNews = new List<Article>();
-            List<Article> tutbyNews = new List<Article>();
-            List<Article> riaNews = new List<Article>();
-            List<Article> elementyNews = new List<Article>();
-            List<Article> mkNews = new List<Article>();
-            List<Article> kpNews = new List<Article>();
+            List<Parser> parsers = new List<Parser>();
 
-            HabraParser habraParser = new HabraParser();
-            StopgameParser stopgameParser = new StopgameParser();
-            OnlinerParser onlinerParser = new OnlinerParser();
-            rbcParser rbcParser = new rbcParser();
-            TutbyParser tutbyParser = new TutbyParser();
-            RiaParser riaParser = new RiaParser();
-            ElementyParser elementyParser = new ElementyParser();
-            MkParser mkParser = new MkParser();
-            KpParser kpParser = new KpParser();
+            parsers.Add(new HabraParser());
+            parsers.Add(new StopgameParser());
+            parsers.Add(new OnlinerParser());
+            parsers.Add(new rbcParser());
+            parsers.Add(new TutbyParser());
+            parsers.Add(new RiaParser());
+            parsers.Add(new ElementyParser());
+            parsers.Add(new MkParser());
+            parsers.Add(new KpParser());
+            parsers.Add(new Pda4Parser());
+
+            List<Article>[] articleLists = new List<Article>[parsers.Count];
+
+            for (int i = 0; i < articleLists.Length; i++)
+            {
+                articleLists[i] = new List<Article>();
+            }
+
+            //List<Article> stopgameNews = new List<Article>();
+            //List<Article> habraNews = new List<Article>();
+            //List<Article> onlinerNews = new List<Article>();
+            //List<Article> rbcNews = new List<Article>();
+            //List<Article> tutbyNews = new List<Article>();
+            //List<Article> riaNews = new List<Article>();
+            //List<Article> elementyNews = new List<Article>();
+            //List<Article> mkNews = new List<Article>();
+            //List<Article> kpNews = new List<Article>();
+
+            //HabraParser habraParser = new HabraParser();
+            //StopgameParser stopgameParser = new StopgameParser();
+            //OnlinerParser onlinerParser = new OnlinerParser();
+            //rbcParser rbcParser = new rbcParser();
+            //TutbyParser tutbyParser = new TutbyParser();
+            //RiaParser riaParser = new RiaParser();
+            //ElementyParser elementyParser = new ElementyParser();
+            //MkParser mkParser = new MkParser();
+            //KpParser kpParser = new KpParser();
 
             using (AppContext context = new AppContext())
             {
                 StorageArticles = context.Articles.ToList();
                 context.Sources.Load();
 
-                habraNews = StorageArticles.Where(a => a.Source.Name == "habr.com").ToList();
-                stopgameNews = StorageArticles.Where(a => a.Source.Name == "stopgame.ru").ToList();
-                onlinerNews = StorageArticles.Where(a => a.Source.Name == "onliner.by").ToList();
-                rbcNews = StorageArticles.Where(a => a.Source.Name == "rbc.ru").ToList();
-                tutbyNews = StorageArticles.Where(a => a.Source.Name == "tut.by").ToList();
-                riaNews = StorageArticles.Where(a => a.Source.Name == "ria.ru").ToList();
-                elementyNews = StorageArticles.Where(a => a.Source.Name == "elementy.ru").ToList();
-                mkNews = StorageArticles.Where(a => a.Source.Name == "mk.ru").ToList();
-                kpNews = StorageArticles.Where(a => a.Source.Name == "kp.ru").ToList();
+                for (int i = 0; i < parsers.Count; i++)
+                {
+                    articleLists[i] = StorageArticles.Where(a => a.Source.Name == parsers[i].sourceName).ToList();
+                }
 
+                Task[] tasksForParsers = new Task[parsers.Count];
 
+                for (int i = 0; i < articleLists.Length; ++i)
+                {
+                    tasksForParsers[i] = Task.Run(() => parsers[i].UpdateAsync(articleLists[i]));
 
-                Task t1 = Task.Run(() => stopgameParser.UpdateAsync(stopgameNews));
-                Task t2 = Task.Run(() => habraParser.UpdateAsync(habraNews));
-                Task t3 = Task.Run(() => onlinerParser.UpdateAsync(onlinerNews));
-                Task t4 = Task.Run(() => rbcParser.UpdateAsync(rbcNews));
-                Task t5 = Task.Run(() => tutbyParser.UpdateAsync(tutbyNews));
-                Task t6 = Task.Run(() => riaParser.UpdateAsync(riaNews));
-                Task t7 = Task.Run(() => elementyParser.UpdateAsync(elementyNews));
-                Task t8 = Task.Run(() => mkParser.UpdateAsync(mkNews));
-                Task t9 = Task.Run(() => kpParser.UpdateAsync(kpNews));
+                    //Грязный хак.Иначе цикл for игнорирует ограничения и выходит за пределы массива
+                    Thread.Sleep(100);
+                }
 
-                await Task.WhenAll(new[] { t1, t2, t3, t4, t5, t6, t7, t8, t9 });
+                await Task.WhenAll(tasksForParsers);
 
                 context.SaveChanges();
             }

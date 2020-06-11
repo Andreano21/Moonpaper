@@ -13,9 +13,11 @@ namespace Moonparser.NewsSources
 {
     class KpParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://www.msk.kp.ru/", "https://www.kp.by/" };
+            sourceName = "kp.ru";
+            sourceUrl = "https://www.kp.ru/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -52,8 +54,6 @@ namespace Moonparser.NewsSources
             _article.Url = _article.Url.Replace("http://kp.ru", "");
 
             _article.Url = "https://www.kp.ru" + _article.Url;
-            Console.WriteLine(_article.Url);
-
         }
 
         protected override void GetBody(Article _article, IHtmlDocument fullArticle)
@@ -69,16 +69,6 @@ namespace Moonparser.NewsSources
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Summary = fullArticle.QuerySelector("div.ArticleDescription").TextContent;
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "kp.ru";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://www.kp.ru/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

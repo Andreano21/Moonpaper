@@ -14,9 +14,11 @@ namespace Moonparser.NewsSources
 {
     class RiaParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://ria.ru/" };
+            sourceName = "ria.ru";
+            sourceUrl = "https://ria.ru/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -51,16 +53,6 @@ namespace Moonparser.NewsSources
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Summary = fullArticle.QuerySelector("div.article__body").QuerySelector("div.article__text").TextContent;
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "ria.ru";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://ria.ru/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

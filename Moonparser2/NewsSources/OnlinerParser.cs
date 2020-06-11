@@ -14,9 +14,12 @@ namespace Moonparser.NewsSources
 {
     class OnlinerParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://tech.onliner.by", "https://people.onliner.by", "https://realt.onliner.by", "https://auto.onliner.by"};
+            pageSolverType = PageSolverType.IE;
+            sourceName = "onliner.by";
+            sourceUrl = "https://onliner.by/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -68,16 +71,6 @@ namespace Moonparser.NewsSources
 
             //Обрезка пробелов в начале и конце строки
             _article.Summary.Trim();
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "onliner.by";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://onliner.by/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

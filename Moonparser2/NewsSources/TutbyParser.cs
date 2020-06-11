@@ -13,9 +13,11 @@ namespace Moonparser.NewsSources
 {
     class TutbyParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://news.tut.by/?sort=time#sort", "https://news.tut.by/?sort=reads#sort"};
+            sourceName = "tut.by";
+            sourceUrl = "https://www.tut.by/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -53,16 +55,6 @@ namespace Moonparser.NewsSources
             _article.Summary = fullArticle.QuerySelector("div#article_body").QuerySelector("strong").TextContent;
         }
 
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "tut.by";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://www.tut.by/";
-        }
-
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             string imgurl = reducedArticle.QuerySelector("img._image").Attributes["src"].Value;
@@ -84,14 +76,14 @@ namespace Moonparser.NewsSources
             {
                 string strViews = fullArticle.QuerySelector("[itemprop = commentCount]").TextContent;
 
-                _article.Views = Helper.ParseViews(strViews) * 1000;
+                _article.Views = Helper.ParseViews(strViews) * 1033;
             }
             //Загрузка данных из полноценной страницы статьи
             else if (reducedArticle == null)
             {
                 string strViews = fullArticle.QuerySelector("[itemprop = commentCount]").TextContent;
 
-                _article.Views = Helper.ParseViews(strViews) * 1000;
+                _article.Views = Helper.ParseViews(strViews) * 1033;
             }
             //Загрузка данных из сокращенной страницы
             else

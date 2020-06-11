@@ -17,9 +17,11 @@ namespace Moonparser.NewsSources
     /// </summary>
     class HabraParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://habr.com/ru/top/" };
+            sourceName = "habr.com";
+            sourceUrl = "https://habr.com/ru";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -51,16 +53,6 @@ namespace Moonparser.NewsSources
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Summary = reducedArticle.QuerySelector("div.post__text").TextContent;
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "habr.com";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://habr.com/ru";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

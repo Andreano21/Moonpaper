@@ -13,9 +13,11 @@ namespace Moonparser.NewsSources
 {
     class ElementyParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://elementy.ru/novosti_nauki", "https://elementy.ru/nauchno-populyarnaya_biblioteka" };
+            sourceName = "elementy.ru";
+            sourceUrl = "https://elementy.ru/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -72,16 +74,6 @@ namespace Moonparser.NewsSources
                     _article.Summary = summ.QuerySelector("p").TextContent;
                 }
             }
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "elementy.ru";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://elementy.ru/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

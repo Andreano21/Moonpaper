@@ -14,9 +14,11 @@ namespace Moonparser.NewsSources
 {
     class StopgameParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://stopgame.ru" };
+            sourceName = "stopgame.ru";
+            sourceUrl = "https://stopgame.ru";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -48,16 +50,6 @@ namespace Moonparser.NewsSources
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Summary = _article.Title; //Обрежется после выхода из функции в классе Parser
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "stopgame.ru";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://stopgame.ru";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

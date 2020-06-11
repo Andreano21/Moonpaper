@@ -14,9 +14,12 @@ namespace Moonparser.NewsSources
 {
     class rbcParser : Parser
     {
-        protected override void GetStartUrls()
+        protected override void SetSettings()
         {
             startUrls = new string[] { "https://www.rbc.ru/" };
+            pageSolverType = PageSolverType.CEF;
+            sourceName = "rbc.ru";
+            sourceUrl = "https://www.rbc.ru/";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -52,16 +55,6 @@ namespace Moonparser.NewsSources
 
             //Обрезка пробелов в начале и конце строки
             //_article.Summary.Trim();
-        }
-
-        protected override void GetSource(Article _article)
-        {
-            _article.Source.Name = "rbc.ru";
-        }
-
-        protected override void GetUrlSource(Article _article)
-        {
-            _article.Source.Url = "https://www.rbc.ru/";
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
