@@ -122,6 +122,7 @@
     <Compile Include="NewsSources\KpParser.cs" />
     <Compile Include="NewsSources\RiaParser.cs" />
     <Compile Include="NewsSources\ElementyParser.cs" />
+    <Compile Include="NewsSources\Pda4Parser.cs" />
     <Compile Include="NewsSources\TutbyParser.cs" />
     <Compile Include="NewsSources\MkParser.cs" />
     <Compile Include="NewsSources\rbcParser.cs" />
