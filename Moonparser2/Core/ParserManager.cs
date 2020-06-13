@@ -22,16 +22,22 @@ namespace Moonparser.Core
 
             List<Parser> parsers = new List<Parser>();
 
-            parsers.Add(new HabraParser());
-            parsers.Add(new StopgameParser());
-            parsers.Add(new OnlinerParser());
-            parsers.Add(new rbcParser());
-            parsers.Add(new TutbyParser());
-            parsers.Add(new RiaParser());
-            parsers.Add(new ElementyParser());
-            parsers.Add(new MkParser());
-            parsers.Add(new KpParser());
-            parsers.Add(new Pda4Parser());
+            //parsers.Add(new HabraParser());
+            //parsers.Add(new StopgameParser());
+            //parsers.Add(new OnlinerParser());
+            //parsers.Add(new rbcParser());
+            //parsers.Add(new TutbyParser());
+            //parsers.Add(new RiaParser());
+            //parsers.Add(new ElementyParser());
+            //parsers.Add(new MkParser());
+            //parsers.Add(new KpParser());
+            //parsers.Add(new Pda4Parser());
+            //parsers.Add(new InvestingParser());
+            //parsers.Add(new IgromaniaParser());
+            //parsers.Add(new NakedScienceParser());
+            //parsers.Add(new InSpaceParser());
+            parsers.Add(new HiNewsParser());
+
 
             List<Article>[] articleLists = new List<Article>[parsers.Count];
 
@@ -170,6 +176,9 @@ namespace Moonparser.Core
             parsers.Add(new MkParser());
             parsers.Add(new KpParser());
             parsers.Add(new Pda4Parser());
+            parsers.Add(new InvestingParser());
+            parsers.Add(new IgromaniaParser());
+            parsers.Add(new NakedScienceParser());
 
             List<Article>[] articleLists = new List<Article>[parsers.Count];
 
@@ -177,26 +186,6 @@ namespace Moonparser.Core
             {
                 articleLists[i] = new List<Article>();
             }
-
-            //List<Article> stopgameNews = new List<Article>();
-            //List<Article> habraNews = new List<Article>();
-            //List<Article> onlinerNews = new List<Article>();
-            //List<Article> rbcNews = new List<Article>();
-            //List<Article> tutbyNews = new List<Article>();
-            //List<Article> riaNews = new List<Article>();
-            //List<Article> elementyNews = new List<Article>();
-            //List<Article> mkNews = new List<Article>();
-            //List<Article> kpNews = new List<Article>();
-
-            //HabraParser habraParser = new HabraParser();
-            //StopgameParser stopgameParser = new StopgameParser();
-            //OnlinerParser onlinerParser = new OnlinerParser();
-            //rbcParser rbcParser = new rbcParser();
-            //TutbyParser tutbyParser = new TutbyParser();
-            //RiaParser riaParser = new RiaParser();
-            //ElementyParser elementyParser = new ElementyParser();
-            //MkParser mkParser = new MkParser();
-            //KpParser kpParser = new KpParser();
 
             using (AppContext context = new AppContext())
             {

@@ -142,7 +142,7 @@ namespace Moonparser.NewsSources
             }
         }
 
-        protected override void GetTags(Article _article, IHtmlDocument fullArticle)
+        protected override void GetTags(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
 
             var tags = fullArticle.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("news-reference__link news-reference__link_secondary"));

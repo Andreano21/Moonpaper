@@ -88,7 +88,7 @@ namespace Moonparser.NewsSources
             }
         }
 
-        protected override void GetTags(Article _article, IHtmlDocument fullArticle)
+        protected override void GetTags(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Tags.Add(new Tag("IT"));
             var tags = document.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("inline-list__item-link hub-link "));

@@ -87,7 +87,7 @@ namespace Moonparser.NewsSources
             }
         }
 
-        protected override void GetTags(Article _article, IHtmlDocument fullArticle)
+        protected override void GetTags(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
             _article.Tags.Add(new Tag("Games"));
         }

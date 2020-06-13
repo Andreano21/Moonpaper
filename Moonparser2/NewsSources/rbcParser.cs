@@ -126,7 +126,7 @@ namespace Moonparser.NewsSources
             }
         }
 
-        protected override void GetTags(Article _article, IHtmlDocument fullArticle)
+        protected override void GetTags(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
 
             var tags = fullArticle.QuerySelector("div.article__tags").QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("article__tags__link"));

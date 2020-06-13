@@ -7,17 +7,19 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Moonparser.NewsSources
 {
-    class MkParser : Parser
+    class InvestingParser : Parser
     {
         protected override void SetSettings()
         {
-            startUrls = new string[] { "https://www.mk.ru/news/"};
-            sourceName = "mk.ru";
-            sourceUrl = "https://www.mk.ru/";
+            startUrls = new string[] { "https://ru.investing.com/news/most-popular-news"};
+            pageSolverType = PageSolverType.IE;
+            sourceName = "investing.com";
+            sourceUrl = "https://ru.investing.com";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -26,7 +28,7 @@ namespace Moonparser.NewsSources
 
             for (int d = 0; d < documents.Length; d++)
             {
-                var curentitems = documents[d].QuerySelector("ul.news_list").QuerySelectorAll("li");
+                var curentitems = documents[d].QuerySelector("div.largeTitle").QuerySelectorAll("article.js-article-item");
 
                  items.AddRange(curentitems);
             }
@@ -36,36 +38,46 @@ namespace Moonparser.NewsSources
 
         protected override void GetUrl(Article _article, IElement reducedArticle)
         {
-            _article.Url = reducedArticle.QuerySelector("a").Attributes["href"].Value;
+            _article.Url = sourceUrl + reducedArticle.QuerySelector("a").Attributes["href"].Value;
         }
 
         protected override void GetBody(Article _article, IHtmlDocument fullArticle)
         {
-            _article.Body = fullArticle.QuerySelector("div.inread-content").TextContent;
+            _article.Body = fullArticle.QuerySelector("div.articlePage").TextContent;
         }
 
         protected override void GetTitle(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Title = reducedArticle.QuerySelector("a").TextContent;
+            _article.Title = reducedArticle.QuerySelector("div.textDiv").QuerySelector("a").TextContent;
         }
 
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Summary = fullArticle.QuerySelector("div.inread-content").QuerySelector("p").TextContent;
+            _article.Summary = reducedArticle.QuerySelector("div.textDiv").QuerySelector("p").TextContent.Replace("Investing.com — ", "");
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string imgurl = fullArticle.QuerySelector("div.content").QuerySelector("div.big_image").QuerySelector("img").Attributes["src"].Value;
+            string imgurl = fullArticle.QuerySelector("div.articlePage").QuerySelector("div.imgCarousel").QuerySelector("img").Attributes["src"].Value;
 
             _article.UrlMainImg = imgurl;
         }
 
         protected override void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string dateSource = fullArticle.QuerySelector("span.date").QuerySelector("[itemprop = datePublished]").Attributes["content"].Value;
+            string dateSource = fullArticle.QuerySelector("div.contentSectionDetails").QuerySelector("span").TextContent;
 
-            _article.DateTime = DateTime.Parse(dateSource);
+            Regex regex = new Regex(@"\d{2}.\d{2}.\d{4} \d{2}:\d{2}");
+
+            MatchCollection matches = regex.Matches(dateSource);
+
+            string date = "";
+
+            if (matches.Count > 0)
+                foreach (Match m in matches)
+                    date = m.Value;
+
+            _article.DateTime = DateTime.Parse(date);
         }
 
         protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
@@ -73,34 +85,16 @@ namespace Moonparser.NewsSources
             //Загрузка данных из источника по умолчанию
             if (reducedArticle != null && fullArticle != null)
             {
-                string strViews = fullArticle.QuerySelector("span.date").TextContent;
-                strViews.Trim();
+                string strViews = fullArticle.QuerySelector("div.articleFooter").QuerySelector("i.js-counter").TextContent;
 
-                string[] separator = { "просмотров: " };
-                string[] strs = strViews.Split(separator, StringSplitOptions.None);
-
-                strViews = strs[strs.Length - 1];
-
-                strViews.Trim();
-
-
-                _article.Views = Helper.ParseViews(strViews);
+                _article.Views = Helper.ParseViews(strViews) * 1347;
             }
             //Загрузка данных из полноценной страницы статьи
             else if (reducedArticle == null)
             {
-                string strViews = fullArticle.QuerySelector("span.date").TextContent;
-                strViews.Trim();
+                string strViews = fullArticle.QuerySelector("div.articleFooter").QuerySelector("i.js-counter").TextContent;
 
-                string[] separator = { "просмотров: " };
-                string[] strs = strViews.Split(separator, StringSplitOptions.None);
-
-                strViews = strs[strs.Length - 1];
-
-                strViews.Trim();
-
-
-                _article.Views = Helper.ParseViews(strViews);
+                _article.Views = Helper.ParseViews(strViews) * 1347;
             }
             //Загрузка данных из сокращенной страницы
             else
@@ -111,7 +105,7 @@ namespace Moonparser.NewsSources
 
         protected override void GetTags(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            var tagConteiner = fullArticle.QuerySelector("div.article_info").QuerySelector("span.tags");
+            var tagConteiner = fullArticle.QuerySelector("div.contentSectionDetails");
             var tags = tagConteiner.QuerySelectorAll("a");
 
             foreach (var tag in tags)

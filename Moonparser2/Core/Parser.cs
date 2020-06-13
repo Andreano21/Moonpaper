@@ -125,7 +125,7 @@ namespace Moonparser.Core
         /// <param name="_article">Статья(объект) которой присваиваются теги</param>
         /// <param name="fullArticle">html страница с полной статьёй полученная по прямой ссылке</param>
         /// <returns></returns>
-        protected abstract void GetTags(Article _article, IHtmlDocument fullArticle);
+        protected abstract void GetTags(Article _article, IElement reducedArticle, IHtmlDocument fullArticle);
 
         /// <summary>
         /// Выполняет парсинг статей
@@ -280,7 +280,7 @@ namespace Moonparser.Core
                 }
                 try
                 {
-                    GetTags(article, document);
+                    GetTags(article, item, document);
                 }
                 catch
                 {

@@ -119,10 +119,15 @@
     <Compile Include="Core\Source.cs" />
     <Compile Include="Core\Tag.cs" />
     <Compile Include="NewsSources\HabraParser.cs" />
+    <Compile Include="NewsSources\HiNewsParser.cs" />
+    <Compile Include="NewsSources\InSpaceParser.cs" />
+    <Compile Include="NewsSources\NakedScienceParser.cs" />
+    <Compile Include="NewsSources\IgromaniaParser.cs" />
     <Compile Include="NewsSources\KpParser.cs" />
     <Compile Include="NewsSources\RiaParser.cs" />
     <Compile Include="NewsSources\ElementyParser.cs" />
     <Compile Include="NewsSources\Pda4Parser.cs" />
+    <Compile Include="NewsSources\InvestingParser.cs" />
     <Compile Include="NewsSources\TutbyParser.cs" />
     <Compile Include="NewsSources\MkParser.cs" />
     <Compile Include="NewsSources\rbcParser.cs" />
