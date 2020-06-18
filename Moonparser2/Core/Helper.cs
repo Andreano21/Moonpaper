@@ -62,5 +62,18 @@ namespace Moonparser.Core
 
             return StrToInt;
         }
+
+        public static List<string> TagCheker(string[] tags, string[] poorTags)
+        {
+            List<string> chekedTags = new List<string>();
+
+            foreach (var tag in tags)
+            {
+                if (!poorTags.Contains(tag))
+                    chekedTags.Add(tag);
+            }
+
+            return chekedTags;
+        }
     }
 }

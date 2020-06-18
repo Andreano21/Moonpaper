@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Moonparser.NewsSources
 {
-    class HiNewsParser : Parser
+    class TopcorParser : Parser
     {
         protected override void SetSettings()
         {
-            startUrls = new string[] { "https://hi-news.ru/" };
+            startUrls = new string[] { "https://topcor.ru/news/", "https://topcor.ru/politics/", "https://topcor.ru/economy/", "https://topcor.ru/technology/", "https://topcor.ru/society/" };
             pageSolverType = PageSolverType.Not;
-            sourceName = "hi-news.ru";
-            sourceUrl = "https://hi-news.ru";
+            sourceName = "topcor.ru";
+            sourceUrl = "https://topcor.ru";
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -26,12 +26,9 @@ namespace Moonparser.NewsSources
 
             for (int d = 0; d < documents.Length; d++)
             {
-                var v1 = documents[d].QuerySelector("body");
-                var v2 = v1.QuerySelector("div.main-section");
-                var v3 = v2.QuerySelector("div.main-roll");
-                var v4 = v3.QuerySelectorAll("article");
+                var v1 = documents[d].QuerySelectorAll("article.post");
 
-                items.AddRange(v4);
+                items.AddRange(v1);
             }
 
             return items;
@@ -39,55 +36,41 @@ namespace Moonparser.NewsSources
 
         protected override void GetUrl(Article _article, IElement reducedArticle)
         {
-            _article.Url = reducedArticle.QuerySelector("h2").QuerySelector("a").Attributes["href"].Value;
+            _article.Url = reducedArticle.QuerySelector("h2.post__title").QuerySelector("a.post__title_link").Attributes["href"].Value;
         }
 
         protected override void GetBody(Article _article, IHtmlDocument fullArticle)
         {
-            var v1 = fullArticle.QuerySelector("div#page");
-            var v2 = v1.QuerySelector("article");
-            var v3 = v2.QuerySelector("div#content");
-            var v4 = v3.QuerySelector("div.item");
-            var v5 = v4.QuerySelector("div.text");
+            var v1 = fullArticle.QuerySelector("div.showfull__content");
 
-            _article.Body = v5.TextContent;
+            _article.Body = v1.TextContent;
         }
 
         protected override void GetTitle(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Title = reducedArticle.QuerySelector("h2").QuerySelector("a").TextContent;
+            _article.Title = reducedArticle.QuerySelector("h2.post__title").QuerySelector("a.post__title_link").TextContent;
         }
 
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Summary = reducedArticle.QuerySelector("div.text").QuerySelector("p").TextContent;
+            _article.Summary = reducedArticle.QuerySelector("div.post__description").TextContent;
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string imgurl = fullArticle.QuerySelector("div#content").QuerySelector("div.text").QuerySelector("img.size-full").Attributes["src"].Value;
+            string imgurl = reducedArticle.QuerySelector("div.post__media").QuerySelector("div.cover").Attributes["style"].Value;
+
+            imgurl = imgurl.Replace("background-image:url(","");
+            imgurl = imgurl.Replace(");", "");
 
             _article.UrlMainImg = imgurl;
         }
 
         protected override void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            var v1 = reducedArticle.QuerySelector("div.info");
-            v1.QuerySelector("span").Remove();
-            v1.QuerySelector("span").Remove();
-
-            string dateSource = v1.TextContent.Replace(",","");
-            dateSource = dateSource.Trim();
+            string dateSource = fullArticle.QuerySelector("time.post__meta_time.font-weight-bold").Attributes["datetime"].Value;
 
             _article.DateTime = DateTime.Parse(dateSource);
-
-            Random rnd = new Random();
-
-            int hours = rnd.Next(6, 23);
-            int min = rnd.Next(0, 59);
-
-            _article.DateTime = _article.DateTime.AddHours(hours);
-            _article.DateTime = _article.DateTime.AddMinutes(min);
         }
 
         protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
@@ -95,20 +78,22 @@ namespace Moonparser.NewsSources
             //Загрузка данных из источника по умолчанию
             if (reducedArticle != null && fullArticle != null)
             {
-                string views = fullArticle.QuerySelector("div#content").QuerySelector("div.info").QuerySelector("a.prop-comments").TextContent.Trim();
+                var views = fullArticle.QuerySelector("span.post__meta_comments.font-weight-bold");
+                views.QuerySelector("svg").Remove();
 
-                Random rnd = new Random();
+                string viewsStr = views.TextContent;
 
-                _article.Views = Helper.ParseViews(views) * 1236 + rnd.Next(450,1235);
+                _article.Views = Helper.ParseViews(viewsStr) * 978;
             }
             //Загрузка данных из полноценной страницы статьи
             else if (reducedArticle == null)
             {
-                string views = fullArticle.QuerySelector("div#content").QuerySelector("div.info").QuerySelector("a.prop-comments").TextContent.Trim();
+                var views = fullArticle.QuerySelector("div.post__meta_comments.font-weight-bold");
+                views.QuerySelector("svg").Remove();
 
-                Random rnd = new Random();
+                string viewsStr = views.TextContent;
 
-                _article.Views = Helper.ParseViews(views) * 1236 + rnd.Next(450, 1235);
+                _article.Views = Helper.ParseViews(viewsStr) * 978;
             }
             //Загрузка данных из сокращенной страницы
             else
@@ -119,13 +104,13 @@ namespace Moonparser.NewsSources
 
         protected override void GetTags(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            var tags = fullArticle.QuerySelector("div#content").QuerySelector("div.tags").QuerySelectorAll("a");
+            var tags = fullArticle.QuerySelector("ul.breadcrumbs.text-truncate").QuerySelectorAll("a");
 
             foreach (var tag in tags)
             {
                 string result = tag.TextContent;
 
-                if (result.Length < Settings.TagLength)
+                if (result.Length < Settings.TagLength && result != "Репортёр")
                     _article.Tags.Add(new Tag(result));
             }
         }

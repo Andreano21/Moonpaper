@@ -25,7 +25,10 @@ namespace Moonparser.Core
         protected IHtmlDocument[] documents = null;
         protected IHtmlDocument document = null;
         protected string source = null;
+
         protected PageSolverType pageSolverType = PageSolverType.Not;
+        protected int pageSolverTime = 3000;
+
         public string sourceName = null;
         public string sourceUrl = null;
 
@@ -151,7 +154,7 @@ namespace Moonparser.Core
                         sources[i] = await HtmlLoader.LoadAsync(startUrls[i]);
                         break;
                     case PageSolverType.IE:
-                        sources[i] = PageSolverIE.GetSolvedPage(startUrls[i]);
+                        sources[i] = PageSolverIE.GetSolvedPage(startUrls[i], pageSolverTime);
                         break;
                     case PageSolverType.CEF:
                         sources[i] = await PageSolverCEF.GetInstance().GetSolvedPage(startUrls[i]);
@@ -188,7 +191,7 @@ namespace Moonparser.Core
                             source = await HtmlLoader.LoadAsync(article.Url);
                             break;
                         case PageSolverType.IE:
-                            source = PageSolverIE.GetSolvedPage(article.Url);
+                            source = PageSolverIE.GetSolvedPage(article.Url, pageSolverTime);
                             break;
                         case PageSolverType.CEF:
                             source = await PageSolverCEF.GetInstance().GetSolvedPage(article.Url);
@@ -199,7 +202,11 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при загрузке страницы. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Ошибка при при загрузке страницы. Источник: " + article.Url);
+                    }
                 }
 
                 try
@@ -209,7 +216,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetBody. Источник: " + startUrl);
+                    if(Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetBody. Источник: " + article.Url);
                 }
 
                 try
@@ -218,7 +226,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetTitle. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetTitle. Источник: " + article.Url);
                 }
 
                 try
@@ -231,7 +240,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSummary. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetSummary. Источник: " + article.Url);
                 }
 
                 try
@@ -240,7 +250,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetSource. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetSourceName. Источник: " + article.Url);
                 }
 
                 try
@@ -249,7 +260,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrlSource. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetSourceUrl. Источник: " + article.Url);
                 }
 
                 try
@@ -258,7 +270,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetDateTime. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetDateTime. Источник: " + article.Url);
                 }
 
                 try
@@ -267,7 +280,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrlMainImg. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetUrlMainImg. Источник: " + article.Url);
                 }
 
                 try
@@ -276,7 +290,8 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetViews. Источник: ");
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetViews. Источник: " + article.Url);
                 }
                 try
                 {
@@ -284,15 +299,14 @@ namespace Moonparser.Core
                 }
                 catch
                 {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetTags. Источник: " + startUrl);
+                    if (Settings.isDebag)
+                        Console.WriteLine("Ошибка при парсинге GetTags. Источник: " + article.Url);
                 }
 
                 if (ArticleIsFull(article))
                 {
                     _articles.Add(article);
                     succesArt++;
-
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Статья получена. Источник: " + startUrl);
                 }
             }
             

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Moonparser.Core
 {
-    public class Settings
+    public static class Settings
     {
         public const int TagLength = 15;
 
         public const int SummaryLength = 175;
+
+        public static bool isDebag = false;
     }
 }

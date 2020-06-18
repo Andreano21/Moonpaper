@@ -119,6 +119,9 @@
     <Compile Include="Core\Source.cs" />
     <Compile Include="Core\Tag.cs" />
     <Compile Include="NewsSources\HabraParser.cs" />
+    <Compile Include="NewsSources\TopcorParser.cs" />
+    <Compile Include="NewsSources\InmyroomParser.cs" />
+    <Compile Include="NewsSources\ProglibParser.cs" />
     <Compile Include="NewsSources\HiNewsParser.cs" />
     <Compile Include="NewsSources\InSpaceParser.cs" />
     <Compile Include="NewsSources\NakedScienceParser.cs" />
