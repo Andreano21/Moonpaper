@@ -1,73 +1,91 @@
-﻿@foreach (var item in ViewBag.Articles)
+﻿@for (int x = 0; x < 5;x++)
 {
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 mt-3">
-                <div class="card">
-                    <div class="card-horizontal">
-                        <div class="img-square-wrapper">
-                            <img class="rounded articleImg" src="@item.UrlMainImg" alt="@item.Title">
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title"><a href="@item.Url" target="_blank">@item.Title</a></h4>
-                            <p class="card-text">@item.Summary</p>
-                        </div>
+    <div class="block__portion_grid">
+        @for (int i = 0; i < 3; i++)
+        {
+            var item = ViewBag.Articles[x * 3 + i];
+
+            <div class="block__item_grid">
+                <img src="@item.UrlMainImg" alt="@item.Title" class="article-img">
+                <div class="text">
+                    <a href="@item.Url" class="text__title">
+                        @item.Title
+                    </a>
+                    <div class="text__summary">
+                        @item.Summary
                     </div>
-                    <div class="card-footer">
-                        <div class="card-footer-left">
-                            <div class="tag-container">
-                                <button type="button" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</button>
-                                <a class="btn tag-container-content" href="@item.Source.Url" target="_blank">@item.Source.Name</a>
-                                <button type="button" class="btn btn-outline-success tag-container-button tag-container-button-right">+</button>
-                            </div>
-                            @{
-                                if (item.ArticleTags != null)
-                                {
-                                    foreach (var tag in item.ArticleTags)
+                </div>
+                <div class="tags-info">
+                    <div class="tags">
+                        <div class="tags__Line">
+                        </div>
+                        <div id="displayable" class="tags__Drop">
+                            <div class="tags__Drop_panel">
+                                <div class="tags__icon"></div>
+                                <div class="tag">
+                                    <a href="@item.Source.Url" class="tag__name">@item.Source.Name</a>
+                                    <a href="#1" class="tag__btn-off"></a>
+                                    <a href="#2" class="tag__btn-on"></a>
+                                </div>
+                                @{
+                                    if (item.ArticleTags != null)
                                     {
-                                        <div class="tag-container">
-                                            @if (User.Identity.IsAuthenticated)
-                                            {
-                                                <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
-                                                    <input name="UserId" type="hidden" value="@ViewBag.UserId">
-                                                    <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                    <input class="btn btn-outline-danger tag-container-button tag-container-button-left" type="submit" value="-" />
-                                                </form>
-                                                <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                                <form method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
-                                                    <input name="UserId" type="hidden" value="@ViewBag.UserId">
-                                                    <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                    <input class="btn btn-outline-danger tag-container-button tag-container-button-right" type="submit" value="+" />
-                                                </form>
-                                            }
-                                            else
-                                            {
-                                                <a href="/Identity/Account/Register" class="btn btn-outline-danger tag-container-button tag-container-button-left">-</a>
-                                                <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="btn tag-container-content">@tag.Tag.TagValue</a>
-                                                <a href="/Identity/Account/Register" class="btn btn-outline-success tag-container-button tag-container-button-right">+</a>
-                                            }
-                                        </div>
+                                        foreach (var tag in item.ArticleTags)
+                                        {
+                                            <div class="tag">
+                                                @if (User.Identity.IsAuthenticated)
+                                                {
+                                                    <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="tag__name">@tag.Tag.TagValue</a>
+                                                    <form class="tag__btn-off" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
+                                                        <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                                        <input name="TagId" type="hidden" value="@tag.Tag.Id">
+                                                        <input class="" type="submit" value="" />
+                                                    </form>
+                                                    <form class="tag__btn-on" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
+                                                        <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                                        <input name="TagId" type="hidden" value="@tag.Tag.Id">
+                                                        <input class="" type="submit" value="" />
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="tag__name">@tag.Tag.TagValue</a>
+                                                    <a href="/Identity/Account/Register" class="tag__btn-off"></a>
+                                                    <a href="/Identity/Account/Register" class="tag__btn-on"></a>
+                                                }
+                                            </div>
+                                        }
                                     }
                                 }
-                            }
+                            </div>
                         </div>
-                        <div class="card-footer-right">
-                            <div class="properties-container">
-                                <i class="material-icons" style="font-size:20px; vertical-align: middle;">event_available</i>
-                                <div class="date-container-body">@Helper.GetTimeForArticle(item.DateTime)</div>
+                    </div>
+                    <div class="info">
+                        <div class="info__block">
+                            <div class="info__time">
+                                @Helper.GetTimeForArticle(item.DateTime)
                             </div>
-                            <div class="properties-container">
-                                <i class="material-icons" style="font-size:20px; vertical-align: middle;">visibility</i>
-                                <div class="date-container-views">@item.Views</div>
+                            <div class="info__views">
+                                @item.Views
                             </div>
-                            <div class="properties-container">
-                                <i class="material-icons" style="font-size:20px; vertical-align: middle;">favorite</i>
-                                <div class="date-container-fav">@item.Rating</div>
+                        </div>
+                        <div class="info__block-star">
+                            <div class="info__stars">
+                                @item.Rating
                             </div>
+                            <a href="#" class="info__stars-button"></a>
                         </div>
                     </div>
                 </div>
+                <div class="info__block" id="double">
+                    <div class="info__time">
+                        @Helper.GetTimeForArticle(item.DateTime)
+                    </div>
+                    <div class="info__views">
+                        @item.Views
+                    </div>
+                </div>
             </div>
-        </div>
+        }
     </div>
 }

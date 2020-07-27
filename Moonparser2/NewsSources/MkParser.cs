@@ -117,10 +117,10 @@ namespace Moonparser.NewsSources
             foreach (var tag in tags)
             {
                 string result = tag.TextContent;
+                result = result.Replace(",","");
 
                 if (result.Length < Settings.TagLength)
                     _article.Tags.Add(new Tag(result));
-                
             }
         }
     }

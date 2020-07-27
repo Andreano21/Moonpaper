@@ -27,17 +27,17 @@ namespace Moonpaper
             {
                 case "minutes":
                     value = (int)minutes;
-                    valueString = value + " " + GetDeclension(value, "минута", "минуты", "минут");
+                    valueString = value + "м";
                 break;
 
                 case "hours":
                     value = (int)(minutes / 60);
-                    valueString = value + " " + GetDeclension(value, "час", "часа", "часов");
+                    valueString = value + "ч";
                     break;
 
                 case "days":
                     value = (int)(minutes / 1440);
-                    valueString = value + " " + GetDeclension(value, "день", "дня", "дней"); ;
+                    valueString = value + "д";
                     break;
             }
 

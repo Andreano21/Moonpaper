@@ -47,7 +47,7 @@ namespace Moonpaper.Controllers
                 Time = "day";
 
             if (Pages == 0)
-                Pages = 25;
+                Pages = 15;
 
 
             ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
@@ -132,7 +132,7 @@ namespace Moonpaper.Controllers
                 Time = "day";
 
             if (Pages == 0)
-                Pages = 25;
+                Pages = 15;
 
 
             ViewBag.UserId = _userManager.GetUserId(HttpContext.User);

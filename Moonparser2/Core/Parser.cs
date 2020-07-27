@@ -164,153 +164,171 @@ namespace Moonparser.Core
                 documents[i] = await htmlParser.ParseDocumentAsync(sources[i]);
             }
 
-            var items = GetItems();
+            IEnumerable<IElement> items;
 
-            int succesArt = 0;
-            int totalArt = items.Count();
-
-            foreach (var item in items)
+            try
             {
-                Article article = new Article();
+                items = GetItems();
 
-                try
-                {
-                    GetUrl(article, item);
-                }
-                catch
-                {
-                    //Console.WriteLine(DateTime.Now.ToString() + "; Ошибка при парсинге GetUrl. Источник: " + startUrl);
-                }
+                int succesArt = 0;
+                int totalArt = items.Count();
 
-                //Загрузка страницы статьи
-                try
+                foreach (var item in items)
                 {
-                    switch (pageSolverType)
+                    Article article = new Article();
+
+                    try
                     {
-                        case PageSolverType.Not:
-                            source = await HtmlLoader.LoadAsync(article.Url);
-                            break;
-                        case PageSolverType.IE:
-                            source = PageSolverIE.GetSolvedPage(article.Url, pageSolverTime);
-                            break;
-                        case PageSolverType.CEF:
-                            source = await PageSolverCEF.GetInstance().GetSolvedPage(article.Url);
-                            break;
+                        GetUrl(article, item);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetUrl. Источник: " + article.Url);
                     }
 
-                    document = await htmlParser.ParseDocumentAsync(source);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
+                    //Загрузка страницы статьи
+                    try
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Ошибка при при загрузке страницы. Источник: " + article.Url);
+                        switch (pageSolverType)
+                        {
+                            case PageSolverType.Not:
+                                source = await HtmlLoader.LoadAsync(article.Url);
+                                break;
+                            case PageSolverType.IE:
+                                source = PageSolverIE.GetSolvedPage(article.Url, pageSolverTime);
+                                break;
+                            case PageSolverType.CEF:
+                                source = await PageSolverCEF.GetInstance().GetSolvedPage(article.Url);
+                                break;
+                        }
+
+                        document = await htmlParser.ParseDocumentAsync(source);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Ошибка при при загрузке страницы. Источник: " + article.Url);
+                        }
+                    }
+
+                    try
+                    {
+                        //Загрузка полной статьи
+                        GetBody(article, document);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetBody. Источник: " + article.Url);
+                    }
+
+                    try
+                    {
+                        GetTitle(article, item, document);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetTitle. Источник: " + article.Url);
+                    }
+
+                    try
+                    {
+                        GetSummary(article, item, document);
+
+                        //Обрезка символов
+                        string sum = article.Summary;
+                        article.Summary = new string(sum.Take(Settings.SummaryLength).ToArray()) + "...";
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetSummary. Источник: " + article.Url);
+                    }
+
+                    try
+                    {
+                        GetSourceName(article);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetSourceName. Источник: " + article.Url);
+                    }
+
+                    try
+                    {
+                        GetSourceUrl(article);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetSourceUrl. Источник: " + article.Url);
+                    }
+
+                    try
+                    {
+                        GetDateTime(article, item, document);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetDateTime. Источник: " + article.Url);
+                    }
+
+                    try
+                    {
+                        GetUrlMainImg(article, item, document);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetUrlMainImg. Источник: " + article.Url);
+                    }
+
+                    try
+                    {
+                        GetViews(article, item, document);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetViews. Источник: " + article.Url);
+                    }
+                    try
+                    {
+                        GetTags(article, item, document);
+                    }
+                    catch
+                    {
+                        if (Settings.isDebag)
+                            Console.WriteLine("Ошибка при парсинге GetTags. Источник: " + article.Url);
+                    }
+
+                    if (ArticleIsFull(article))
+                    {
+                        _articles.Add(article);
+                        succesArt++;
                     }
                 }
 
-                try
+                Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrls[0]);
+            }
+            catch
+            {
+                if (Settings.isDebag)
                 {
-                    //Загрузка полной статьи
-                    GetBody(article, document);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Ошибка при загрузке статей с главной страницы. Источник: " + startUrls[0]);
                 }
-                catch
-                {
-                    if(Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetBody. Источник: " + article.Url);
-                }
-
-                try
-                {
-                    GetTitle(article, item, document);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetTitle. Источник: " + article.Url);
-                }
-
-                try
-                {
-                    GetSummary(article, item, document);
-
-                    //Обрезка символов
-                    string sum = article.Summary;
-                    article.Summary = new string(sum.Take(Settings.SummaryLength).ToArray()) + "...";
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetSummary. Источник: " + article.Url);
-                }
-
-                try
-                {
-                    GetSourceName(article);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetSourceName. Источник: " + article.Url);
-                }
-
-                try
-                {
-                    GetSourceUrl(article);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetSourceUrl. Источник: " + article.Url);
-                }
-
-                try
-                {
-                    GetDateTime(article, item, document);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetDateTime. Источник: " + article.Url);
-                }
-
-                try
-                {
-                    GetUrlMainImg(article, item, document);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetUrlMainImg. Источник: " + article.Url);
-                }
-
-                try
-                {
-                    GetViews(article, item, document);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetViews. Источник: " + article.Url);
-                }
-                try
-                {
-                    GetTags(article, item, document);
-                }
-                catch
-                {
-                    if (Settings.isDebag)
-                        Console.WriteLine("Ошибка при парсинге GetTags. Источник: " + article.Url);
-                }
-
-                if (ArticleIsFull(article))
-                {
-                    _articles.Add(article);
-                    succesArt++;
+                else
+                { 
+                    Console.WriteLine("Ошибка при загрузке статей с главной страницы. Источник: " + startUrls[0]);
                 }
             }
-            
-            Console.WriteLine(DateTime.Now.ToString() + ": Получено статей: " + succesArt + "/" + totalArt + " из " + startUrls[0]);
         }
 
         /// <summary>

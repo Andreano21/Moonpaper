@@ -2,30 +2,35 @@
     ViewBag.Title = "Все";
 }
 
-<div class="container">
-    <div class="btn-group">
-        <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary active" role="button">Все</a>
-        <a href="~/Home/My?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary" role="button">Мои</a>
+<nav class="menu">
+    <div class="menu__left">
+        <div class="menu__block">
+            <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_left active">Все</a>
+            <a href="~/Home/My?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_right">Мои</a>
+        </div>
+        <div class="menu__block">
+            <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_left @if (ViewBag.SortedBy == "time") { <text>active</text> }">Время</a>
+            <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_center @if (ViewBag.SortedBy == "views") { <text>active</text> }">Просмотры</a>
+            <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_right @if (ViewBag.SortedBy == "rating") { <text>active</text> }">Рейтинг</a>
+        </div>
+        <div class="menu__block">
+            <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="menu__button menu__button_left @if (ViewBag.Time == "day") { <text>active</text> }">День</a>
+            <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="menu__button menu__button_center @if (ViewBag.Time == "week") { <text>active</text> }">Неделя</a>
+            <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="menu__button menu__button_right @if (ViewBag.Time == "month") { <text>active</text> }">Месяц</a>
+        </div>
     </div>
-    <div class="btn-group">
-        <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "time") { <text>active</text> }" role="button">Время</a>
-        <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "views") { <text>active</text> }" role="button">Просмотры</a>
-        <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.SortedBy == "rating") { <text>active</text> }" role="button">Рейтинг</a>
+    <div class="menu__right">
+        <div class="menu__block menu__block_end">
+            <a href="#" onclick="SetupToLine();" class="menu__button  menu__button_left">
+                <img src="~/img/icons/i_menu_lines.png" alt="" class="icon">
+            </a>
+            <a href="#" onclick="SetupToGrid();" class="menu__button menu__button_right active">
+                <img src="~/img/icons/i_menu_grid.png" alt="" class="icon">
+            </a>
+        </div>
     </div>
-    <div class="btn-group">
-        <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.Time == "day") { <text>active</text> }" role="button">День</a>
-        <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.Time == "week") { <text>active</text> }" role="button">Неделя</a>
-        <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="btn btn-outline-secondary @if (ViewBag.Time == "month") { <text>active</text> }" role="button">Месяц</a>
-    </div>
-    <div class="btn-group">
-        <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=@ViewBag.Time&Pages=25" class="btn btn-outline-secondary @if (ViewBag.Pages == 25) { <text>active</text> }" role="button">25</a>
-        <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=@ViewBag.Time&Pages=50" class="btn btn-outline-secondary @if (ViewBag.Pages == 50) { <text>active</text> }" role="button">50</a>
-        <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=@ViewBag.Time&Pages=100" class="btn btn-outline-secondary @if (ViewBag.Pages == 100) { <text>active</text> }" role="button">100</a>
-    </div>
+</nav>
+<div class="block" id="scrolList">
+    <partial name="_Articles" />
 </div>
-
-<div id="scrolList">
-    @Html.Partial("_Articles")
-</div>
-
 <div id="loading"><img src='@Url.Content("~/Content/loading_spinner.gif")'></div>
