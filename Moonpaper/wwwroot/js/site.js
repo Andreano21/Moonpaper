@@ -49,6 +49,8 @@ $(function () {
         }
     });
 })
+
+
 //В каком виде отображаются статьи на текущий момент
 var viewStatus = "grid";
 
@@ -81,10 +83,8 @@ function pageSizeListener() {
 
 //Устанавливает отображение статей в линию
 function SetupToLine() {
-    var elements = document.querySelectorAll(".block__portion_grid");
-    elements.forEach(element => {
-        element.className = "block__portion_line";
-    });
+    var element = document.querySelector(".block_grid");
+    element.className = "block_line";
 
     var elements = document.querySelectorAll(".block__item_grid");
     elements.forEach(element => {
@@ -129,10 +129,8 @@ function SetupToLine() {
 
 //Устанавливает отображение статей по сетке
 function SetupToGrid() {
-    var elements = document.querySelectorAll(".block__portion_line");
-    elements.forEach(element => {
-        element.className = "block__portion_grid";
-    });
+    var element = document.querySelector(".block_line");
+    element.className = "block_grid";
 
     var elements = document.querySelectorAll(".block__item_line");
     elements.forEach(element => {

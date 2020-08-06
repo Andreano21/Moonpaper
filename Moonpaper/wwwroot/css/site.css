@@ -462,14 +462,12 @@ header {
     height: 20px;
 }
 
-.block .info__block#double {
-    display: none;
-}
-
-.block__portion_grid {
+.block_grid {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
@@ -477,6 +475,25 @@ header {
     color: white;
     text-shadow: 0px 0px 7px rgba(0, 0, 0, 0.75);
 }
+
+    .block_grid .info__block#double {
+        display: none;
+    }
+
+.block_line {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    font-size: 18px;
+}
+
+    .block_line .info__block#double {
+        display: none;
+    }
 
 .block__item_grid {
     display: -webkit-box;
@@ -734,17 +751,6 @@ header {
             background: url(../img/icons/i_star_fill_white.png) 8px 2px/18px 18px no-repeat;
         }
 
-.block__portion_line {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    font-size: 18px;
-}
-
 .block__item_line {
     position: relative;
     height: 202px;
@@ -829,10 +835,14 @@ header {
 
             .block__item_line .tags__Line .tag:hover .tag__btn-off {
                 display: block;
+                position: relative;
+                z-index: 5;
             }
 
             .block__item_line .tags__Line .tag:hover .tag__btn-on {
                 display: block;
+                position: relative;
+                z-index: 5;
             }
 
             .block__item_line .tags__Line .tag:hover .tag__name {
@@ -2053,7 +2063,7 @@ header {
         display: block;
     }
 
-    .block__portion_grid {
+    .block_grid {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -2670,7 +2680,7 @@ header {
             height: 24px;
         }
 
-    .block__portion_grid {
+    .block_grid {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -2933,7 +2943,7 @@ header {
             height: 24px;
         }
 
-    .block__portion_grid {
+    .block_grid {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -3247,7 +3257,7 @@ header {
             height: 24px;
         }
 
-    .block__portion_grid {
+    .block_grid {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
