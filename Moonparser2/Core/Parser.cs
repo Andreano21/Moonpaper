@@ -329,6 +329,10 @@ namespace Moonparser.Core
                     Console.WriteLine("Ошибка при загрузке статей с главной страницы. Источник: " + startUrls[0]);
                 }
             }
+
+            //Проверка на дубликаты и их удаление
+            _articles = _articles.GroupBy(a => a.Url).Select(g => g.First()).ToList();
+
         }
 
         /// <summary>

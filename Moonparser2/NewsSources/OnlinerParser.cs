@@ -101,6 +101,7 @@ namespace Moonparser.NewsSources
             string imgurl = fullArticle.QuerySelector("div.news-header__image").Attributes["style"].Value;
             imgurl = imgurl.Replace("background-image: url(", "");
             imgurl = imgurl.Replace(");", "");
+            imgurl = imgurl.Replace("'", "");
 
             _article.UrlMainImg = imgurl;
         }
