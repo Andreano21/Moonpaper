@@ -1,59 +1,5 @@
-﻿//Ajax подгрузка статей
-$(function () {
-
-    $('div#loading').hide();
-
-    var page = 0;
-    var _inCallback = false;
-
-    function loadItems() {
-        if (page > -1 && !_inCallback) {
-            _inCallback = true;
-            page++;
-            $('div#loading').show();
-
-            var curentUrl = window.location.pathname + window.location.search;
-
-            //Проверка на наличие GET параметров в URL
-            if (curentUrl != "/") {
-                curentUrl += "&Page=" + page;
-            }
-            else {
-                curentUrl = window.location.href + "Home/All?Page=" + page;
-            }
-
-            $.ajax({
-                type: 'GET',
-                url: curentUrl,
-                success: function (data, textstatus) {
-                    if (data != '') {
-                        $("#scrolList").append(data);
-                    }
-                    else {
-                        page = -1;
-                    }
-
-                    _inCallback = false;
-
-                    $("div#loading").hide();
-                }
-            });
-        }
-    }
-
-    // обработка события скроллинга
-    $(window).scroll(function () {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-
-            loadItems();
-        }
-    });
-})
-
-
-//В каком виде отображаются статьи на текущий момент
+﻿//В каком виде отображаются статьи на текущий момент
 var viewStatus = "grid";
-
 
 //<body onresize="pageSizeListener()">
 function pageSizeListener() {
@@ -125,6 +71,35 @@ function SetupToLine() {
     TagsToLineBlock(countTags);
 
     viewStatus = "line";
+}
+
+//Устанавливает отображение подгруженных AJAX статей в линию
+function SetupToLineItem() {
+
+    var elements = document.querySelectorAll(".block__item_grid");
+    elements.forEach(element => {
+        element.className = "block__item_line";
+    });
+
+    //Определение выводимых в линию тегов исходя из размеров окна
+    var w = window.innerWidth;
+    var countTags = 0;
+    if (w > 1000) {
+        countTags = 4;
+    }
+    else if (w > 900) {
+        countTags = 3;
+    }
+    else if (w > 800) {
+        countTags = 2;
+    }
+    else if (w > 740) {
+        countTags = 1;
+        TagsToLineBlock(countTags);
+    }
+
+    TagsToLineBlock(countTags);
+
 }
 
 //Устанавливает отображение статей по сетке
@@ -206,3 +181,59 @@ function TagsToDropBlock() {
         tags__Drop_element.className = "tags__Drop";
     });
 }
+
+
+//Ajax подгрузка статей
+$(function () {
+
+    $('div#loading').hide();
+
+    var page = 0;
+    var _inCallback = false;
+
+    function loadItems() {
+        if (page > -1 && !_inCallback) {
+            _inCallback = true;
+            page++;
+            $('div#loading').show();
+
+            var curentUrl = window.location.pathname + window.location.search;
+
+            //Проверка на наличие GET параметров в URL
+            if (curentUrl != "/") {
+                curentUrl += "&Page=" + page;
+            }
+            else {
+                curentUrl = window.location.href + "Home/All?Page=" + page;
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: curentUrl,
+                success: function (data, textstatus) {
+                    if (data != '') {
+                        $("#scrolList").append(data);
+                    }
+                    else {
+                        page = -1;
+                    }
+
+                    _inCallback = false;
+
+                    $("div#loading").hide();
+
+                    if (viewStatus === "line") {
+                        SetupToLineItem();
+                    }
+                }
+            });
+        }
+    }
+
+    // обработка события скроллинга
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            loadItems();
+        }
+    });
+})
