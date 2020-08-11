@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonpaper", "Moonpaper\Moon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonparser", "Moonparser2\Moonparser.csproj", "{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonpaperLinux", "MoonpaperLinux\MoonpaperLinux.csproj", "{B013836A-D882-4238-96E5-3DA5A82EF08C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}.Release|x64.ActiveCfg = Release|x64
 		{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}.Release|x64.Build.0 = Release|x64
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Debug|x64.Build.0 = Debug|Any CPU
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Release|x64.ActiveCfg = Release|Any CPU
+		{B013836A-D882-4238-96E5-3DA5A82EF08C}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

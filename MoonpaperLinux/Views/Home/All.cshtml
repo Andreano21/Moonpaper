@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Все";
+}
+
+<nav class="menu">
+    <div class="menu__left">
+        <div class="menu__block">
+            <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_left active">Все</a>
+            <a href="~/Home/My?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_right">Мои</a>
+        </div>
+        <div class="menu__block">
+            <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_left @if (ViewBag.SortedBy == "time") { <text>active</text> }">Время</a>
+            <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_center @if (ViewBag.SortedBy == "views") { <text>active</text> }">Просмотры</a>
+            <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="menu__button menu__button_right @if (ViewBag.SortedBy == "rating") { <text>active</text> }">Рейтинг</a>
+        </div>
+        <div class="menu__block">
+            <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="menu__button menu__button_left @if (ViewBag.Time == "day") { <text>active</text> }">День</a>
+            <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="menu__button menu__button_center @if (ViewBag.Time == "week") { <text>active</text> }">Неделя</a>
+            <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="menu__button menu__button_right @if (ViewBag.Time == "month") { <text>active</text> }">Месяц</a>
+        </div>
+    </div>
+    <div class="menu__right">
+        <div class="menu__block menu__block_end">
+            <a href="#" onclick="SetupToLine();" class="menu__button  menu__button_left">
+                <img src="~/img/icons/i_menu_lines.png" alt="" class="icon">
+            </a>
+            <a href="#" onclick="SetupToGrid();" class="menu__button menu__button_right active">
+                <img src="~/img/icons/i_menu_grid.png" alt="" class="icon">
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="block_grid" id="scrolList">
+    <partial name="_Articles" />
+</div>
+<div id="loading"><img src='@Url.Content("~/Content/loading_spinner.gif")'></div>

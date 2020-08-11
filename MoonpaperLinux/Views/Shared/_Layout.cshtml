@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>@ViewData["Title"] - Moonpaper</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <header>
+                <a class="block_left" asp-area="" asp-controller="Home" asp-action="All">
+                    <div><img src="~/img/logo.png" alt="" class="logo"></div>
+                </a>
+                <div class="block_right">
+                    <div class="find">
+                        <form>
+                            <input type="text" placeholder="Поиск">
+                            <button type="submit"></button>
+                        </form>
+                        <div class="find-img">
+                            <img src="~/img/icons/i_search_gray.png" alt="">
+                        </div>
+                    </div>
+                    <div class="start">
+                        <div href="" class="start__button">
+                            <img src="~/img/icons/i_rocket_gray.png" alt="" class="start__img">
+                        </div>
+                        <div class="side-menu">
+                            <div class="side-menu__name">МЕНЮ</div>
+                            <div class="side-menu__block">
+                                <partial name="_LoginPartial" />
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                {
+                                    <div class="side-menu__item">
+                                        <a class="link" asp-area="" asp-controller="Users" asp-action="Index">Пользователи</a>
+                                    </div>
+                                    <div class="side-menu__item">
+                                        <a class="link" asp-area="" asp-controller="Roles" asp-action="Index">Роли</a>
+                                    </div>
+                                }
+                            </div>
+                            <div class="side-menu__block hidden">
+                                <div class="side-menu__item">
+                                    Сортировать по:
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a class="link__radio active" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Все</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio end">
+                                    <a class="link__radio" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Мои</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a class="link__radio" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Время</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a class="link__radio active" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Просмотры</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio end">
+                                    <a class="link__radio" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Рейтинг</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a class="link__radio active" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>День</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a class="link__radio" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Неделя</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a class="link__radio" href="#">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Месяц</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="side-menu__block hidden">
+                                <div class="side-menu__item">
+                                    Отображение
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a href="#" onclick="SetupToLine();" class="link__radio" id="linkRadioToLine">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Линия</div>
+                                    </a>
+                                </div>
+                                <div class="side-menu__item_radio">
+                                    <a href="#" onclick="SetupToGrid();" class="link__radio active" id="linkRadioToGrid">
+                                        <div class="radio-button"><div class="radio-button_in"></div></div>
+                                        <div>Плитка</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="side-menu__block_last">
+                                <div class="side-menu__item">
+                                    <a class="link" href="#">О сайте</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            @RenderBody()
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
