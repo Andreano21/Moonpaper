@@ -661,6 +661,10 @@ header {
         margin-right: 10px;
     }
 
+        .block__item_grid .tags__Drop .tag a {
+            white-space: nowrap;
+        }
+
     .block__item_grid .tags__Drop .tag__name {
         -webkit-box-ordinal-group: 3;
         -ms-flex-order: 2;
@@ -899,6 +903,10 @@ header {
             margin: 0px;
             margin-right: 10px;
         }
+
+            .block__item_line .tags__Line .tag a {
+                white-space: nowrap;
+            }
 
             .block__item_line .tags__Line .tag:hover .tag__btn-off {
                 display: block;
@@ -1174,6 +1182,22 @@ header {
         .block__item_line .info__stars-button:hover {
             background: url(../img/icons/i_star_fill_gray.png) 7px 2px/18px 18px no-repeat;
         }
+
+.spinner {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+    .spinner img {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        height: 150px;
+    }
 
 @media (max-width: 1080px) {
     .container {
