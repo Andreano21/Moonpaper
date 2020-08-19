@@ -1,5 +1,44 @@
 ﻿//В каком виде отображаются статьи на текущий момент
-var viewStatus = "grid";
+var viewStatus = "line";
+
+//Загрузка из куки настроек вывода новостей
+var vs = GetTypeOfOutput("viewStatus");
+
+//проверка viewStatus в кукис
+if (vs !== "") {
+    viewStatus = vs;
+}
+
+//отображение статей в соответствии с найтройкой
+if (viewStatus === "line") {
+    SetupToLine();
+}
+else if (viewStatus === "grid") {
+    SetupToGrid();
+}
+
+function GetTypeOfOutput(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function SetTypeOfOutput(cArg) {
+    var d = new Date();
+    d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = "viewStatus" + "=" + cArg + ";" + expires;
+}
 
 //<body onresize="pageSizeListener()">
 function pageSizeListener() {
@@ -70,6 +109,7 @@ function SetupToLine() {
 
     TagsToLineBlock(countTags);
 
+    SetTypeOfOutput("line");
     viewStatus = "line";
 }
 
@@ -128,6 +168,7 @@ function SetupToGrid() {
 
     TagsToDropBlock();
 
+    SetTypeOfOutput("grid");
     viewStatus = "grid";
 }
 
@@ -230,7 +271,7 @@ $(function () {
         }
     }
 
-    // обработка события скроллинга
+    //обработка события скроллинга
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             loadItems();
