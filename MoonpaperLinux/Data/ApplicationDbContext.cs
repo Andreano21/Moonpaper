@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MoonpaperLinux.Models;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace MoonpaperLinux.Data
 {
@@ -20,6 +21,12 @@ namespace MoonpaperLinux.Data
             : base(options)
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySql("server=localhost;UserId=root;Password=12345;database=MoonpaperDb2;");
+            //optionsBuilder.UseMySql("server=172.17.0.3;UserId=root;Password=12345;database=MoonpaperDb2;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

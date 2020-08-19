@@ -5,12 +5,13 @@ using System.Collections.Generic;
 
 namespace Moonparser.Core
 {
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class AppContext : DbContext
     {
 
-        public AppContext()
-            : base("name=AppContext")
+        public AppContext() : base("conn")
         {
+
         }
 
         public DbSet<Article> Articles { get; set; }
