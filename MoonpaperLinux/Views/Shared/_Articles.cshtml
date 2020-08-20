@@ -23,23 +23,23 @@
                             <a href="#2" class="tag__btn-on"></a>
                         </div>
                         @{
-                            if (item.ArticleTags != null)
+                            if (item.ArticleTagPersonals != null)
                             {
-                                foreach (var tag in item.ArticleTags)
+                                foreach (var tag in item.ArticleTagPersonals)
                                 {
                                     <div class="tag">
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                                            <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="tag__name">@tag.Tag.TagValue</a>
-                                            <form class="tag__btn-off" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
+                                            <a href="/Home/Tag?tag=@tag.Tag.TagValue" class="tag__name @if (tag.Rating > 0) {<text>active</text>} @if (tag.Rating < 0) {<text>disactive</text>}">@tag.Tag.TagValue</a>
+                                            <form class="tag__btn-off @if (tag.Rating < 0) {<text>active</text>}" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
                                                 <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                                 <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="" type="submit" value="" />
+                                                <input class="submit" type="submit" value="" />
                                             </form>
-                                            <form class="tag__btn-on" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
+                                            <form class="tag__btn-on @if (tag.Rating > 0) {<text>active</text>}" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
                                                 <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                                 <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="" type="submit" value="" />
+                                                <input class="submit" type="submit" value="" />
                                             </form>
                                         }
                                         else

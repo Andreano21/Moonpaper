@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using MoonpaperLinux.Models;
 using MoonpaperLinux.Data;
 using Microsoft.EntityFrameworkCore;
+using MoonpaperLinux.ViewModels;
 
 namespace MoonpaperLinux.Controllers
 {
@@ -111,7 +112,19 @@ namespace MoonpaperLinux.Controllers
 
             articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
 
-            ViewBag.Articles = articles;
+            //Список персоналезированных тегов
+            List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
+
+            //Получения списка тегов пользователя
+            List<UserTag> userTags;
+            userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
+            foreach (var article in articles)
+            {
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, false));
+            }
+
+            ViewBag.Articles = articlesPersonal;
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
@@ -168,8 +181,8 @@ namespace MoonpaperLinux.Controllers
 
                 case "rating":
                     articles = db.Articles
-                           .OrderByDescending(a => a.Views)
-                           .ToList();
+                        .OrderByDescending(a => a.Rating)
+                        .ToList();
 
                     db.Sources.Load();
                     db.ArticleTag.Load();
@@ -192,11 +205,26 @@ namespace MoonpaperLinux.Controllers
                     break;
             }
 
-            var articlesToSkip = Page * Pages;
+            //Список персоналезированных тегов
+            List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
 
-            articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
+            //Получения списка тегов пользователя
+            List<UserTag> userTags;
+            userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
 
-            ViewBag.Articles = articles;
+            foreach (var article in articles)
+            {
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, false));
+            }
+
+            //Получение статей исключая отписанные теги
+            articlesPersonal = articlesPersonal.Where(ap => ap.SubscriptionRating > 0).ToList();
+
+            int articlesToSkip = Page * Pages;
+
+            articlesPersonal = articlesPersonal.Skip(articlesToSkip).Take(Pages).ToList();
+
+            ViewBag.Articles = articlesPersonal;
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
