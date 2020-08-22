@@ -1,21 +1,5 @@
 ﻿//В каком виде отображаются статьи на текущий момент
-var viewStatus = "line";
-
-//Загрузка из куки настроек вывода новостей
-var vs = GetTypeOfOutput("viewStatus");
-
-//проверка viewStatus в кукис
-if (vs !== "") {
-    viewStatus = vs;
-}
-
-//отображение статей в соответствии с найтройкой
-if (viewStatus === "line") {
-    SetupToLine();
-}
-else if (viewStatus === "grid") {
-    SetupToGrid();
-}
+var viewStatus = "grid";
 
 function GetTypeOfOutput(cname) {
     var name = cname + "=";
@@ -38,6 +22,7 @@ function SetTypeOfOutput(cArg) {
     d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = "viewStatus" + "=" + cArg + ";" + expires;
+    console.log("test SetTypeOfOutput");
 }
 
 //<body onresize="pageSizeListener()">
@@ -276,5 +261,23 @@ $(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             loadItems();
         }
+        //console.log($(window).scrollTop() - ($(document).height() - $(window).height()));
     });
 })
+
+
+//Загрузка из куки настроек вывода новостей
+var vs = GetTypeOfOutput("viewStatus");
+
+//проверка viewStatus в кукис
+if (vs !== "") {
+    viewStatus = vs;
+}
+
+//отображение статей в соответствии с найтройкой
+if (viewStatus === "line") {
+    SetupToLine();
+}
+else if (viewStatus === "grid") {
+    SetupToGrid();
+}

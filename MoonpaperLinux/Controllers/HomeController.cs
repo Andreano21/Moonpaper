@@ -236,24 +236,102 @@ namespace MoonpaperLinux.Controllers
             return View();
         }
 
-        public IActionResult Tag(string tag)
+        public IActionResult Tag(string Tag, string SortedBy, string Time, int Pages, int Page)
         {
-            if (tag != null)
+            if (SortedBy == null)
+                SortedBy = "views";
+
+            if (Time == null)
+                Time = "day";
+
+            if (Pages == 0)
+                Pages = 15;
+
+            ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.Tag = Tag;
+            ViewBag.SortedBy = SortedBy;
+            ViewBag.Time = Time;
+            ViewBag.Pages = Pages;
+            ViewBag.Page = Page;
+
+            List<Article> articles = null;
+
+            if (Tag != null)
             {
-                var curenttag = db.Tags.FirstOrDefault(t => t.TagValue == tag);
+                var curenttag = db.Tags.FirstOrDefault(t => t.TagValue == Tag);
 
-                var articles = db.Articles.Where(t => t.ArticleTags.Any(tt => tt.TagId == curenttag.Id))
-                                          .Include(at => at.ArticleTags)
-                                          .ThenInclude(t => t.Tag)
+                articles = db.Articles.Where(t => t.ArticleTags.Any(tt => tt.TagId == curenttag.Id))
                                           .OrderByDescending(a => a.Views)
-                                          .ToArray();
+                                          .ToList();
 
-                return View(articles);
+                db.Sources.Load();
+                db.ArticleTag.Load();
+                db.Tags.Load();
             }
-            else
-            { 
-                return View();
+
+            switch (SortedBy)
+            {
+                case "time":
+                    articles = articles
+                        .OrderByDescending(a => a.DateTime)
+                        .ToList();
+                    break;
+
+                case "views":
+                    articles = articles
+                           .OrderByDescending(a => a.Views)
+                           .ToList();
+                    break;
+
+                case "rating":
+                    articles = articles
+                            .OrderByDescending(a => a.Rating)
+                            .ToList();
+                    break;
             }
+
+            switch (Time)
+            {
+                case "day":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
+                    break;
+
+                case "week":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
+                    break;
+
+                case "month":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
+                    break;
+            }
+
+            var articlesToSkip = Page * Pages;
+
+            articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
+
+            //Список персоналезированных тегов
+            List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
+
+            //Получения списка тегов пользователя
+            List<UserTag> userTags;
+            userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
+            foreach (var article in articles)
+            {
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, false));
+            }
+
+            ViewBag.Articles = articlesPersonal;
+
+            bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
+            if (IsAjaxRequest)
+            {
+                return PartialView("_Articles");
+            }
+
+            return View();
+
         }
 
         [HttpPost]
