@@ -265,6 +265,86 @@ $(function () {
     });
 })
 
+//Установка кнопок лайков в новое состояние после нажатия
+$(document).ready(function () {
+    $(document).on('submit', '.info__stars-button', function () {
+
+        //Изменение счетчика звезд на стороне клиента
+        if ($(this).hasClass('active')) {
+            var starsElement = $(this).parent().find('.info__stars');
+            var stars = starsElement[0].innerText;
+            var starsNum = Number(stars);
+
+            if (starsNum !== NaN) {
+                starsNum--;
+                starsElement[0].innerText = starsNum;
+            }
+        }
+        else {
+            var starsElement = $(this).parent().find('.info__stars');
+            var stars = starsElement[0].innerText;
+            var starsNum = Number(stars);
+
+            if (starsNum !== NaN) {
+                starsNum++;
+                starsElement[0].innerText = starsNum;
+            }
+        }
+
+        //Изменение отображение статуса кнопки и post запроса
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $(this).attr('action', '/Home/StarUp');
+        }
+        else {
+            $(this).addClass('active');
+            $(this).attr('action', '/Home/StarDown');
+        }
+
+    });
+});
+
+//Установка кнопок подписок в новое состояние после нажатия
+$(document).ready(function () {
+    $(document).on('submit', '.tag__btn-on', function () {
+
+        var $tagBlock = $(this).parent();
+
+        //console.log($(this));
+        //console.log($tagBlock);
+        //console.log($tagBlock.find('tag__btn-off'));
+        //console.log($tagBlock.find('tag__btn-on'));
+        //console.log($tagBlock.find('tag__name'));
+
+
+        //очистка статусов формы
+        $tagBlock.find('.tag__btn-off').removeClass('active');
+        $tagBlock.find('.tag__btn-on').removeClass('active');
+        $tagBlock.find('.tag__name').removeClass('disactive');
+        $tagBlock.find('.tag__name').removeClass('active');
+
+        //установка новых статусов
+        $(this).addClass('.active');
+        $tagBlock.find('.tag__name').addClass('active');
+
+    });
+
+    $(document).on('submit', '.tag__btn-off', function () {
+
+        var $tagBlock = $(this).parent();
+
+        //очистка статусов формы
+        $tagBlock.find('.tag__btn-off').removeClass('active');
+        $tagBlock.find('.tag__btn-on').removeClass('active');
+        $tagBlock.find('.tag__name').removeClass('disactive');
+        $tagBlock.find('.tag__name').removeClass('active');
+
+        //установка новых статусов
+        $(this).addClass('active');
+        $tagBlock.find('.tag__name').addClass('disactive');
+
+    });
+});
 
 //Загрузка из куки настроек вывода новостей
 var vs = GetTypeOfOutput("viewStatus");

@@ -31,7 +31,7 @@ namespace Moonparser.Core
 
                 foreach (Article article in articles)
                 {
-                    article.Rating = (int)(((float)article.Views / (float)article.Source.MaxViews) * article.Source.AdminFactor * 100f);
+                    article.Stars = (int)(((float)article.Views / (float)article.Source.MaxViews) * article.Source.AdminFactor * 100f);
                 }
 
                 db.SaveChanges();

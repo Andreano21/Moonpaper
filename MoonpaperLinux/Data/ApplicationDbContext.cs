@@ -16,6 +16,7 @@ namespace MoonpaperLinux.Data
         public DbSet<Source> Sources { get; set; }
         public DbSet<ArticleTag> ArticleTag { get; set; }
         public DbSet<UserTag> UserTags { get; set; }
+        public DbSet<Star> Stars { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

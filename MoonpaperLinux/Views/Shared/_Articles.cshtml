@@ -1,4 +1,4 @@
-﻿@foreach (var item in ViewBag.Articles)
+﻿@foreach (var item in ViewBag.ArticlePersonals)
 {
     <div class="block__item_grid">
         <img src="@item.UrlMainImg" alt="@item.Title" class="article-img">
@@ -34,12 +34,12 @@
                                             <form class="tag__btn-off @if (tag.Rating < 0) {<text>active</text>}" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagDown">
                                                 <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                                 <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="submit" type="submit" value="" />
+                                                <input class="submit_tagOff submit" type="submit" value="" />
                                             </form>
                                             <form class="tag__btn-on @if (tag.Rating > 0) {<text>active</text>}" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="TagUp">
                                                 <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                                 <input name="TagId" type="hidden" value="@tag.Tag.Id">
-                                                <input class="submit" type="submit" value="" />
+                                                <input class="submit_tagOn submit" type="submit" value="" />
                                             </form>
                                         }
                                         else
@@ -65,10 +65,31 @@
                     </div>
                 </div>
                 <div class="info__block-star">
-                    <div class="info__stars">
-                        @item.Rating
-                    </div>
-                    <a href="#" class="info__stars-button"></a>
+                    <div class="info__stars">@item.Stars</div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (item.IsStar)
+                        {
+                            <form class="info__stars-button active" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="StarDown">
+                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                <input name="ArticleId" type="hidden" value="@item.Id">
+                                <input id="star" class="starClick submit" type="submit" value="" />
+                            </form>
+                        }
+                        else
+                        {
+                            <form class="info__stars-button" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="StarUp">
+                                <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                <input name="ArticleId" type="hidden" value="@item.Id">
+                                <input id="star" class="starClick submit" type="submit" value="" />
+                            </form>
+                        }
+                    }
+                    else
+                    {
+                        <a href="/Identity/Account/Register" class="info__stars-button"></a>
+                    }
+                    @*<a href="#" class="info__stars-button"></a>*@
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@ namespace MoonpaperLinux.Models
         public string Url { get; set; }
         public string UrlMainImg { get; set; }
         public int Views { get; set; }
-        public int Rating { get; set; }
+        public int Stars { get; set; }
 
         public List<ArticleTag> ArticleTags { get; set; }
 

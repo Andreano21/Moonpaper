@@ -84,7 +84,7 @@ namespace MoonpaperLinux.Controllers
 
                 case "rating":
                     articles = db.Articles
-                        .OrderByDescending(a => a.Rating)
+                        .OrderByDescending(a => a.Stars)
                         .ToList();
 
                     db.Sources.Load();
@@ -115,16 +115,29 @@ namespace MoonpaperLinux.Controllers
             //Список персоналезированных тегов
             List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
 
-            //Получения списка тегов пользователя
+            //Получение списка тегов пользователя
             List<UserTag> userTags;
             userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
 
+            //Получение списка лайков пользователя
+            List<Star> stars;
+            stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
             foreach (var article in articles)
             {
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, false));
+                bool isStar = false;
+
+                var ps = stars.FirstOrDefault(s => s.ArticleId == article.Id);
+
+                if (ps != null)
+                {
+                    isStar = true;
+                }
+
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, isStar));
             }
 
-            ViewBag.Articles = articlesPersonal;
+            ViewBag.ArticlePersonals = articlesPersonal;
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
@@ -181,7 +194,7 @@ namespace MoonpaperLinux.Controllers
 
                 case "rating":
                     articles = db.Articles
-                        .OrderByDescending(a => a.Rating)
+                        .OrderByDescending(a => a.Stars)
                         .ToList();
 
                     db.Sources.Load();
@@ -212,9 +225,22 @@ namespace MoonpaperLinux.Controllers
             List<UserTag> userTags;
             userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
 
+            //Получение списка лайков пользователя
+            List<Star> stars;
+            stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
             foreach (var article in articles)
             {
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, false));
+                bool isStar = false;
+
+                var ps = stars.FirstOrDefault(s => s.ArticleId == article.Id);
+
+                if (ps != null)
+                {
+                    isStar = true;
+                }
+
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, isStar));
             }
 
             //Получение статей исключая отписанные теги
@@ -224,7 +250,7 @@ namespace MoonpaperLinux.Controllers
 
             articlesPersonal = articlesPersonal.Skip(articlesToSkip).Take(Pages).ToList();
 
-            ViewBag.Articles = articlesPersonal;
+            ViewBag.ArticlePersonals = articlesPersonal;
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
@@ -285,7 +311,7 @@ namespace MoonpaperLinux.Controllers
 
                 case "rating":
                     articles = articles
-                            .OrderByDescending(a => a.Rating)
+                            .OrderByDescending(a => a.Stars)
                             .ToList();
                     break;
             }
@@ -316,12 +342,25 @@ namespace MoonpaperLinux.Controllers
             List<UserTag> userTags;
             userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
 
+            //Получение списка лайков пользователя
+            List<Star> stars;
+            stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
             foreach (var article in articles)
             {
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, false));
+                bool isStar = false;
+
+                var ps = stars.FirstOrDefault(s => s.ArticleId == article.Id);
+
+                if (ps != null)
+                {
+                    isStar = true;
+                }
+
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, isStar));
             }
 
-            ViewBag.Articles = articlesPersonal;
+            ViewBag.ArticlePersonals = articlesPersonal;
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
@@ -376,6 +415,39 @@ namespace MoonpaperLinux.Controllers
             }
 
             db.SaveChanges();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void StarUp(string UserId, int ArticleId)
+        {
+            var star = db.Stars.FirstOrDefault(s => s.UserId == UserId && s.ArticleId == ArticleId);
+
+            if (star == null)
+            {
+                Star s = new Star();
+                s.UserId = UserId;
+                s.ArticleId = ArticleId;
+                db.Stars.Add(s);
+                db.Articles.FirstOrDefault(a => a.Id == ArticleId).Stars++;
+
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void StarDown(string UserId, int ArticleId)
+        {
+            var star = db.Stars.FirstOrDefault(s => s.UserId == UserId && s.ArticleId == ArticleId);
+
+            if (star != null)
+            {
+                db.Stars.Remove(star);
+                db.Articles.FirstOrDefault(a => a.Id == ArticleId).Stars--;
+
+                db.SaveChanges();
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
