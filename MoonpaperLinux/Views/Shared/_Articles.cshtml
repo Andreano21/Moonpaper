@@ -18,9 +18,26 @@
                     <div class="tags__Drop_panel">
                         <div class="tags__icon"></div>
                         <div class="tag">
-                            <a href="@item.Source.Url" class="tag__name">@item.Source.Name</a>
-                            <a href="#1" class="tag__btn-off"></a>
-                            <a href="#2" class="tag__btn-on"></a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a href="@item.Source.Url" class="tag__name  @if (item.SourceRating > 0) {<text>active</text>} @if (item.SourceRating < 0) {<text>disactive</text>}">@item.Source.Name</a>
+                                <form class="tag__btn-off @if (item.SourceRating < 0) {<text>active</text>}" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="SourceDown">
+                                    <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                    <input name="SourceId" type="hidden" value="@item.Source.Id">
+                                    <input class="submit_tagOff submit" type="submit" value="" />
+                                </form>
+                                <form class="tag__btn-on @if (item.SourceRating > 0) {<text>active</text>}" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="SourceUp">
+                                    <input name="UserId" type="hidden" value="@ViewBag.UserId">
+                                    <input name="SourceId" type="hidden" value="@item.Source.Id">
+                                    <input class="submit_tagOn submit" type="submit" value="" />
+                                </form>
+                            }
+                            else
+                            {
+                                <a href="@item.Source.Url" class="tag__name">@item.Source.Name</a>
+                                <a href="/Identity/Account/Register" class="tag__btn-off"></a>
+                                <a href="/Identity/Account/Register" class="tag__btn-on"></a>
+                            }
                         </div>
                         @{
                             if (item.ArticleTagPersonals != null)

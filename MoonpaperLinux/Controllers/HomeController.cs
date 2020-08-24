@@ -123,6 +123,10 @@ namespace MoonpaperLinux.Controllers
             List<Star> stars;
             stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
 
+            //Получение списка источников пользователя
+            List<UserSource> userSource;
+            userSource = db.UserSource.Where(us => us.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
             foreach (var article in articles)
             {
                 bool isStar = false;
@@ -134,7 +138,16 @@ namespace MoonpaperLinux.Controllers
                     isStar = true;
                 }
 
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, isStar));
+                int sourceRating = 0;
+
+                var us = userSource.FirstOrDefault(us => us.SourceId == article.Source.Id);
+
+                if (us != null)
+                {
+                    sourceRating = us.Rating;
+                }
+
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, sourceRating, isStar));
             }
 
             ViewBag.ArticlePersonals = articlesPersonal;
@@ -229,6 +242,10 @@ namespace MoonpaperLinux.Controllers
             List<Star> stars;
             stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
 
+            //Получение списка источников пользователя
+            List<UserSource> userSource;
+            userSource = db.UserSource.Where(us => us.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
             foreach (var article in articles)
             {
                 bool isStar = false;
@@ -240,7 +257,16 @@ namespace MoonpaperLinux.Controllers
                     isStar = true;
                 }
 
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, isStar));
+                int sourceRating = 0;
+
+                var us = userSource.FirstOrDefault(us => us.SourceId == article.Source.Id);
+
+                if (us != null)
+                {
+                    sourceRating = us.Rating;
+                }
+
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, sourceRating, isStar));
             }
 
             //Получение статей исключая отписанные теги
@@ -346,6 +372,10 @@ namespace MoonpaperLinux.Controllers
             List<Star> stars;
             stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
 
+            //Получение списка источников пользователя
+            List<UserSource> userSource;
+            userSource = db.UserSource.Where(us => us.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
+
             foreach (var article in articles)
             {
                 bool isStar = false;
@@ -357,7 +387,16 @@ namespace MoonpaperLinux.Controllers
                     isStar = true;
                 }
 
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, isStar));
+                int sourceRating = 0;
+
+                var us = userSource.FirstOrDefault(us => us.SourceId == article.Source.Id);
+
+                if (us != null)
+                {
+                    sourceRating = us.Rating;
+                }
+
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, sourceRating, isStar));
             }
 
             ViewBag.ArticlePersonals = articlesPersonal;
@@ -371,6 +410,50 @@ namespace MoonpaperLinux.Controllers
 
             return View();
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void SourceUp(string UserId, int SourceId)
+        {
+            var UserSourceId = db.UserSource.FirstOrDefault(us => us.UserId == UserId && us.SourceId == SourceId);
+
+            if (UserSourceId != null)
+            {
+                UserSourceId.Rating = 1;
+            }
+            else
+            {
+                UserSource us = new UserSource();
+                us.UserId = UserId;
+                us.SourceId = SourceId;
+                us.Rating = 1;
+                db.UserSource.Add(us);
+            }
+
+            db.SaveChanges();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void SourceDown(string UserId, int SourceId)
+        {
+            var UserSourceId = db.UserSource.FirstOrDefault(us => us.UserId == UserId && us.SourceId == SourceId);
+
+            if (UserSourceId != null)
+            {
+                UserSourceId.Rating = -1;
+            }
+            else
+            {
+                UserSource us = new UserSource();
+                us.UserId = UserId;
+                us.SourceId = SourceId;
+                us.Rating = -1;
+                db.UserSource.Add(us);
+            }
+
+            db.SaveChanges();
         }
 
         [HttpPost]

@@ -310,13 +310,6 @@ $(document).ready(function () {
 
         var $tagBlock = $(this).parent();
 
-        //console.log($(this));
-        //console.log($tagBlock);
-        //console.log($tagBlock.find('tag__btn-off'));
-        //console.log($tagBlock.find('tag__btn-on'));
-        //console.log($tagBlock.find('tag__name'));
-
-
         //очистка статусов формы
         $tagBlock.find('.tag__btn-off').removeClass('active');
         $tagBlock.find('.tag__btn-on').removeClass('active');
@@ -324,7 +317,7 @@ $(document).ready(function () {
         $tagBlock.find('.tag__name').removeClass('active');
 
         //установка новых статусов
-        $(this).addClass('.active');
+        $(this).addClass('active');
         $tagBlock.find('.tag__name').addClass('active');
 
     });

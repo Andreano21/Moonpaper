@@ -10,9 +10,10 @@ namespace MoonpaperLinux.ViewModels
     {
         public List<ArticleTagPersonal> ArticleTagPersonals { get; set; }
         public int SubscriptionRating { get; set; }
+        public int SourceRating { get; set; }
         public bool IsStar { get; set; }
 
-        public ArticlePersonal(Article _article, List<UserTag> _userTags, bool _isStar)
+        public ArticlePersonal(Article _article, List<UserTag> _userTags, int _sourceRating, bool _isStar)
         {
             ArticleTagPersonals = new List<ArticleTagPersonal>();
 
@@ -28,6 +29,7 @@ namespace MoonpaperLinux.ViewModels
             ArticleTags = _article.ArticleTags; //Можно удалить, проверив производительность
             DateTime = _article.DateTime;
 
+            SourceRating = _sourceRating;
             IsStar = _isStar;
 
             foreach (var at in ArticleTags)
