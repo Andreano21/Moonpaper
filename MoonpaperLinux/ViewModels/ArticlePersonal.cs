@@ -48,6 +48,8 @@ namespace MoonpaperLinux.ViewModels
 
                 ArticleTagPersonals.Add(atp);
             }
+
+            SubscriptionRating += 2 * SourceRating;
         }
     }
 }

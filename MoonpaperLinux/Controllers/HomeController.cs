@@ -39,6 +39,50 @@ namespace MoonpaperLinux.Controllers
             return View(articles);
         }
 
+
+        private List<ArticlePersonal> PreparePersonalArticles(List<Article> _articles, string _userId)
+        {
+            //Список персоналезированных тегов
+            List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
+
+            //Получение списка тегов пользователя
+            List<UserTag> userTags;
+            userTags = db.UserTags.Where(ut => ut.UserId == _userId).ToList();
+
+            //Получение списка лайков пользователя
+            List<Star> stars;
+            stars = db.Stars.Where(s => s.UserId == _userId).ToList();
+
+            //Получение списка источников пользователя
+            List<UserSource> userSource;
+            userSource = db.UserSource.Where(us => us.UserId == _userId).ToList();
+
+            foreach (var article in _articles)
+            {
+                bool isStar = false;
+
+                var ps = stars.FirstOrDefault(s => s.ArticleId == article.Id);
+
+                if (ps != null)
+                {
+                    isStar = true;
+                }
+
+                int sourceRating = 0;
+
+                var us = userSource.FirstOrDefault(us => us.SourceId == article.Source.Id);
+
+                if (us != null)
+                {
+                    sourceRating = us.Rating;
+                }
+
+                articlesPersonal.Add(new ArticlePersonal(article, userTags, sourceRating, isStar));
+            }
+
+            return articlesPersonal;
+        }
+
         public IActionResult All(string SortedBy, string Time, int Pages, int Page)
         {
             if (SortedBy == null)
@@ -112,45 +156,7 @@ namespace MoonpaperLinux.Controllers
 
             articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
 
-            //Список персоналезированных тегов
-            List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
-
-            //Получение списка тегов пользователя
-            List<UserTag> userTags;
-            userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            //Получение списка лайков пользователя
-            List<Star> stars;
-            stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            //Получение списка источников пользователя
-            List<UserSource> userSource;
-            userSource = db.UserSource.Where(us => us.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            foreach (var article in articles)
-            {
-                bool isStar = false;
-
-                var ps = stars.FirstOrDefault(s => s.ArticleId == article.Id);
-
-                if (ps != null)
-                {
-                    isStar = true;
-                }
-
-                int sourceRating = 0;
-
-                var us = userSource.FirstOrDefault(us => us.SourceId == article.Source.Id);
-
-                if (us != null)
-                {
-                    sourceRating = us.Rating;
-                }
-
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, sourceRating, isStar));
-            }
-
-            ViewBag.ArticlePersonals = articlesPersonal;
+            ViewBag.ArticlePersonals = PreparePersonalArticles(articles, _userManager.GetUserId(HttpContext.User));
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
@@ -231,52 +237,16 @@ namespace MoonpaperLinux.Controllers
                     break;
             }
 
-            //Список персоналезированных тегов
-            List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
-
-            //Получения списка тегов пользователя
-            List<UserTag> userTags;
-            userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            //Получение списка лайков пользователя
-            List<Star> stars;
-            stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            //Получение списка источников пользователя
-            List<UserSource> userSource;
-            userSource = db.UserSource.Where(us => us.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            foreach (var article in articles)
-            {
-                bool isStar = false;
-
-                var ps = stars.FirstOrDefault(s => s.ArticleId == article.Id);
-
-                if (ps != null)
-                {
-                    isStar = true;
-                }
-
-                int sourceRating = 0;
-
-                var us = userSource.FirstOrDefault(us => us.SourceId == article.Source.Id);
-
-                if (us != null)
-                {
-                    sourceRating = us.Rating;
-                }
-
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, sourceRating, isStar));
-            }
+            List<ArticlePersonal> articlePersonals = PreparePersonalArticles(articles, _userManager.GetUserId(HttpContext.User));
 
             //Получение статей исключая отписанные теги
-            articlesPersonal = articlesPersonal.Where(ap => ap.SubscriptionRating > 0).ToList();
+            articlePersonals = articlePersonals.Where(ap => ap.SubscriptionRating > 0).ToList();
 
             int articlesToSkip = Page * Pages;
 
-            articlesPersonal = articlesPersonal.Skip(articlesToSkip).Take(Pages).ToList();
+            articlePersonals = articlePersonals.Skip(articlesToSkip).Take(Pages).ToList();
 
-            ViewBag.ArticlePersonals = articlesPersonal;
+            ViewBag.ArticlePersonals = articlePersonals;
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
@@ -361,45 +331,7 @@ namespace MoonpaperLinux.Controllers
 
             articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
 
-            //Список персоналезированных тегов
-            List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
-
-            //Получения списка тегов пользователя
-            List<UserTag> userTags;
-            userTags = db.UserTags.Where(ut => ut.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            //Получение списка лайков пользователя
-            List<Star> stars;
-            stars = db.Stars.Where(s => s.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            //Получение списка источников пользователя
-            List<UserSource> userSource;
-            userSource = db.UserSource.Where(us => us.UserId == _userManager.GetUserId(HttpContext.User)).ToList();
-
-            foreach (var article in articles)
-            {
-                bool isStar = false;
-
-                var ps = stars.FirstOrDefault(s => s.ArticleId == article.Id);
-
-                if (ps != null)
-                {
-                    isStar = true;
-                }
-
-                int sourceRating = 0;
-
-                var us = userSource.FirstOrDefault(us => us.SourceId == article.Source.Id);
-
-                if (us != null)
-                {
-                    sourceRating = us.Rating;
-                }
-
-                articlesPersonal.Add(new ArticlePersonal(article, userTags, sourceRating, isStar));
-            }
-
-            ViewBag.ArticlePersonals = articlesPersonal;
+            ViewBag.ArticlePersonals = PreparePersonalArticles(articles, _userManager.GetUserId(HttpContext.User));
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
 
