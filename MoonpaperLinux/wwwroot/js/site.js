@@ -1,6 +1,27 @@
 ﻿//В каком виде отображаются статьи на текущий момент
 var viewStatus = "grid";
 
+//Установка отображения статей в соответствии с найтройкой
+$(document).ready(function () {
+
+    //Загрузка из куки настроек вывода новостей
+    var vs = GetTypeOfOutput("viewStatus");
+
+    //проверка viewStatus в кукис
+    if (vs !== "") {
+        viewStatus = vs;
+        SetupToGrid();
+    }
+
+    if (viewStatus === "line") {
+        SetupToLine();
+    }
+    else if (viewStatus === "grid") {
+        SetupToGrid();
+    }
+
+})
+
 function GetTypeOfOutput(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -22,80 +43,38 @@ function SetTypeOfOutput(cArg) {
     d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = "viewStatus" + "=" + cArg + ";" + expires;
-    console.log("test SetTypeOfOutput");
-}
-
-//<body onresize="pageSizeListener()">
-function pageSizeListener() {
-    if (viewStatus === "line") {
-        //Определение выводимых в линию тегов исходя из размеров окна
-        var w = window.innerWidth;
-        console.log(w);
-        var countTags = 0;
-        if (w > 1000) {
-            countTags = 4;
-            TagsToLineBlock(countTags);
-        }
-        else if (w > 900) {
-            countTags = 3;
-            TagsToLineBlock(countTags);
-        }
-        else if (w > 800) {
-            countTags = 2;
-            TagsToLineBlock(countTags);
-        }
-        else if (w > 740) {
-            countTags = 1;
-            TagsToLineBlock(countTags);
-        }
-    }
 }
 
 //Устанавливает отображение статей в линию
 function SetupToLine() {
     var element = document.querySelector(".block_grid");
-    element.className = "block_line";
 
-    var elements = document.querySelectorAll(".block__item_grid");
-    elements.forEach(element => {
-        element.className = "block__item_line";
-    });
+    if (element !== null) {
+        element.className = "block_line";
 
-    //Переключение активной кнопки в меню
-    var b = document.querySelector(".menu__right").querySelector(".menu__button.menu__button_right.active");
-    b.className = "menu__button menu__button_right";
+        var elements = document.querySelectorAll(".block__item_grid");
+        elements.forEach(element => {
+            element.className = "block__item_line";
+        });
 
-    var c = document.querySelector(".menu__right").querySelector(".menu__button.menu__button_left");
-    c.className = "menu__button menu__button_left active";
+        //Переключение активной кнопки в меню
+        var b = document.querySelector(".menu__right").querySelector(".menu__button.menu__button_right.active");
+        b.className = "menu__button menu__button_right";
 
-    //Переключение активной кнопки в боковом меню
-    var d = document.querySelector(".side-menu").querySelector("#linkRadioToLine");
-    d.className = "link__radio active";
+        var c = document.querySelector(".menu__right").querySelector(".menu__button.menu__button_left");
+        c.className = "menu__button menu__button_left active";
 
-    var e = document.querySelector(".side-menu").querySelector("#linkRadioToGrid");
-    e.className = "link__radio";
+        //Определение выводимых в линию тегов исходя из размеров окна
+        TagsToLineBlock();
 
-    //Определение выводимых в линию тегов исходя из размеров окна
-    var w = window.innerWidth;
-    var countTags = 0;
-    if (w > 1000) {
-        countTags = 4;
-    }
-    else if (w > 900) {
-        countTags = 3;
-    }
-    else if (w > 800) {
-        countTags = 2;
-    }
-    else if (w > 740) {
-        countTags = 1;
-        TagsToLineBlock(countTags);
+        SetTypeOfOutput("line");
+        viewStatus = "line";
     }
 
-    TagsToLineBlock(countTags);
-
-    SetTypeOfOutput("line");
-    viewStatus = "line";
+    //Переключение активной кнопки в мобильном меню
+    var b = document.querySelector(".view-switch");
+    b.setAttribute('onclick', 'SetupToGrid();');
+    b.querySelector('img').setAttribute('src', '/img/icons/i_menu_grid.png');
 }
 
 //Устанавливает отображение подгруженных AJAX статей в линию
@@ -130,62 +109,80 @@ function SetupToLineItem() {
 //Устанавливает отображение статей по сетке
 function SetupToGrid() {
     var element = document.querySelector(".block_line");
-    element.className = "block_grid";
 
-    var elements = document.querySelectorAll(".block__item_line");
-    elements.forEach(element => {
-        element.className = "block__item_grid";
-    });
+    if (element !== null) {
+        element.className = "block_grid";
 
-    //Переключение активной кнопки в меню
-    var b = document.querySelector(".menu__right").querySelector(".menu__button_left.active");
-    b.className = "menu__button menu__button_left";
+        var elements = document.querySelectorAll(".block__item_line");
+        elements.forEach(element => {
+            element.className = "block__item_grid";
+        });
 
-    var c = document.querySelector(".menu__right").querySelector(".menu__button_right");
-    c.className = "menu__button menu__button_right active";
+        //Переключение активной кнопки в меню
+        var b = document.querySelector(".menu__right").querySelector(".menu__button_left.active");
+        b.className = "menu__button menu__button_left";
 
-    //Переключение активной кнопки в боковом меню
-    var d = document.querySelector(".side-menu").querySelector("#linkRadioToLine");
-    d.className = "link__radio";
+        var c = document.querySelector(".menu__right").querySelector(".menu__button_right");
+        c.className = "menu__button menu__button_right active";
 
-    var e = document.querySelector(".side-menu").querySelector("#linkRadioToGrid");
-    e.className = "link__radio active";
+        TagsToDropBlock();
 
-    TagsToDropBlock();
+        SetTypeOfOutput("grid");
+        viewStatus = "grid";
+    }
 
-    SetTypeOfOutput("grid");
-    viewStatus = "grid";
+    //Переключение активной кнопки в мобильном меню
+    var b = document.querySelector(".view-switch");
+    b.setAttribute('onclick', 'SetupToLine();');
+    b.querySelector('img').setAttribute('src', '/img/icons/i_menu_lines.png');
 }
 
-//Перебрасывает теги в линейный блок
-function TagsToLineBlock(tagsCount) {
+//Перебрасывает теги для которых есть место в линейный блок, остальные в выпадающий
+function TagsToLineBlock() {
+    var articleWidth = document.querySelector('.block_line').clientWidth;
+    var imgWidth = 260;
+    var infoWidth;
+    var availableWidth;
+
     var tagBlocks = document.querySelectorAll(".tags");
 
     tagBlocks.forEach(tagBlock => {
         var tags = tagBlock.querySelectorAll(".tag");
         var tags__Line = tagBlock.querySelector(".tags__Line");
+        var tags__Drop_panel = tagBlock.querySelector(".tags__Drop_panel");
 
-        //Выводит в линейный блок  первые tagsCount тега, остальные в выпадающий блок
-        if (tags.length > tagsCount) {
-            for (var i = 0; i < tagsCount; i++) {
-                tags__Line.appendChild(tags[i]);
+
+        //предварительный вывод в линейный блок
+        tags.forEach(tag => {
+            tags__Line.appendChild(tag);
+        });
+        var tags__Drop_element = tagBlock.querySelector("#displayable");
+        tags__Drop_element.className = "tags__Drop_disable";
+
+        infoWidth = tagBlock.parentElement.querySelector(".info").clientWidth + 15;
+
+        availableWidth = articleWidth - imgWidth - infoWidth;
+        var curentFreeSpace = 80;
+
+        var tagInDropPanel = 0;
+        tags.forEach(tag => {
+
+            curentFreeSpace += tag.clientWidth + 10;
+
+            if (curentFreeSpace > availableWidth) {
+                tags__Drop_panel.appendChild(tag);
+                tagInDropPanel++;
             }
-        }
-        else {
-            tags.forEach(tag => {
-
-                tags__Line.appendChild(tag);
-            });
-        }
+        });
 
         //Скрывает блок tags__Drop если в нем нет тегов
-        if (tags.length <= tagsCount) {
+        if (tagInDropPanel >= 1) {
             var tags__Drop_element = tagBlock.querySelector("#displayable");
-            tags__Drop_element.className = "tags__Drop_disable";
+            tags__Drop_element.className = "tags__Drop";
         }
         else {
             var tags__Drop_element = tagBlock.querySelector("#displayable");
-            tags__Drop_element.className = "tags__Drop";
+            tags__Drop_element.className = "tags__Drop_disable";
         }
     });
 }
@@ -207,7 +204,6 @@ function TagsToDropBlock() {
         tags__Drop_element.className = "tags__Drop";
     });
 }
-
 
 //Ajax подгрузка статей
 $(function () {
@@ -261,7 +257,6 @@ $(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             loadItems();
         }
-        //console.log($(window).scrollTop() - ($(document).height() - $(window).height()));
     });
 })
 
@@ -339,18 +334,19 @@ $(document).ready(function () {
     });
 });
 
-//Загрузка из куки настроек вывода новостей
-var vs = GetTypeOfOutput("viewStatus");
+//Кнопка подъема в начало страницы
+var btn = $('#button_rise');
 
-//проверка viewStatus в кукис
-if (vs !== "") {
-    viewStatus = vs;
-}
+$(window).scroll(function () {
+    if ($(window).scrollTop() > 300) {
+        btn.addClass('show');
+    } else {
+        btn.removeClass('show');
+    }
+});
 
-//отображение статей в соответствии с найтройкой
-if (viewStatus === "line") {
-    SetupToLine();
-}
-else if (viewStatus === "grid") {
-    SetupToGrid();
-}
+btn.on('click', function (e) {
+    e.preventDefault();
+    $('html, body').animate({ scrollTop: 0 }, '300');
+});
+

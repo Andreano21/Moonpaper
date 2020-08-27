@@ -26,7 +26,7 @@ namespace MoonpaperLinux.ViewModels
             UrlMainImg = _article.UrlMainImg;
             Views = _article.Views;
             Stars = _article.Stars;
-            ArticleTags = _article.ArticleTags; //Можно удалить, проверив производительность
+            ArticleTags = _article.ArticleTags; 
             DateTime = _article.DateTime;
 
             SourceRating = _sourceRating;

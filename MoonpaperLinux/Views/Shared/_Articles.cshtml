@@ -20,7 +20,7 @@
                         <div class="tag">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a href="@item.Source.Url" class="tag__name  @if (item.SourceRating > 0) {<text>active</text>} @if (item.SourceRating < 0) {<text>disactive</text>}">@item.Source.Name</a>
+                                <a href="@item.Source.Url" class="tag__name @if (item.SourceRating > 0) {<text>active</text>} @if (item.SourceRating < 0) {<text>disactive</text>}">@item.Source.Name</a>
                                 <form class="tag__btn-off @if (item.SourceRating < 0) {<text>active</text>}" method="post" data-ajax="true" data-ajax-method="post" asp-controller="Home" asp-action="SourceDown">
                                     <input name="UserId" type="hidden" value="@ViewBag.UserId">
                                     <input name="SourceId" type="hidden" value="@item.Source.Id">

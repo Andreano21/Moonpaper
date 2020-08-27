@@ -21,11 +21,78 @@
     </div>
     <div class="menu__right">
         <div class="menu__block menu__block_end">
-            <a href="" onclick="SetupToLine();" class="menu__button  menu__button_left">
+            <a href="#" onclick="SetupToLine();" class="menu__button  menu__button_left">
                 <img src="~/img/icons/i_menu_lines.png" alt="" class="icon">
             </a>
-            <a href="" onclick="SetupToGrid();" class="menu__button menu__button_right active">
+            <a href="#" onclick="SetupToGrid();" class="menu__button menu__button_right active">
                 <img src="~/img/icons/i_menu_grid.png" alt="" class="icon">
+            </a>
+        </div>
+    </div>
+</nav>
+<nav class="menu-mobile">
+    <div class="hidden">
+        <div class="dropdown">
+            <a href="#" class="dropdown__btn top">Все</a>
+            <div class="dropdown__content">
+                <a href="~/Home/My?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Мои</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            @if (ViewBag.SortedBy == "time")
+            {
+                <a href="#" class="dropdown__btn top">Время</a>
+                <div class="dropdown__content">
+                    <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Просмотры</a>
+                    <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Рейтинг</a>
+                </div>
+            }
+            @if (ViewBag.SortedBy == "views")
+            {
+                <a href="#" class="dropdown__btn top">Просмотры</a>
+                <div class="dropdown__content">
+                    <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Время</a>
+                    <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Рейтинг</a>
+                </div>
+            }
+            @if (ViewBag.SortedBy == "rating")
+            {
+                <a href="#" class="dropdown__btn top">Рейтинг</a>
+                <div class="dropdown__content">
+                    <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Время</a>
+                    <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Просмотры</a>
+                </div>
+            }
+        </div>
+        <div class="dropdown">
+            @if (ViewBag.Time == "day")
+            {
+                <a href="#" class="dropdown__btn top">День</a>
+                <div class="dropdown__content">
+                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="dropdown__btn">Неделя</a>
+                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Месяц</a>
+                </div>
+            }
+            @if (ViewBag.Time == "week")
+            {
+                <a href="#" class="dropdown__btn top">Неделя</a>
+                <div class="dropdown__content">
+                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="dropdown__btn">День</a>
+                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Месяц</a>
+                </div>
+            }
+            @if (ViewBag.Time == "month")
+            {
+                <a href="#" class="dropdown__btn top">Месяц</a>
+                <div class="dropdown__content">
+                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="dropdown__btn">День</a>
+                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Неделя</a>
+                </div>
+            }
+        </div>
+        <div class="dropdown">
+            <a href="" onclick="SetupToLine();" class="dropdown__btn view-switch">
+                <img src="~/img/icons/i_menu_lines.png" alt="" class="icon">
             </a>
         </div>
     </div>
