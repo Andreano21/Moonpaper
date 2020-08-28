@@ -1,5 +1,5 @@
 ﻿//В каком виде отображаются статьи на текущий момент
-var viewStatus = "grid";
+var viewStatus = "line";
 
 //Установка отображения статей в соответствии с найтройкой
 $(document).ready(function () {
@@ -10,7 +10,7 @@ $(document).ready(function () {
     //проверка viewStatus в кукис
     if (vs !== "") {
         viewStatus = vs;
-        SetupToGrid();
+        SetupToLine();
     }
 
     if (viewStatus === "line") {
@@ -254,7 +254,12 @@ $(function () {
 
     //обработка события скроллинга
     $(window).scroll(function () {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        var position = $(document).height() - $(window).scrollTop() - $(window).height();
+
+        //Размер документа может быть дробным числом, а размер окна только целым
+        //Так же мобильный браузер может выдавать значение на 50-60 пикселей больше чем реальное
+        //Исходя из этих условий задан следующий параметр
+        if (position < 100) {
             loadItems();
         }
     });

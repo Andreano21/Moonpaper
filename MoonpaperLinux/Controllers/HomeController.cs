@@ -86,7 +86,7 @@ namespace MoonpaperLinux.Controllers
         public IActionResult All(string SortedBy, string Time, int Pages, int Page)
         {
             if (SortedBy == null)
-                SortedBy = "views";
+                SortedBy = "rating";
 
             if (Time == null)
                 Time = "day";
@@ -171,7 +171,7 @@ namespace MoonpaperLinux.Controllers
         public IActionResult My(string SortedBy, string Time, int Pages, int Page)
         {
             if (SortedBy == null)
-                SortedBy = "views";
+                SortedBy = "rating";
 
             if (Time == null)
                 Time = "day";
@@ -261,7 +261,7 @@ namespace MoonpaperLinux.Controllers
         public IActionResult Tag(string Tag, string SortedBy, string Time, int Pages, int Page)
         {
             if (SortedBy == null)
-                SortedBy = "views";
+                SortedBy = "rating";
 
             if (Time == null)
                 Time = "day";

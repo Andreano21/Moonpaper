@@ -24,7 +24,7 @@ namespace Moonparser.Core
 
             parsers.Add(new HabraParser());
             parsers.Add(new StopgameParser());
-            //parsers.Add(new OnlinerParser());
+            parsers.Add(new OnlinerParser());
             parsers.Add(new rbcParser());
             parsers.Add(new TutbyParser());
             parsers.Add(new RiaParser());

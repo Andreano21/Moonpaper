@@ -944,7 +944,7 @@ header {
         }
 
             .block__item_grid .info__stars-button.active:hover {
-                background: url(../img/icons/i_star_fill_white.png) 6px 1px/20px 20px no-repeat;
+                background: url(../img/icons/i_star_fill_white.png) 7px 1px/20px 20px no-repeat;
             }
 
         .block__item_grid .info__stars-button:hover {
@@ -2571,8 +2571,16 @@ header {
         }
 
             .block__item_grid .info__stars-button:hover {
+                background: url(../img/icons/i_star_stroke_white.png) 11px 3px/38px 38px no-repeat;
+            }
+
+            .block__item_grid .info__stars-button.active {
                 background: url(../img/icons/i_star_fill_white.png) 12px 4px/36px 36px no-repeat;
             }
+
+                .block__item_grid .info__stars-button.active:hover {
+                    background: url(../img/icons/i_star_fill_white.png) 11px 3px/38px 38px no-repeat;
+                }
 
     .menu {
         display: none;
@@ -3187,8 +3195,16 @@ header {
         }
 
             .block__item_grid .info__stars-button:hover {
+                background: url(../img/icons/i_star_stroke_white.png) 8px 2px/32px 32px no-repeat;
+            }
+
+            .block__item_grid .info__stars-button.active {
                 background: url(../img/icons/i_star_fill_white.png) 9px 3px/30px 30px no-repeat;
             }
+
+                .block__item_grid .info__stars-button.active:hover {
+                    background: url(../img/icons/i_star_fill_white.png) 8px 2px/32px 32px no-repeat;
+                }
 
     .menu {
         display: none;
@@ -3450,8 +3466,16 @@ header {
         }
 
             .block__item_grid .info__stars-button:hover {
+                background: url(../img/icons/i_star_stroke_white.png) 6px 1px/24px 24px no-repeat;
+            }
+
+            .block__item_grid .info__stars-button.active {
                 background: url(../img/icons/i_star_fill_white.png) 7px 2px/22px 22px no-repeat;
             }
+
+                .block__item_grid .info__stars-button.active:hover {
+                    background: url(../img/icons/i_star_fill_white.png) 6px 1px/24px 24px no-repeat;
+                }
 
     .block__item_line {
         position: relative;
@@ -3536,9 +3560,6 @@ header {
         margin-top: 40px;
         margin-right: 40px;
         border-radius: 10px;
-        background-color: #F4F2EE;
-        -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
 
         header .find input {
@@ -3565,6 +3586,261 @@ header {
 
         #button_rise:hover {
             background: url(../img/icons/i_arrow_up_gray.png) 12px 10px/25px 25px no-repeat #FFD53E;
+        }
+
+    .block_grid {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .block__item_grid {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        position: relative;
+        width: 320px;
+        height: 320px;
+        margin-bottom: 20px;
+    }
+
+        .block__item_grid .article-img {
+            position: absolute;
+            z-index: 1;
+            -o-object-fit: cover;
+            object-fit: cover;
+            width: 320px;
+            height: 320px;
+            border-radius: 15px;
+        }
+
+        .block__item_grid .text {
+            position: absolute;
+            z-index: 2;
+            bottom: 60px;
+            left: 20px;
+            width: 280px;
+        }
+
+        .block__item_grid .text__title {
+            font-size: 18px;
+        }
+
+        .block__item_grid .tags {
+            position: absolute;
+            top: 280px;
+            left: 20px;
+        }
+
+        .block__item_grid .tags__Drop {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+
+        .block__item_grid .tags__Drop_panel {
+            position: absolute;
+            z-index: 5;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+
+            .block__item_grid .tags__Drop_panel:hover {
+                background-color: white;
+            }
+
+                .block__item_grid .tags__Drop_panel:hover .tags__icon {
+                    background: url(../img/icons/i_tags_gray.png) 10px 4px/40px 20px no-repeat;
+                }
+
+        .block__item_grid .tags__Drop .tags__icon {
+            width: 55px;
+            height: 28px;
+            border-radius: 5px;
+            background: url(../img/icons/i_tags_white.png) 10px 4px/40px 20px no-repeat;
+        }
+
+            .block__item_grid .tags__Drop .tags__icon:hover {
+                background: url(../img/icons/i_tags_gray.png) 10px 4px/40px 20px no-repeat;
+            }
+
+        .block__item_grid .tags__Drop:hover .tag {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .block__item_grid .tags__Drop .tag {
+            display: none;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .block__item_grid .tags__Drop .tag__name {
+            -webkit-box-ordinal-group: 3;
+            -ms-flex-order: 2;
+            order: 2;
+            display: block;
+            width: 75%;
+            border: 1px solid #C4C4C4;
+            border-left: none;
+            border-right: none;
+            color: #2F3332;
+            text-align: center;
+            height: 30px;
+            padding-top: 6px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+            .block__item_grid .tags__Drop .tag__name:hover {
+                text-decoration: underline;
+            }
+
+        .block__item_grid .tags__Drop .tag__btn-off {
+            -webkit-box-ordinal-group: 2;
+            -ms-flex-order: 1;
+            order: 1;
+            display: block;
+            border: 1px solid #C4C4C4;
+            border-radius: 5px 0 0 5px;
+            color: #2F3332;
+            padding-top: 4px;
+            width: 45px;
+            height: 30px;
+            margin: 0px;
+            background: url(../img/icons/i_tags_off_gray.png) center 4px/20px 20px no-repeat;
+            background-color: white;
+        }
+
+        .block__item_grid .tags__Drop .tag__btn-on {
+            -webkit-box-ordinal-group: 4;
+            -ms-flex-order: 3;
+            order: 3;
+            display: block;
+            border: 1px solid #C4C4C4;
+            border-radius: 0 5px 5px 0;
+            color: #2F3332;
+            padding-top: 4px;
+            width: 45px;
+            height: 30px;
+            margin: 0px;
+            background: url(../img/icons/i_tags_on_gray.png) center 4px/20px 20px no-repeat;
+            background-color: white;
+        }
+
+        .block__item_grid .info {
+            font-size: 20px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .block__item_grid .info__block {
+            position: absolute;
+            z-index: 2;
+            top: 10px;
+            right: 0px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .block__item_grid .info__block-star {
+            position: absolute;
+            z-index: 2;
+            bottom: 10px;
+            right: 20px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .block__item_grid .info__time {
+            height: 30px;
+            padding-top: 4px;
+            padding-left: 35px;
+            background: url(../img/icons/i_time_white.png) 8px 4px/20px 20px no-repeat;
+        }
+
+        .block__item_grid .info__views {
+            height: 30px;
+            padding-top: 4px;
+            padding-left: 35px;
+            background: url(../img/icons/i_view_white.png) 8px 3px/24px 24px no-repeat;
+        }
+
+        .block__item_grid .info__stars {
+            height: 30px;
+            padding-top: 4px;
+        }
+
+        .block__item_grid .info__stars-button {
+            height: 30px;
+            padding-top: 0px;
+            width: 40px;
+        }
+
+    .menu {
+        display: none;
+    }
+}
+
+@media (max-width: 355px) {
+    .container {
+        margin: auto;
+        max-width: 355px;
+        background-color: white;
+    }
+
+    .wrapper {
+        margin: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+        position: relative;
+    }
+
+    header .find {
+        display: none;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        min-width: 150px;
+        height: 35px;
+        margin-top: 40px;
+        margin-right: 40px;
+        border-radius: 10px;
+    }
+
+        header .find input {
+            font-size: 18px;
+            width: 80px;
+            padding-left: 17px;
+            background: none;
+        }
+
+        header .find .find-img {
+            padding-right: 10px;
+        }
+
+        header .find img {
+            width: 24px;
+            height: 24px;
         }
 
     .block_grid {
@@ -3770,12 +4046,7 @@ header {
             height: 30px;
             padding-top: 0px;
             width: 40px;
-            background: url(../img/icons/i_star_stroke_white.png) 7px 2px/22px 22px no-repeat;
         }
-
-            .block__item_grid .info__stars-button:hover {
-                background: url(../img/icons/i_star_fill_white.png) 7px 2px/22px 22px no-repeat;
-            }
 
     .menu {
         display: none;
