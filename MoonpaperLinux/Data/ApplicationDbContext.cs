@@ -28,7 +28,6 @@ namespace MoonpaperLinux.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql("server=localhost;UserId=root;Password=1234;database=MoonpaperDb2;");
-            //optionsBuilder.UseMySql("server=172.17.0.3;UserId=root;Password=12345;database=MoonpaperDb2;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -26,7 +26,9 @@ namespace Moonparser.NewsSources
 
             foreach (var d in documents)
             {
-                items.AddRange(d.QuerySelectorAll("a").Where(item => item.ClassName != null && item.ClassName.Contains("item article-summary article-summary-card")));
+                var v1 = d.QuerySelectorAll("div").Where(item => item.ClassName != null && item.ClassName.Contains("item article-summary article-summary-card"));
+
+                items.AddRange(v1);
             }
 
             return items;
@@ -34,12 +36,12 @@ namespace Moonparser.NewsSources
 
         protected override void GetUrl(Article _article, IElement reducedArticle)
         {
-            _article.Url = startUrls[0] + reducedArticle.Attributes["href"].Value;
+            _article.Url = startUrls[0] + reducedArticle.QuerySelector("a").Attributes["href"].Value;
         }
 
         protected override void GetBody(Article _article, IHtmlDocument fullArticle)
         {
-            _article.Body = fullArticle.QuerySelector("section.article-show").TextContent;
+            _article.Body = fullArticle.QuerySelector("section.article").TextContent;
         }
 
         protected override void GetTitle(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
@@ -49,14 +51,18 @@ namespace Moonparser.NewsSources
 
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Summary = _article.Title; //Обрежется после выхода из функции в классе Parser
+            _article.Summary = fullArticle.QuerySelector("section.article").QuerySelector("p").TextContent;
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string imgurl = reducedArticle.QuerySelector("div.image").Attributes["style"].Value;
-            imgurl = imgurl.Replace("background-image: url(","");
-            imgurl = imgurl.Replace(");", "");
+
+            var t1 = reducedArticle.QuerySelector(".image.lazy");
+
+
+            string imgurl = t1.Attributes["data-src"].Value;
+            //imgurl = imgurl.Replace("background-image: url(","");
+            //imgurl = imgurl.Replace(");", "");
 
             _article.UrlMainImg = imgurl;
         }

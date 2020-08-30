@@ -85,7 +85,7 @@ namespace Moonparser.NewsSources
 
         protected override void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.DateTime = DateTime.Now;
+            _article.DateTime = DateTime.Now.ToUniversalTime();
         }
 
         protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

@@ -15,7 +15,7 @@ namespace Moonparser.NewsSources
     {
         protected override void SetSettings()
         {
-            startUrls = new string[] { "https://www.inmyroom.ru/posts" };
+            startUrls = new string[] { "https://www.inmyroom.ru/" };
             pageSolverType = PageSolverType.Not;
             sourceName = "inmyroom.ru";
             sourceUrl = "https://www.inmyroom.ru";
@@ -28,12 +28,16 @@ namespace Moonparser.NewsSources
 
             for (int d = 0; d < documents.Length; d++)
             {
-                var v1 = documents[d].QuerySelector("div.pb-Section");
-                var v2 = v1.QuerySelector("div.b-InfinityList");
-                var v3 = v2.QuerySelector("div.b-Layout__content_narrow");
-                var v4 = v3.QuerySelectorAll("a.s-PostPreview");
+                //var v1 = documents[d].QuerySelector("div.pb-Section");
+                //var v2 = v1.QuerySelector("div.b-InfinityList");
+                //var v3 = v2.QuerySelector("div.b-Layout__content_narrow");
+                //var v4 = v3.QuerySelectorAll("a.s-PostPreview");
 
-                items.AddRange(v4);
+                var v1 = documents[d].QuerySelector("div.pb-Section_list.__posts");
+                var v2 = v1.QuerySelectorAll("a.s-PostPreview.__mode_square.__state_published");
+
+
+                items.AddRange(v2);
             }
 
             return items;

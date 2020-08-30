@@ -29,7 +29,7 @@ namespace Moonparser.NewsSources
             {
                 var v1 = documents[d].QuerySelector("div.feed__items");
 
-                v1.QuerySelector("article.item-pinned").Remove(); // удаление рекламного блока
+                //v1.QuerySelector("article.item-pinned").Remove(); // удаление рекламного блока
 
                 var v2 = v1.QuerySelectorAll("article.preview-card");
 
