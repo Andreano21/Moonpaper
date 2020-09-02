@@ -4,46 +4,8 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="identity">
-    <div class="identity__block">
-        <div class="identity_name">Регистрация</div>
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email">Email:</label>
-                <input asp-for="Input.Email" class="form-text" />
-                <span asp-validation-for="Input.Email"></span>
-            </div>
-            <div class="form-group">
-                <div>Имя или никнейм:</div>
-                <input type="text" name="email" class="form-text" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password">Пароль:</label>
-                <input asp-for="Input.Password" class="form-text" />
-                <span asp-validation-for="Input.Password"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword">Пароль еще разок:</label>
-                <input asp-for="Input.ConfirmPassword" class="form-text" />
-                <span asp-validation-for="Input.ConfirmPassword"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="form-btn">Зарегистрироваться</button>
-            </div>
-            <div class="links-group">
-                <p>Уже есть аккаунт? </p>
-                <a id="login" asp-area="Identity" asp-page="/Account/Login">Войдите</a>
-            </div>
-        </form>
-    </div>
-</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
-
-@*<div class="row">
+<div class="row">
         <div class="col-md-4">
             <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                 <h4>Create a new account.</h4>
@@ -97,4 +59,44 @@
                 }
             </section>
         </div>
-    </div>*@
+    </div>
+
+
+@*<div class="identity">
+    <div class="identity__block">
+        <div class="identity_name">Регистрация</div>
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email">Email:</label>
+                <input asp-for="Input.Email" class="form-text" />
+                <span asp-validation-for="Input.Email"></span>
+            </div>
+            <div class="form-group">
+                <div>Имя или никнейм:</div>
+                <input type="text" name="email" class="form-text" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password">Пароль:</label>
+                <input asp-for="Input.Password" class="form-text" />
+                <span asp-validation-for="Input.Password"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword">Пароль еще разок:</label>
+                <input asp-for="Input.ConfirmPassword" class="form-text" />
+                <span asp-validation-for="Input.ConfirmPassword"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-btn">Зарегистрироваться</button>
+            </div>
+            <div class="links-group">
+                <p>Уже есть аккаунт? </p>
+                <a id="login" asp-area="Identity" asp-page="/Account/Login">Войдите</a>
+            </div>
+        </form>
+    </div>
+</div>*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

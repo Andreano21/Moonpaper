@@ -8,18 +8,18 @@ $(document).ready(function () {
     var vs = GetTypeOfOutput("viewStatus");
 
     //проверка viewStatus в кукис
-    if (vs !== "") {
-        viewStatus = vs;
+    if (vs === "") {
+        viewStatus = "line";
         SetupToLine();
     }
-
-    if (viewStatus === "line") {
+    else if (vs === "line") {
+        viewStatus = "line";
         SetupToLine();
     }
-    else if (viewStatus === "grid") {
+    else if (vs === "grid") {
+        viewStatus = "grid";
         SetupToGrid();
     }
-
 })
 
 function GetTypeOfOutput(cname) {
@@ -63,13 +63,13 @@ function SetupToLine() {
 
         var c = document.querySelector(".menu__right").querySelector(".menu__button.menu__button_left");
         c.className = "menu__button menu__button_left active";
-
-        //Определение выводимых в линию тегов исходя из размеров окна
-        TagsToLineBlock();
-
-        SetTypeOfOutput("line");
-        viewStatus = "line";
     }
+
+    //Определение выводимых в линию тегов исходя из размеров окна
+    TagsToLineBlock();
+
+    SetTypeOfOutput("line");
+    viewStatus = "line";
 
     //Переключение активной кнопки в мобильном меню
     var b = document.querySelector(".view-switch");
@@ -104,6 +104,17 @@ function SetupToLineItem() {
 
     TagsToLineBlock(countTags);
 
+}
+
+//Устанавливает отображение подгруженных AJAX статей в сетку
+function SetupToGridItem() {
+
+    var elements = document.querySelectorAll(".block__item_line");
+    elements.forEach(element => {
+        element.className = "block__item_grid";
+    });
+
+    TagsToDropBlock();
 }
 
 //Устанавливает отображение статей по сетке
@@ -244,8 +255,8 @@ $(function () {
 
                     $("div#loading").hide();
 
-                    if (viewStatus === "line") {
-                        SetupToLineItem();
+                    if (viewStatus === "grid") {
+                        SetupToGridItem();
                     }
                 }
             });

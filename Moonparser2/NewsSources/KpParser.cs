@@ -16,6 +16,7 @@ namespace Moonparser.NewsSources
         protected override void SetSettings()
         {
             startUrls = new string[] { "https://www.msk.kp.ru/", "https://www.kp.by/" };
+            pageSolverType = PageSolverType.CEF;
             sourceName = "kp.ru";
             sourceUrl = "https://www.kp.ru/";
         }
@@ -24,15 +25,11 @@ namespace Moonparser.NewsSources
             //Получение тематических блоков
             List<IElement> items = new List<IElement>();
 
-            var curentitems = documents[0].QuerySelector("div.container").QuerySelectorAll("div.digest");
-            var curentitems2 = documents[0].QuerySelector("div.boxPage").QuerySelector("div.wSection").QuerySelectorAll("article.digest");
-            var curentitems3 = documents[1].QuerySelector("div.container2").QuerySelectorAll("div.digest");
-            var curentitems4 = documents[1].QuerySelector("div.boxPage").QuerySelector("div.wSection").QuerySelectorAll("article.digest");
+            var curentitems = documents[0].QuerySelectorAll("div[type='article']");
+            var curentitems2 = documents[1].QuerySelectorAll("div[type='article']");
 
             items.AddRange(curentitems);
             items.AddRange(curentitems2);
-            items.AddRange(curentitems3);
-            items.AddRange(curentitems4);
             
             return items;
         }
@@ -58,29 +55,29 @@ namespace Moonparser.NewsSources
 
         protected override void GetBody(Article _article, IHtmlDocument fullArticle)
         {
-            _article.Body = fullArticle.QuerySelector("div.boxPage").QuerySelector("div.js-mediator-article").TextContent;
+            _article.Body = fullArticle.QuerySelector("div.styled__Photo-sc-1wayp1z-3.fVqUHh").TextContent;
         }
 
         protected override void GetTitle(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Title = fullArticle.QuerySelector("article.article").QuerySelector("h1").TextContent;
+            _article.Title = fullArticle.QuerySelector("h1.styled__Heading-sc-1futiat-3").TextContent;
         }
 
         protected override void GetSummary(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            _article.Summary = fullArticle.QuerySelector("div.ArticleDescription").TextContent;
+            _article.Summary = fullArticle.QuerySelector("div.styled__Description-sc-1futiat-4").TextContent;
         }
 
         protected override void GetUrlMainImg(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string imgurl = fullArticle.QuerySelector("div.photo").QuerySelector("img").Attributes["src"].Value;
+            string imgurl = fullArticle.QuerySelector("img.styled__Image-n8rctm-0").Attributes["src"].Value;
 
             _article.UrlMainImg = imgurl;
         }
 
         protected override void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            string dateSource = fullArticle.QuerySelector("div.boxPage").QuerySelector("time").Attributes["datetime"].Value;
+            string dateSource = fullArticle.QuerySelector("time.styled__Time-sc-1futiat-1").TextContent;
 
             _article.DateTime = DateTime.Parse(dateSource);
         }
@@ -93,7 +90,11 @@ namespace Moonparser.NewsSources
                 string strViews = "";
                 try
                 {
-                    strViews = fullArticle.QuerySelector("div.boxPage").QuerySelector("div.comments").QuerySelectorAll("span")[1].TextContent;
+                    var v1 = fullArticle.QuerySelector("div.styled__HeaderWrapper-gteimb-1");
+                    var v2 = v1.QuerySelector("div.styled__Text-sc-1rk2kro-0");
+                    strViews = v2.TextContent;
+                    strViews.Replace("Комментарии (", "");
+                    strViews.Replace(")", "");
                 }
                 catch
                 {
@@ -108,7 +109,7 @@ namespace Moonparser.NewsSources
                 }
                 else
                 { 
-                    _article.Views = Helper.ParseViews(strViews) * 1057;
+                    _article.Views = Helper.ParseViews(strViews) * 987;
                 }
             }
             //Загрузка данных из полноценной страницы статьи
@@ -117,7 +118,9 @@ namespace Moonparser.NewsSources
                 string strViews = "";
                 try
                 {
-                    strViews = fullArticle.QuerySelector("div.boxPage").QuerySelector("div.comments").QuerySelectorAll("span")[1].TextContent;
+                    strViews = fullArticle.QuerySelector("div.styled__HeaderWrapper-gteimb-1").QuerySelector("div.styled__Text-sc-1rk2kro-0").TextContent;
+                    strViews.Replace("Комментарии (", "");
+                    strViews.Replace(")", "");
                 }
                 catch
                 {
@@ -132,7 +135,7 @@ namespace Moonparser.NewsSources
                 }
                 else
                 {
-                    _article.Views = Helper.ParseViews(strViews) * 1057;
+                    _article.Views = Helper.ParseViews(strViews) * 987;
                 }
             }
             //Загрузка данных из сокращенной страницы

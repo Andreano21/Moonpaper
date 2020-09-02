@@ -35,6 +35,7 @@ namespace MoonpaperLinux
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
