@@ -80,29 +80,7 @@ function SetupToLine() {
 //Устанавливает отображение подгруженных AJAX статей в линию
 function SetupToLineItem() {
 
-    var elements = document.querySelectorAll(".block__item_grid");
-    elements.forEach(element => {
-        element.className = "block__item_line";
-    });
-
-    //Определение выводимых в линию тегов исходя из размеров окна
-    var w = window.innerWidth;
-    var countTags = 0;
-    if (w > 1000) {
-        countTags = 4;
-    }
-    else if (w > 900) {
-        countTags = 3;
-    }
-    else if (w > 800) {
-        countTags = 2;
-    }
-    else if (w > 740) {
-        countTags = 1;
-        TagsToLineBlock(countTags);
-    }
-
-    TagsToLineBlock(countTags);
+    TagsToLineBlock();
 
 }
 
@@ -257,6 +235,9 @@ $(function () {
 
                     if (viewStatus === "grid") {
                         SetupToGridItem();
+                    }
+                    else if (viewStatus === "line") {
+                        SetupToLineItem();
                     }
                 }
             });
