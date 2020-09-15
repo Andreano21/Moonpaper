@@ -42,8 +42,6 @@ namespace Moonparser.Core
 
             //parsers.Add(new KpParser());
 
-
-
             List<Article>[] articleLists = new List<Article>[parsers.Count];
 
             for (int i = 0; i < articleLists.Length; i++)

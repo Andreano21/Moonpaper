@@ -9,7 +9,7 @@ namespace Moonparser.Core
     public class AppContext : DbContext
     {
 
-        public AppContext() : base("conn")
+        public AppContext() : base("Name")
         {
 
         }

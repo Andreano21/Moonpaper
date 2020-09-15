@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MoonpaperLinux.Models;
 using Pomelo.EntityFrameworkCore.MySql;
 
@@ -27,8 +29,13 @@ namespace MoonpaperLinux.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseMySql("server=localhost;UserId=root;Password=1234;database=MoonpaperDb2;");
-            optionsBuilder.UseMySql("server=172.17.0.2;UserId=root;Password=25097346098758653486438978943856;database=MoonpaperDb2;");
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.AddJsonFile("connections.json");
+            var config = builder.Build();
+            string connectionString = config.GetConnectionString("ReleaseConnection");
+
+            optionsBuilder.UseMySql(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
