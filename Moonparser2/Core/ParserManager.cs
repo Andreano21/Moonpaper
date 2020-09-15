@@ -22,23 +22,23 @@ namespace Moonparser.Core
 
             List<Parser> parsers = new List<Parser>();
 
-            //parsers.Add(new HabraParser());
-            //parsers.Add(new StopgameParser());
-            //parsers.Add(new OnlinerParser());
-            //parsers.Add(new rbcParser());
-            //parsers.Add(new TutbyParser());
-            //parsers.Add(new RiaParser());
-            //parsers.Add(new MkParser());
-            //parsers.Add(new ElementyParser());
-            //parsers.Add(new Pda4Parser());
-            //parsers.Add(new InvestingParser());
-            //parsers.Add(new IgromaniaParser());
+            parsers.Add(new HabraParser());
+            parsers.Add(new StopgameParser());
+            parsers.Add(new OnlinerParser());
+            parsers.Add(new rbcParser());
+            parsers.Add(new TutbyParser());
+            parsers.Add(new RiaParser());
+            parsers.Add(new MkParser());
+            parsers.Add(new ElementyParser());
+            parsers.Add(new Pda4Parser());
+            parsers.Add(new InvestingParser());
+            parsers.Add(new IgromaniaParser());
             parsers.Add(new NakedScienceParser());
-            //parsers.Add(new InSpaceParser());
-            //parsers.Add(new HiNewsParser());
-            //parsers.Add(new ProglibParser());
-            //parsers.Add(new InmyroomParser());
-            //parsers.Add(new TopcorParser());
+            parsers.Add(new InSpaceParser());
+            parsers.Add(new HiNewsParser());
+            parsers.Add(new ProglibParser());
+            parsers.Add(new InmyroomParser());
+            parsers.Add(new TopcorParser());
 
             //parsers.Add(new KpParser());
 

@@ -108,10 +108,10 @@ namespace Moonparser.NewsSources
 
         protected override void GetDateTime(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-            var v1 = fullArticle.QuerySelector("meta[name=\"article:published_time\"]").Attributes["content"].Value;
+            var v1 = fullArticle.QuerySelector("meta[property=\"article:published_time\"]").Attributes["content"].Value;
 
-
-            _article.DateTime = DateTime.Parse(v1);
+            if(v1 != null)
+                _article.DateTime = DateTime.Parse(v1);
         }
 
         protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)

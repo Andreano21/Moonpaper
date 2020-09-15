@@ -62,6 +62,7 @@ namespace Moonparser.NewsSources
 
             imgurl = imgurl.Replace("background-image:url(","");
             imgurl = imgurl.Replace(");", "");
+            imgurl = imgurl.Replace(")", "");
 
             _article.UrlMainImg = imgurl;
         }
