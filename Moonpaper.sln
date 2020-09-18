@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonpaper", "Moonpaper\Moonpaper.csproj", "{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonparser", "Moonparser2\Moonparser.csproj", "{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonpaperLinux", "MoonpaperLinux\MoonpaperLinux.csproj", "{B013836A-D882-4238-96E5-3DA5A82EF08C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoonpaperLinux", "MoonpaperLinux\MoonpaperLinux.csproj", "{B013836A-D882-4238-96E5-3DA5A82EF08C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +15,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Debug|x64.ActiveCfg = Debug|x64
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Debug|x64.Build.0 = Debug|x64
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Release|x64.ActiveCfg = Release|x64
-		{3F81D754-CE1E-47DD-B33B-3C4EB5EB285F}.Release|x64.Build.0 = Release|x64
 		{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5E8936-FE01-45BE-AD2C-E6FBD332C8E9}.Debug|x64.ActiveCfg = Debug|x64

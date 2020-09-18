@@ -82,14 +82,14 @@ namespace Moonparser.NewsSources
             {
                 string strViews = fullArticle.QuerySelector("div.container").QuerySelector("div.more-box").QuerySelector("a.number").TextContent;
 
-                _article.Views = Helper.ParseViews(strViews) * 1076;
+                _article.Views = Helper.ParseViews(strViews) * 756;
             }
             //Загрузка данных из полноценной страницы статьи
             else if (reducedArticle == null)
             {
                 string strViews = fullArticle.QuerySelector("div.container").QuerySelector("div.more-box").QuerySelector("a.number").TextContent;
 
-                _article.Views = Helper.ParseViews(strViews) * 1076;
+                _article.Views = Helper.ParseViews(strViews) * 756;
             }
             //Загрузка данных из сокращенной страницы
             else

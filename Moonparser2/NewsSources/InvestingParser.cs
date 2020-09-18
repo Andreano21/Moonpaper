@@ -30,8 +30,6 @@ namespace Moonparser.NewsSources
             {
                 var t1 = documents[d].QuerySelector("div.largeTitle");
 
-                Console.WriteLine(t1.InnerHtml);
-
                 var curentitems = documents[d].QuerySelector("div.largeTitle").QuerySelectorAll("article.js-article-item");
 
                  items.AddRange(curentitems);
