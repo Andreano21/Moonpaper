@@ -1,11 +1,9 @@
 ﻿@foreach (var item in ViewBag.ArticlePersonals)
 {
     <div class="block__item_line">
-        <img src="@item.UrlMainImg" alt="@item.Title" class="article-img">
+        <a href="@item.Url" target="_blank"><img src="@item.UrlMainImg" alt="@item.Title" class="article-img"></a>
         <div class="text">
-            <a href="@item.Url" class="text__title">
-                @item.Title
-            </a>
+            <h2><a href="@item.Url" target="_blank" class="text__title">@item.Title</a></h2>
             <div class="text__summary">
                 @item.Summary
             </div>
