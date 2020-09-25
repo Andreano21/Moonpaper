@@ -29,20 +29,9 @@ namespace MoonpaperLinux.Controllers
             db = context;
         }
 
-        public IActionResult Index() //Main
-        {
-            var articles = db.Articles.Include(at => at.ArticleTags)
-                          .ThenInclude(t => t.Tag)
-                          .OrderByDescending(a => a.Views)
-                          .ToArray();
-
-            return View(articles);
-        }
-
-
         private List<ArticlePersonal> PreparePersonalArticles(List<Article> _articles, string _userId)
         {
-            //Список персоналезированных тегов
+            //Список персонализированных тегов
             List<ArticlePersonal> articlesPersonal = new List<ArticlePersonal>();
 
             //Получение списка тегов пользователя
@@ -85,6 +74,9 @@ namespace MoonpaperLinux.Controllers
 
         public IActionResult All(string SortedBy, string Time, int Pages, int Page)
         {
+
+            //Установка таймера для вычисления быстродействия 
+            Stopwatch timer = Stopwatch.StartNew();
             if (SortedBy == null)
                 SortedBy = "rating";
 
@@ -94,63 +86,53 @@ namespace MoonpaperLinux.Controllers
             if (Pages == 0)
                 Pages = 15;
 
-
             ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
             ViewBag.SortedBy = SortedBy;
             ViewBag.Time = Time;
             ViewBag.Pages = Pages;
             ViewBag.Page = Page;
 
-
             List<Article> articles = null;
-
-            switch (SortedBy)
-            {
-                case "time":
-                    articles = db.Articles
-                        .OrderByDescending(a => a.DateTime)
-                        .ToList();
-
-                    db.Sources.Load();
-                    db.ArticleTag.Load();
-                    db.Tags.Load();
-                    break;
-
-                case "views":
-                    articles = db.Articles
-                           .OrderByDescending(a => a.Views)
-                           .ToList();
-
-                    db.Sources.Load();
-                    db.ArticleTag.Load();
-                    db.Tags.Load();
-                    break;
-
-                case "rating":
-                    articles = db.Articles
-                        .OrderByDescending(a => a.Stars)
-                        .ToList();
-
-                    db.Sources.Load();
-                    db.ArticleTag.Load();
-                    db.Tags.Load();
-                    break;
-            }
 
             switch (Time)
             {
                 case "day":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
                     break;
 
                 case "week":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
                     break;
 
                 case "month":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
                     break;
             }
+
+            switch (SortedBy)
+            {
+                case "time":
+                    articles = articles
+                        .OrderByDescending(a => a.DateTime)
+                        .ToList();
+                    break;
+
+                case "views":
+                    articles = articles
+                           .OrderByDescending(a => a.Views)
+                           .ToList();
+                    break;
+
+                case "rating":
+                    articles = articles
+                        .OrderByDescending(a => a.Stars)
+                        .ToList();
+                    break;
+            }
+
+            db.Sources.Load();
+            db.ArticleTag.Load();
+            db.Tags.Load();
 
             var articlesToSkip = Page * Pages;
 
@@ -159,6 +141,9 @@ namespace MoonpaperLinux.Controllers
             ViewBag.ArticlePersonals = PreparePersonalArticles(articles, _userManager.GetUserId(HttpContext.User));
 
             bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
+            double seconds = timer.ElapsedMilliseconds;
+            Console.WriteLine(seconds + " ms");
 
             if (IsAjaxRequest)
             {
@@ -186,56 +171,47 @@ namespace MoonpaperLinux.Controllers
             ViewBag.Pages = Pages;
             ViewBag.Page = Page;
 
-
             List<Article> articles = null;
-
-            switch (SortedBy)
-            {
-                case "time":
-                    articles = db.Articles
-                        .OrderByDescending(a => a.DateTime)
-                        .ToList();
-
-                    db.Sources.Load();
-                    db.ArticleTag.Load();
-                    db.Tags.Load();
-                    break;
-
-                case "views":
-                    articles = db.Articles
-                           .OrderByDescending(a => a.Views)
-                           .ToList();
-
-                    db.Sources.Load();
-                    db.ArticleTag.Load();
-                    db.Tags.Load();
-                    break;
-
-                case "rating":
-                    articles = db.Articles
-                        .OrderByDescending(a => a.Stars)
-                        .ToList();
-
-                    db.Sources.Load();
-                    db.ArticleTag.Load();
-                    db.Tags.Load();
-                    break;
-            }
 
             switch (Time)
             {
                 case "day":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
                     break;
 
                 case "week":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
                     break;
 
                 case "month":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
                     break;
             }
+
+            switch (SortedBy)
+            {
+                case "time":
+                    articles = articles
+                        .OrderByDescending(a => a.DateTime)
+                        .ToList();
+                    break;
+
+                case "views":
+                    articles = articles
+                           .OrderByDescending(a => a.Views)
+                           .ToList();
+                    break;
+
+                case "rating":
+                    articles = articles
+                        .OrderByDescending(a => a.Stars)
+                        .ToList();
+                    break;
+            }
+
+            db.Sources.Load();
+            db.ArticleTag.Load();
+            db.Tags.Load();
 
             List<ArticlePersonal> articlePersonals = PreparePersonalArticles(articles, _userManager.GetUserId(HttpContext.User));
 
@@ -277,18 +253,24 @@ namespace MoonpaperLinux.Controllers
             ViewBag.Page = Page;
 
             List<Article> articles = null;
+            var curenttag = db.Tags.FirstOrDefault(t => t.TagValue == Tag);
 
-            if (Tag != null)
+            switch (Time)
             {
-                var curenttag = db.Tags.FirstOrDefault(t => t.TagValue == Tag);
+                case "day":
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d) && 
+                                                    a.ArticleTags.Any(tt => tt.TagId == curenttag.Id)).ToList();
+                    break;
 
-                articles = db.Articles.Where(t => t.ArticleTags.Any(tt => tt.TagId == curenttag.Id))
-                                          .OrderByDescending(a => a.Views)
-                                          .ToList();
+                case "week":
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d) &&
+                                                    a.ArticleTags.Any(tt => tt.TagId == curenttag.Id)).ToList();
+                    break;
 
-                db.Sources.Load();
-                db.ArticleTag.Load();
-                db.Tags.Load();
+                case "month":
+                    articles = db.Articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d) &&
+                                                    a.ArticleTags.Any(tt => tt.TagId == curenttag.Id)).ToList();
+                    break;
             }
 
             switch (SortedBy)
@@ -312,20 +294,10 @@ namespace MoonpaperLinux.Controllers
                     break;
             }
 
-            switch (Time)
-            {
-                case "day":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
-                    break;
 
-                case "week":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
-                    break;
-
-                case "month":
-                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
-                    break;
-            }
+            db.Sources.Load();
+            db.ArticleTag.Load();
+            db.Tags.Load();
 
             var articlesToSkip = Page * Pages;
 
