@@ -74,9 +74,9 @@ namespace MoonpaperLinux.Controllers
 
         public IActionResult All(string SortedBy, string Time, int Pages, int Page)
         {
-
             //Установка таймера для вычисления быстродействия 
             Stopwatch timer = Stopwatch.StartNew();
+
             if (SortedBy == null)
                 SortedBy = "rating";
 

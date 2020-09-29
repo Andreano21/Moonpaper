@@ -12,6 +12,8 @@ namespace Moonparser.Core
         public int Id { get; set; }
         public string Title { get; set; }
         public string Summary { get; set; }
+        
+        [NotMapped]
         public string Body { get; set; }
         public Source Source { get; set; }
         public string Url { get; set; }

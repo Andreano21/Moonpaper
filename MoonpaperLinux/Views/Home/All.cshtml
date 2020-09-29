@@ -21,19 +21,19 @@
     </div>
     <div class="menu__right">
         <div class="menu__block menu__block_end">
-            <a href="#" onclick="SetupToLine();" class="menu__button  menu__button_left active">
+            <button onclick="SetupToLine();" class="menu__button  menu__button_left active">
                 <img src="~/img/icons/i_menu_lines.png" alt="" class="icon">
-            </a>
-            <a href="#" onclick="SetupToGrid();" class="menu__button menu__button_right">
+            </button>
+            <button onclick="SetupToGrid();" class="menu__button menu__button_right">
                 <img src="~/img/icons/i_menu_grid.png" alt="" class="icon">
-            </a>
+            </button>
         </div>
     </div>
 </nav>
 <nav class="menu-mobile">
     <div class="hidden">
         <div class="dropdown">
-            <a href="#" class="dropdown__btn top">Все</a>
+            <a class="dropdown__btn top">Все</a>
             <div class="dropdown__content">
                 <a href="~/Home/My?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Мои</a>
             </div>
@@ -91,9 +91,9 @@
             }
         </div>
         <div class="dropdown">
-            <a href="" onclick="SetupToGrid();" class="dropdown__btn view-switch">
+            <button onclick="SetupToGrid();" class="dropdown__btn view-switch">
                 <img src="~/img/icons/i_menu_grid.png" alt="" class="icon">
-            </a>
+            </button>
         </div>
     </div>
 </nav>

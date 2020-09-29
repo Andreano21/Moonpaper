@@ -74,10 +74,6 @@ namespace MoonpaperLinux.Data
                 .WithMany(a => a.Articles);
 
             modelBuilder.Entity<Source>().HasIndex(s => s.Name).IsUnique();
-            //modelBuilder.Entity<Source>().HasIndex(s => s.Url).IsUnique();
-
-            //modelBuilder.Entity<UserSource>()
-            //    .HasKey(us => us.Id);
         }
     }
 }

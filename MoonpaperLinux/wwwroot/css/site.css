@@ -93,6 +93,14 @@ body {
     position: relative;
 }
 
+    .wrapper .TagName_block {
+        margin-bottom: 15px;
+    }
+
+        .wrapper .TagName_block h1 {
+            font-size: 22px;
+        }
+
 header {
     display: -webkit-box;
     display: -ms-flexbox;

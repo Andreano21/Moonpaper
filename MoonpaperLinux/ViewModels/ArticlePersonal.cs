@@ -20,7 +20,6 @@ namespace MoonpaperLinux.ViewModels
             Id = _article.Id;
             Title = _article.Title;
             Summary = _article.Summary;
-            Body = _article.Body;
             Source = _article.Source;
             Url = _article.Url;
             UrlMainImg = _article.UrlMainImg;
