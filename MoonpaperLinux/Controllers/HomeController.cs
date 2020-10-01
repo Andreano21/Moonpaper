@@ -316,6 +316,89 @@ namespace MoonpaperLinux.Controllers
 
         }
 
+        public IActionResult Search(string Query, string SortedBy, string Time, int Pages, int Page)
+        {
+            if (SortedBy == null)
+                SortedBy = "rating";
+
+            if (Time == null)
+                Time = "day";
+
+            if (Pages == 0)
+                Pages = 15;
+
+            ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.Query = Query;
+            ViewBag.SortedBy = SortedBy;
+            ViewBag.Time = Time;
+            ViewBag.Pages = Pages;
+            ViewBag.Page = Page;
+
+            List<Article> articles = null;
+
+            string SQLQuery = String.Format("SELECT * FROM Articles WHERE Summary LIKE '%{0}%' OR Title LIKE '%{0}%';", Query);
+
+            articles = db.Articles.FromSqlRaw(SQLQuery).ToList();
+
+            switch (Time)
+            {
+                case "day":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-1d)).ToList();
+                    break;
+
+                case "week":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-7d)).ToList();
+                    break;
+
+                case "month":
+                    articles = articles.Where(a => a.DateTime > DateTime.Now.AddDays(-30d)).ToList();
+                    break;
+            }
+
+            switch (SortedBy)
+            {
+                case "time":
+                    articles = articles
+                        .OrderByDescending(a => a.DateTime)
+                        .ToList();
+                    break;
+
+                case "views":
+                    articles = articles
+                           .OrderByDescending(a => a.Views)
+                           .ToList();
+                    break;
+
+                case "rating":
+                    articles = articles
+                            .OrderByDescending(a => a.Stars)
+                            .ToList();
+                    break;
+            }
+
+
+            db.Sources.Load();
+            db.ArticleTag.Load();
+            db.Tags.Load();
+
+            var articlesToSkip = Page * Pages;
+
+            articles = articles.Skip(articlesToSkip).Take(Pages).ToList();
+
+            ViewBag.ArticlePersonals = PreparePersonalArticles(articles, _userManager.GetUserId(HttpContext.User));
+
+            bool IsAjaxRequest = Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
+            if (IsAjaxRequest)
+            {
+                return PartialView("_Articles");
+            }
+
+            return View();
+
+        }
+        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public void SourceUp(string UserId, int SourceId)
