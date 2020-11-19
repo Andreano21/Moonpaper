@@ -134,7 +134,6 @@ namespace Moonparser.Core
         /// Выполняет парсинг статей
         /// </summary>
         /// <param name="_articles">Список в который записываются новые спаршенные статьи</param>
-        /// <param name="solverParameter">Парматер определяеющий тип загрузки страниц: nonsolved - простая загрузка html страниц, solved - загрузка html страниц c обработкой JS кода</param>
         /// <returns></returns>
         public async Task ParseAsync(List<Article> _articles)
         {

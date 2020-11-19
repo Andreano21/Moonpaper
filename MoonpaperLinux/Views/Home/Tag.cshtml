@@ -31,52 +31,52 @@
         <div class="dropdown">
             @if (ViewBag.SortedBy == "time")
             {
-                <a href="#" class="dropdown__btn top">Время</a>
+                <a class="dropdown__btn top">Время</a>
                 <div class="dropdown__content">
-                    <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Просмотры</a>
-                    <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Рейтинг</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Просмотры</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Рейтинг</a>
                 </div>
             }
             @if (ViewBag.SortedBy == "views")
             {
-                <a href="#" class="dropdown__btn top">Просмотры</a>
+                <a class="dropdown__btn top">Просмотры</a>
                 <div class="dropdown__content">
-                    <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Время</a>
-                    <a href="~/Home/All?SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Рейтинг</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Время</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=rating&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Рейтинг</a>
                 </div>
             }
             @if (ViewBag.SortedBy == "rating")
             {
-                <a href="#" class="dropdown__btn top">Рейтинг</a>
+                <a class="dropdown__btn top">Рейтинг</a>
                 <div class="dropdown__content">
-                    <a href="~/Home/All?SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Время</a>
-                    <a href="~/Home/All?SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Просмотры</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=time&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn">Время</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=views&Time=@ViewBag.Time&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Просмотры</a>
                 </div>
             }
         </div>
         <div class="dropdown">
             @if (ViewBag.Time == "day")
             {
-                <a href="#" class="dropdown__btn top">День</a>
+                <a class="dropdown__btn top">День</a>
                 <div class="dropdown__content">
-                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="dropdown__btn">Неделя</a>
-                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Месяц</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="dropdown__btn">Неделя</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Месяц</a>
                 </div>
             }
             @if (ViewBag.Time == "week")
             {
-                <a href="#" class="dropdown__btn top">Неделя</a>
+                <a class="dropdown__btn top">Неделя</a>
                 <div class="dropdown__content">
-                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="dropdown__btn">День</a>
-                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Месяц</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="dropdown__btn">День</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=@ViewBag.SortedBy&Time=month&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Месяц</a>
                 </div>
             }
             @if (ViewBag.Time == "month")
             {
-                <a href="#" class="dropdown__btn top">Месяц</a>
+                <a class="dropdown__btn top">Месяц</a>
                 <div class="dropdown__content">
-                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="dropdown__btn">День</a>
-                    <a href="~/Home/All?SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Неделя</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=@ViewBag.SortedBy&Time=day&Pages=@ViewBag.Pages" class="dropdown__btn">День</a>
+                    <a href="~/Home/Tag?Tag=@ViewBag.Tag&SortedBy=@ViewBag.SortedBy&Time=week&Pages=@ViewBag.Pages" class="dropdown__btn bottom">Неделя</a>
                 </div>
             }
         </div>

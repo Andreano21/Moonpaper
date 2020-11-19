@@ -20,8 +20,11 @@
                 </a>
                 <div class="block_right">
                     <div class="find">
-                        <form>
-                            <input type="text" placeholder="Поиск">
+                        <form method="get" asp-controller="Home" asp-action="Search">
+                            <input type="text" name="Query" placeholder="Поиск">
+                            <input type="hidden" name="SortedBy" value="@ViewBag.SortedBy">
+                            <input type="hidden" name="Time" value="@ViewBag.Time">
+                            <input type="hidden" name="Pages" value="@ViewBag.Pages">
                             <button type="submit"></button>
                         </form>
                         <div class="find-img">
