@@ -19,6 +19,7 @@ namespace Moonparser.NewsSources
             startUrls = new string[] { "https://ria.ru/" };
             sourceName = "ria.ru";
             sourceUrl = "https://ria.ru/";
+            pageSolverType = PageSolverType.CEF;
         }
         protected override IEnumerable<IElement> GetItems()
         {
@@ -69,17 +70,25 @@ namespace Moonparser.NewsSources
 
         protected override void GetViews(Article _article, IElement reducedArticle, IHtmlDocument fullArticle)
         {
-                        //Загрузка данных из источника по умолчанию
+            //Загрузка данных из источника по умолчанию
             if (reducedArticle != null && fullArticle != null)
             {
-                string strViews = fullArticle.QuerySelector("div.article__header").QuerySelector("span.statistic__item").TextContent;
+                var v1 = fullArticle.QuerySelector("div.article__header");
+                var v2 = v1.QuerySelector("div.article__info-statistic");
+                var v3= v2.QuerySelector("span.statistic__item");
+
+                string strViews = v3.TextContent;
                 
                 _article.Views = Helper.ParseViews(strViews);
             }
             //Загрузка данных из полноценной страницы статьи
             else if (reducedArticle == null)
             {
-                string strViews = fullArticle.QuerySelector("div.article__header").QuerySelector("span.statistic__item").TextContent;
+                var v1 = fullArticle.QuerySelector("div.article__header");
+                var v2 = v1.QuerySelector("div.article__info-statistic");
+                var v3 = v2.QuerySelector("span.statistic__item");
+
+                string strViews = v3.TextContent;
 
                 _article.Views = Helper.ParseViews(strViews);
             }

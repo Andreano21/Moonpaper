@@ -81,7 +81,7 @@ namespace MoonpaperLinux.Controllers
                 SortedBy = "rating";
 
             if (Time == null)
-                Time = "day";
+                Time = "week";
 
             if (Pages == 0)
                 Pages = 15;
